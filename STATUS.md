@@ -1,6 +1,6 @@
 # STATUS do projeto
 
-**Última atualização:** 24/09/2026
+**Última atualização:** 24/09/2026 (Etapa 1 publicada)
 
 ## Objetivo atual
 
@@ -8,7 +8,7 @@ Concluir a **Etapa 1 — Análise comparativa** (milestones 1 a 6, issues #1 a #
 
 ## Situação
 
-**Etapa 1 concluída localmente.** Falta publicar no repositório (commit + push) e exportar o PDF do relatório.
+**Etapa 1 publicada** no repositório em `abcd2f7`. Resta apenas exportar o PDF do relatório (issue #23).
 
 | Fase | Milestone | Issues | Situação |
 |---|---|---|---|
@@ -17,7 +17,7 @@ Concluir a **Etapa 1 — Análise comparativa** (milestones 1 a 6, issues #1 a #
 | 3 — Completar os capítulos e exemplos | 3 | #9–#13 | ✅ Concluída |
 | 4 — Construir e conferir os custos | 4 | #14–#19 | ✅ Concluída |
 | 5 — Escrever as sínteses e consolidar | 5 | #20–#23 | ⏳ #23 aberta (PDF depende de exportação no navegador) |
-| 6 — Preparar a entrega no GitHub | 6 | #24–#27 | ⏳ Aguardando autorização para commit |
+| 6 — Preparar a entrega no GitHub | 6 | #24–#27 | ✅ Concluída |
 
 ## Artefatos produzidos
 
@@ -56,7 +56,6 @@ Concluir a **Etapa 1 — Análise comparativa** (milestones 1 a 6, issues #1 a #
 
 | Pendência | Motivo | Ação necessária |
 |---|---|---|
-| Publicar no repositório | Commit não autorizado ainda | Autorizar `git commit` + `push` |
 | PDF do relatório | Exportação depende do navegador | Abrir `relatorio/relatorio_etapa1.html` e usar Ctrl+P → Salvar como PDF |
 | Cotas do Amazon Transcribe | Página não acessível na consulta de 23/09/2026 | Declarada como limitação no relatório; reverificar se necessário |
 | Franquia da tabela Recognition V2 do Google | Não localizada (a de 60 min é da API V1) | Declarada como pendência em `custos/franquias.csv` |
@@ -73,7 +72,9 @@ Nenhuma dessas lacunas foi preenchida por estimativa.
 
 ## Próxima ação concreta
 
-Autorizar o commit e o push da Etapa 1. Depois, exportar o PDF do relatório e fechar a issue #23.
+Exportar o PDF do relatório (issue #23 traz o passo a passo) e, em seguida, iniciar a Etapa 2 pela Fase 1.
+
+Para a Etapa 2, as issues #28, #29, #30, #31 e #35 já receberam os insumos produzidos na Etapa 1: ofertas confirmadas, diferenças de formato de saída entre os provedores, estimativa de custo do experimento (menos de US$ 1, dentro das franquias gratuitas) e sugestão de divisão do trabalho entre os três integrantes.
 
 ## Etapa 2
 
