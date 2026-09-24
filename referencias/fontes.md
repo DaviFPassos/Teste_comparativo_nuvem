@@ -6,6 +6,8 @@ Registro exigido pela seção 12 do enunciado (p. 5): "a pesquisa deverá utiliz
 
 Todas as datas são datas reais de acesso. Todas as páginas são documentação oficial dos próprios provedores.
 
+> No PDF do relatório esta seção aparece de forma compacta (identificador, provedor, título, URL, data e estado). O campo *afirmação sustentada* de cada fonte — que registra exatamente o que aquela página comprova — está neste arquivo.
+
 ## NLP / análise de texto
 
 | ID | Provedor / serviço | Título e URL | Data de acesso | Afirmação sustentada | Estado |

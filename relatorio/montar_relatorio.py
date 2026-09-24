@@ -67,6 +67,73 @@ def promover_titulos(texto, nivel_base):
     return "\n".join(linhas)
 
 
+# Seções de cada capítulo que entram no relatório. O detalhamento técnico
+# completo (limites numéricos, cotas, formatos aceitos, autenticação) continua
+# nos arquivos etapa1/*.md, que o relatório referencia — a intenção é que o
+# relatório caiba em uma leitura, não que ele substitua os capítulos.
+# A seção 4 (exemplos de código) é exigência explícita da seção 3 do
+# enunciado: "a análise de cada categoria deverá incluir também breves
+# exemplos de código". No relatório ela entra de forma curta, apontando
+# os arquivos e declarando que não foram executados.
+SECOES_MANTIDAS = ("1.", "2.", "4.", "5.", "6.", "7.")
+SUBSECOES_TECNICAS = ("Funcionalidades, entradas e saídas", "Entradas: formatos e limites",
+                      "Entradas: formatos e origem do áudio", "Situação do serviço")
+
+
+def condensar_capitulo(texto, arquivo_origem):
+    """
+    Reduz um capítulo ao que o relatório precisa mostrar.
+
+    Mantém objetivo, serviços comparados, cobrança, custo e síntese. Da
+    comparação técnica mantém a tabela principal e os avisos oficiais de
+    encerramento, que são decisivos para a escolha. Descarta o bloco de
+    reprodutibilidade, idêntico nos três capítulos e já presente uma vez na
+    introdução do relatório. O restante fica no capítulo completo, cujo link
+    entra no lugar.
+    """
+    saida = []
+    secao = None           # número da seção "##" corrente
+    manter_secao = True    # a seção corrente entra no relatório?
+    manter_sub = True      # a subseção "###" corrente entra?
+
+    for linha in texto.split("\n"):
+        cab2 = re.match(r"^## (\d+)\.", linha)
+        cab3 = re.match(r"^### (?:[\d.]+ )?(.+)$", linha)
+
+        if cab2:
+            secao = cab2.group(1) + "."
+            manter_secao = secao in SECOES_MANTIDAS or secao == "3."
+            manter_sub = True
+            if secao == "3.":
+                saida += [
+                    "## 3. Comparação técnica", "",
+                    "As tabelas abaixo trazem a comparação que mais pesa na escolha. "
+                    "O detalhamento completo — limites numéricos, cotas, formatos aceitos, "
+                    f"autenticação e configuração — está em [`{arquivo_origem}`]"
+                    f"(../{arquivo_origem}).", "",
+                ]
+            elif manter_secao:
+                saida.append(linha)
+            continue
+
+        if cab3:
+            titulo = cab3.group(1)
+            if not manter_secao:
+                manter_sub = False
+            elif secao == "3.":
+                manter_sub = any(s in titulo for s in SUBSECOES_TECNICAS)
+            else:
+                manter_sub = "Reprodutibilidade" not in titulo
+            if manter_sub:
+                saida.append(linha)
+            continue
+
+        if manter_secao and manter_sub:
+            saida.append(linha)
+
+    return "\n".join(saida)
+
+
 def montar():
     partes = [CAPA, (PARTES / "01_introducao.md").read_text(encoding="utf-8"),
               (PARTES / "02_selecao.md").read_text(encoding="utf-8")]
@@ -78,6 +145,7 @@ def montar():
     ]
     for numero, caminho in capitulos:
         texto = caminho.read_text(encoding="utf-8")
+        texto = condensar_capitulo(texto, f"etapa1/{caminho.name}")
         # o '# Categoria N — ...' do capítulo vira '## N. ...' do relatório
         texto = re.sub(r"^# Categoria \d+ — ", f"# {numero}. ", texto, count=1)
         partes.append(promover_titulos(texto, 1))
@@ -119,9 +187,31 @@ h2 { font-size:1.45rem; margin:2.8rem 0 .9rem; padding-bottom:.35rem;
 h3 { font-size:1.15rem; margin:2rem 0 .6rem; }
 h4 { font-size:1rem; margin:1.5rem 0 .5rem; color:var(--fraca); }
 p, li { margin:.6rem 0; }
-table { border-collapse:collapse; width:100%; margin:1.2rem 0; font-size:.88rem; }
+table { border-collapse:collapse; width:100%; max-width:100%; margin:1.2rem 0;
+        font-size:.88rem; table-layout:auto; }
 th, td { border:1px solid var(--linha); padding:.5rem .65rem; text-align:left;
          vertical-align:top; }
+/* Só o que de fato não quebra sozinho ganha quebra forçada: URLs e
+   identificadores longos de API. Aplicar isso ao texto corrido inteiro
+   quebraria palavras comuns no meio e inflaria o documento. */
+td a, th a, td code, th code { overflow-wrap:anywhere; }
+/* Fontes de referência. No Markdown elas são uma tabela de 6 colunas, que
+   funciona bem no GitHub (onde há rolagem horizontal). Em A4 retrato, porém,
+   6 colunas com URLs longas não cabem: ou a tabela é cortada, ou as colunas
+   ficam tão estreitas que até o identificador quebra em três linhas. Por isso
+   cada fonte vira uma ficha, que usa a largura inteira da página. */
+/* As fichas de fonte são entradas curtas; em uma coluna só desperdiçam a
+   largura da página. Duas colunas cortam pela metade o espaço da seção. */
+.fontes-grupo { column-count:2; column-gap:1.4rem; }
+.fonte { border-left:2px solid var(--linha); padding:.05rem 0 .05rem .6rem;
+         margin:0 0 .5rem; page-break-inside:avoid; break-inside:avoid; }
+.fonte-cabecalho { font-size:.76rem; color:var(--fraca); margin-bottom:.1rem; }
+.fonte-id { font-weight:700; color:var(--tinta); font-family:ui-monospace,Menlo,Consolas,monospace; }
+.fonte-estado { text-transform:uppercase; letter-spacing:.04em; font-size:.72rem; }
+.fonte-titulo { font-size:.8rem; margin:.05rem 0; }
+.fonte-titulo a { word-break:break-all; }
+.fonte-sustenta { font-size:.78rem; margin-top:.1rem; line-height:1.45; }
+.fonte-sustenta::before { content:"Sustenta: "; color:var(--fraca); font-weight:600; }
 th { background:var(--codigo-fundo); font-weight:600; }
 tr:nth-child(even) td { background:#fafaf8; }
 code { background:var(--codigo-fundo); padding:.12em .35em; border-radius:3px;
@@ -136,9 +226,15 @@ blockquote { border-left:3px solid var(--destaque); margin:1rem 0; padding:.2rem
 hr { border:none; border-top:1px solid var(--linha); margin:2.5rem 0; }
 a { color:var(--destaque); }
 @media print {
-  body { max-width:none; padding:0; font-size:10.5pt; }
+  body { max-width:none; padding:0; font-size:9.6pt; line-height:1.5; }
   h2 { page-break-after:avoid; } h3 { page-break-after:avoid; }
-  table, pre, img { page-break-inside:avoid; }
+  /* Figuras e blocos de código não devem ser partidos. Tabelas SIM: proibir a
+     quebra de uma tabela longa não a faz caber — apenas a empurra inteira para
+     a página seguinte, deixando um vazio enorme atrás. Em vez disso, permite-se
+     partir a tabela entre linhas, repetindo o cabeçalho em cada página. */
+  pre, img { page-break-inside:avoid; }
+  thead { display:table-header-group; }
+  tr { page-break-inside:avoid; }
   a { color:var(--tinta); text-decoration:none; }
 }
 """
@@ -163,6 +259,46 @@ def inline(texto):
     return texto
 
 
+def _eh_tabela_de_fontes(cabecalho):
+    """Reconhece a tabela de fontes pelo conjunto de colunas."""
+    esperado = {"id", "título e url", "afirmação sustentada", "estado"}
+    return esperado <= {c.strip().lower() for c in cabecalho}
+
+
+def _fontes_como_fichas(linhas):
+    """
+    Converte as linhas da tabela de fontes em fichas legíveis em A4.
+
+    A tabela tem 6 colunas (ID, provedor/serviço, título e URL, data de acesso,
+    afirmação sustentada, estado). Em papel retrato elas não cabem lado a lado,
+    então cada fonte é reescrita como um bloco que ocupa a largura inteira.
+    """
+    saida = []
+    for linha in linhas:
+        if len(linha) < 6:
+            continue
+        ident, provedor, titulo_url, data, sustenta, estado = linha[:6]
+
+        # separa "Título — https://..." em título e link
+        partes = re.split(r"\s+—\s+(?=https?://)", titulo_url, maxsplit=1)
+        if len(partes) == 2:
+            titulo, url = partes
+            titulo_html = f'{inline(titulo)} — <a href="{url.strip()}">{url.strip()}</a>'
+        else:
+            titulo_html = inline(titulo_url)
+
+        saida.append(
+            '<div class="fonte">'
+            f'<div class="fonte-cabecalho">'
+            f'<span class="fonte-id">{inline(ident)}</span> · {inline(provedor)} · '
+            f'consultado em {inline(data)} · '
+            f'<span class="fonte-estado">{inline(estado)}</span></div>'
+            f'<div class="fonte-titulo">{titulo_html}</div>'
+            '</div>'
+        )
+    return '<div class="fontes-grupo">' + "\n".join(saida) + "</div>"
+
+
 def md_para_html(md):
     saida, linhas, i = [], md.split("\n"), 0
     while i < len(linhas):
@@ -185,6 +321,10 @@ def md_para_html(md):
             while i < len(linhas) and linhas[i].startswith("|"):
                 corpo.append([c.strip() for c in linhas[i].strip("|").split("|")])
                 i += 1
+            if _eh_tabela_de_fontes(cabecalho):
+                saida.append(_fontes_como_fichas(corpo))
+                continue
+
             html = ["<table><thead><tr>"]
             html += [f"<th>{inline(c)}</th>" for c in cabecalho]
             html.append("</tr></thead><tbody>")

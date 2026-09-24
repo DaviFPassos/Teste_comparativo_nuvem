@@ -47,6 +47,7 @@ Três categorias, escolhidas por tratarem modalidades de entrada diferentes (tex
 | [exemplos/](exemplos/) | 9 exemplos de código (3 categorias × 3 provedores) |
 | [custos/](custos/) | Premissas, script de cálculo, resultados e gráficos |
 | [referencias/fontes.md](referencias/fontes.md) | Todas as fontes, com URL, data de consulta e o que cada uma sustenta |
+| [DEPENDENCIAS.md](DEPENDENCIAS.md) | Bibliotecas e versões, e como instalá-las com `uv` |
 | [STATUS.md](STATUS.md) | Progresso, decisões e pendências |
 | [etapas/](etapas/) | Roteiros de trabalho das duas etapas |
 | [pdfs/](pdfs/) | Enunciado do professor |
@@ -103,7 +104,9 @@ Preços de nuvem mudam. Para uma data diferente, reverifique `custos/premissas.c
 
 ## Gerar o PDF do relatório
 
-**→ [pdfs/relatorio_etapa1.pdf](pdfs/relatorio_etapa1.pdf)** — 30 páginas, A4, texto pesquisável.
+**→ [pdfs/relatorio_etapa1.pdf](pdfs/relatorio_etapa1.pdf)** — 28 páginas, A4, texto pesquisável.
+
+O relatório traz, por categoria, os serviços comparados, a tabela técnica que mais pesa na escolha, os avisos oficiais de encerramento, os exemplos de código, o cenário de custo e a síntese. O detalhamento técnico completo — limites numéricos, cotas, formatos aceitos, autenticação e configuração — fica nos capítulos [etapa1/nlp.md](etapa1/nlp.md), [etapa1/visao.md](etapa1/visao.md) e [etapa1/fala.md](etapa1/fala.md), que o relatório referencia.
 
 Para regerar:
 
