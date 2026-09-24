@@ -35,6 +35,7 @@ CAPA = f"""# Comparação de Serviços de Inteligência Artificial em Nuvem
 ## Etapa 1 — Análise Comparativa
 
 **Disciplina:** Computação em Nuvem
+
 **Programa:** Mestrado em Ciência da Computação — Universidade de Fortaleza (UNIFOR)
 
 **Integrantes:**
@@ -42,6 +43,7 @@ CAPA = f"""# Comparação de Serviços de Inteligência Artificial em Nuvem
 {chr(10).join('- ' + n for n in INTEGRANTES)}
 
 **Provedores analisados:** Amazon Web Services · Microsoft Azure · Google Cloud
+
 **Região de referência:** US East · **Moeda:** USD · **Preços consultados em:** 23/09/2026
 
 ---
@@ -261,7 +263,7 @@ def main():
         SAIDA_HTML.write_text(html, encoding="utf-8")
         print(f"gerado: {SAIDA_HTML.relative_to(RAIZ)}  "
               f"({len(html) / 1024:.0f} KB, com gráficos embutidos)")
-        print("\nPara o PDF: abra o .html no navegador e use Ctrl+P → Salvar como PDF.")
+        print("\nPara o PDF: uv run relatorio/gerar_pdf.py  (ou Ctrl+P no navegador).")
 
 
 if __name__ == "__main__":

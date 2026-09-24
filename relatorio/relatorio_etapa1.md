@@ -3,6 +3,7 @@
 ## Etapa 1 — Análise Comparativa
 
 **Disciplina:** Computação em Nuvem
+
 **Programa:** Mestrado em Ciência da Computação — Universidade de Fortaleza (UNIFOR)
 
 **Integrantes:**
@@ -12,6 +13,7 @@
 - Lucca Melo Nunes
 
 **Provedores analisados:** Amazon Web Services · Microsoft Azure · Google Cloud
+
 **Região de referência:** US East · **Moeda:** USD · **Preços consultados em:** 23/09/2026
 
 ---

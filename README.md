@@ -103,11 +103,25 @@ Preços de nuvem mudam. Para uma data diferente, reverifique `custos/premissas.c
 
 ## Gerar o PDF do relatório
 
+**→ [pdfs/relatorio_etapa1.pdf](pdfs/relatorio_etapa1.pdf)** — 30 páginas, A4, texto pesquisável.
+
+Para regerar:
+
 ```bash
-uv run relatorio/montar_relatorio.py --html
+uv run relatorio/gerar_pdf.py
 ```
 
-Depois abra `relatorio/relatorio_etapa1.html` no navegador e use **Ctrl+P → Salvar como PDF**. Os gráficos estão embutidos no HTML, e o arquivo tem CSS de impressão para evitar quebras de página dentro de tabelas e figuras.
+O script remonta o HTML a partir dos capítulos (para o PDF nunca sair defasado) e converte usando o Chromium do Playwright — o mesmo motor de um navegador, então o CSS de impressão é respeitado exatamente como em Ctrl+P. O Chromium é baixado no cache do usuário na primeira execução, sem `sudo`.
+
+Em WSL e imagens enxutas de Ubuntu, o Chromium pode não iniciar por falta da `libasound` (biblioteca de áudio, que ele exige para subir mas não usa para gerar PDF). Nesse caso:
+
+```bash
+uv run relatorio/gerar_pdf.py --resolver-libs
+```
+
+Isso baixa e extrai a biblioteca em `~/.local/lib/chromium-deps`, sem `sudo` e sem alterar o sistema.
+
+Alternativa sem instalar nada: abrir `relatorio/relatorio_etapa1.html` no navegador e usar **Ctrl+P → Salvar como PDF**.
 
 ## Etapa 2
 
