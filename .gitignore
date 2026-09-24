@@ -1,0 +1,87 @@
+# ---------------------------------------------------------------------------
+# Credenciais e segredos
+# O enunciado (seção 11) proíbe incluir credenciais, chaves de API, tokens ou
+# outros dados sensíveis no repositório. Os exemplos de código leem tudo de
+# variáveis de ambiente — nada aqui deve ser versionado.
+# ---------------------------------------------------------------------------
+.env
+.env.*
+*.env
+credentials
+credentials.json
+client_secret*.json
+service-account*.json
+conta-de-servico*.json
+*-key.json
+*.pem
+*.key
+*.p12
+*.pfx
+.aws/
+.azure/
+gcloud-key*.json
+
+# padrões amplos — pegam variações de nome não previstas
+*credential*
+*credentials*
+*secret*
+*token*
+*.secret.*
+
+# chaves SSH
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519
+*.ppk
+
+# ---------------------------------------------------------------------------
+# Ambiente virtual e artefatos do Python
+# ---------------------------------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# ---------------------------------------------------------------------------
+# Material de outro trabalho
+# Este PDF é um questionário sobre história e economia da nuvem (relatório
+# Berkeley 2009, Stallman, serverless). Não integra o Trabalho I e não deve ser
+# publicado no repositório da entrega.
+# ---------------------------------------------------------------------------
+pdfs/Questionario_computacao_nuvem_nabor.pdf
+
+# ---------------------------------------------------------------------------
+# Configuração local de ferramentas
+# Hoje está vazio, mas ganha settings.local.json e caches assim que a
+# ferramenta for usada — nada disso pertence à entrega.
+# ---------------------------------------------------------------------------
+.claude/
+.vscode/
+.idea/
+
+# ---------------------------------------------------------------------------
+# Arquivos temporários e do sistema operacional
+# ---------------------------------------------------------------------------
+*.log
+*.tmp
+*.bak
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------------------------------------------------------------------------
+# Saídas locais que não fazem parte da entrega
+# Os resultados de custo (custos/resultados.csv) e os gráficos SÃO versionados,
+# porque o enunciado (seção 6) exige entregar os dados e gráficos da análise.
+# ---------------------------------------------------------------------------
+*.xlsx#
+~$*.xlsx

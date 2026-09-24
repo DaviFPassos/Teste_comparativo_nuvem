@@ -1,0 +1,82 @@
+# Fontes consultadas
+
+Registro exigido pela seção 12 do enunciado (p. 5): "a pesquisa deverá utilizar prioritariamente a documentação oficial dos provedores, em especial a documentação das APIs/SDKs e as páginas oficiais de preços".
+
+**Como ler este arquivo.** Cada fonte tem um identificador interno usado nos capítulos. O campo *afirmação sustentada* diz exatamente o que aquela página comprova — fontes não são listadas de forma decorativa. O campo *estado* usa: **verificado** (página acessada e conteúdo conferido na data indicada), **inacessível**, **informação não localizada** ou **precisa de confirmação**.
+
+Todas as datas são datas reais de acesso. Todas as páginas são documentação oficial dos próprios provedores.
+
+## NLP / análise de texto
+
+| ID | Provedor / serviço | Título e URL | Data de acesso | Afirmação sustentada | Estado |
+|---|---|---|---|---|---|
+| NLP-AWS-01 | AWS — Amazon Comprehend | Sentiment — https://docs.aws.amazon.com/comprehend/latest/dg/how-sentiment.html | 23/09/2026 | Operações `DetectSentiment`, `BatchDetectSentiment` e `StartSentimentDetectionJob`; classes `POSITIVE`, `NEGATIVE`, `MIXED` e `NEUTRAL`; resposta com `SentimentScore` contendo um score por classe; documentos em UTF-8 | verificado |
+| NLP-AWS-02 | AWS — Amazon Comprehend | Guidelines and quotas — https://docs.aws.amazon.com/comprehend/latest/dg/guidelines-and-limits.html | 23/09/2026 | Tamanho máximo de 5 KB por documento nas operações de sentimento (síncrona e assíncrona); 5 KB e 25 documentos por requisição nas operações em lote; *throttling* dinâmico sem cota publicada no modo síncrono; 13 regiões suportadas, incluindo US East (N. Virginia) e **sem região no Brasil** | verificado |
+| NLP-AWS-03 | AWS — Amazon Comprehend | Languages supported — https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html | 23/09/2026 | 12 idiomas suportados, com `pt` (Português) entre eles e sem distinção de variante; o recurso *Sentiment* cobre todos os idiomas suportados (diferente de *Targeted sentiment*, restrito ao inglês) | verificado |
+| NLP-AZ-01 | Azure — Azure Language in Foundry Tools | What is sentiment analysis and opinion mining in Azure Language service? — https://learn.microsoft.com/en-us/azure/ai-services/language-service/sentiment-opinion-mining/overview | 23/09/2026 | Nome atual do serviço; **aviso oficial de encerramento em 31/03/2029** com recomendação de migrar para o Microsoft Foundry; rótulos `positive`/`neutral`/`negative` com confiança de 0 a 1; sentimento em nível de documento e de sentença; acesso por REST API, client library (C#, Java, JavaScript, Python) e contêiner Docker; autenticação por chave + endpoint | verificado |
+| NLP-AZ-02 | Azure — Azure Language in Foundry Tools | Data limits for Language service features — https://learn.microsoft.com/en-us/azure/ai-services/language-service/concepts/data-limits | 23/09/2026 | **"A text record is measured as 1000 characters"** (unidade de cobrança); 5.120 caracteres por documento no modo síncrono; 125.000 caracteres e 25 documentos no assíncrono; 1 MB por requisição; **10 documentos por requisição na análise de sentimento**; limites de taxa por tier (S/Multi-service 1.000 req/s; S0/F0 100 req/s e 300 req/min) | verificado |
+| NLP-AZ-03 | Azure — Azure Language in Foundry Tools | Sentiment Analysis and Opinion Mining language support — https://learn.microsoft.com/en-us/azure/ai-services/language-service/sentiment-opinion-mining/language-support | 23/09/2026 | **94 códigos de idioma** na análise de sentimento, com **`pt-BR` (Português do Brasil) e `pt-PT` (Português de Portugal) como entradas distintas**; `pt` também aceito | verificado |
+| NLP-GC-01 | Google Cloud — Cloud Natural Language API | Analyzing Sentiment — https://docs.cloud.google.com/natural-language/docs/analyzing-sentiment | 23/09/2026 | Operação `analyzeSentiment`; saída com `score` e `magnitude`; **ausência de aviso de descontinuação** na página oficial da operação | verificado |
+| NLP-GC-02 | Google Cloud — Cloud Natural Language API | Cloud Natural Language API v1beta1 Deprecation Notice — https://cloud.google.com/natural-language/deprecation | 23/09/2026 | Única descontinuação oficial registrada é a da versão `v1beta1`, encerrada em 27/12/2019; não atinge a `v1` | verificado |
+| NLP-GC-03 | Google Cloud — Cloud Natural Language API | Quotas and limits — https://docs.cloud.google.com/natural-language/quotas | 23/09/2026 | Conteúdo de até 1.000.000 bytes; até 100.000 tokens por requisição; 600 requisições/minuto e 800.000 requisições/dia | verificado |
+| NLP-GC-04 | Google Cloud — Cloud Natural Language API | Language support — https://docs.cloud.google.com/natural-language/docs/languages | 23/09/2026 | 16 idiomas na análise de sentimento, incluindo `pt` (Português), sem distinção de variante | verificado |
+
+## Visão computacional
+
+| ID | Provedor / serviço | Título e URL | Data de acesso | Afirmação sustentada | Estado |
+|---|---|---|---|---|---|
+| VIS-AWS-01 | AWS — Amazon Rekognition | Detecting labels in an image — https://docs.aws.amazon.com/rekognition/latest/dg/labels-detect-labels-image.html | 23/09/2026 | Operação `DetectLabels`; entrada por objeto no Amazon S3 ou bytes da imagem; parâmetros `MaxLabels`, `MinConfidence`, `Features` (`GENERAL_LABELS`, `IMAGE_PROPERTIES`) e `Settings` com filtros de inclusão/exclusão; resposta com `Name`, `Confidence`, `Parents`, `Aliases`, `Categories`, `Instances` com `BoundingBox` e `LabelModelVersion` | verificado |
+| VIS-AWS-02 | AWS — Amazon Rekognition | Guidelines and quotas — https://docs.aws.amazon.com/rekognition/latest/dg/limits.html | 23/09/2026 | Imagem de até **15 MB** como objeto no S3 e **5 MB** como bytes na requisição; **apenas PNG e JPEG**; máximo de 10.000 px de largura e altura para `DetectLabels`; mínimo de 80 px; orientação de tratar `ProvisionedThroughputExceededException` e `ThrottlingException` com *retry*, *backoff* exponencial e *jitter*; Image Bulk Analysis com lotes de até 10.000 imagens | verificado |
+| VIS-AZ-01 | Azure — Azure Vision in Foundry Tools | What is Image Analysis? — https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview-image-analysis | 23/09/2026 | **Aviso oficial: Image Analysis 4.0 descontinuado, encerramento em 25/09/2028**; funcionalidades de preview retiradas em 31/03/2025 (Custom Image Classification, Custom Object Detection, Product Recognition, Segment/remoção de fundo); funcionalidade *Tag visual features* nas versões 4.0 e 3.2; entrada v4.0 (JPEG, PNG, GIF, BMP, WEBP, ICO, TIFF, MPO; < 20 MB; 50×50 a 16.000×16.000 px) e v3.2 (JPEG, PNG, GIF, BMP; < 4 MB); East US entre as regiões suportadas | verificado |
+| VIS-GC-01 | Google Cloud — Cloud Vision API | Detect labels — https://docs.cloud.google.com/vision/docs/labels | 23/09/2026 | Feature `LABEL_DETECTION` via `POST https://vision.googleapis.com/v1/images:annotate`; entrada por base64, URI do Cloud Storage ou URL remota; resposta com `mid`, `description`, `score` (0 a 1) e `topicality`; `maxResults` padrão de 10 | verificado |
+| VIS-GC-02 | Google Cloud — Cloud Vision API | Supported images — https://docs.cloud.google.com/vision/docs/supported-files | 23/09/2026 | Formatos JPEG, PNG8, PNG24, GIF, GIF animado (primeiro quadro), BMP, WEBP, RAW, ICO, PDF e TIFF; até **20 MB por imagem** e **10 MB por requisição JSON**; resolução recomendada de 640×480 px para `LABEL_DETECTION` | verificado |
+
+## Fala para texto
+
+| ID | Provedor / serviço | Título e URL | Data de acesso | Afirmação sustentada | Estado |
+|---|---|---|---|---|---|
+| FAL-AWS-01 | AWS — Amazon Transcribe | How Amazon Transcribe works — https://docs.aws.amazon.com/transcribe/latest/dg/how-it-works.html | 23/09/2026 | Separação entre lote (`StartTranscriptionJob`, arquivos no Amazon S3) e streaming (`StartStreamTranscription`); suporte a recursos e idiomas difere entre os dois modos | verificado |
+| FAL-AWS-02 | AWS — Amazon Transcribe | Data input and output — https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html | 23/09/2026 | Formatos em lote (AMR, FLAC, M4A, MP3, MP4, Ogg, WebM, WAV) e em streaming (FLAC, Ogg Opus, PCM); recomendados FLAC e WAV PCM 16 bits; suporte a um ou dois canais apenas; taxas de 8.000 Hz a 48.000 Hz; saída JSON com `transcripts`, `items` (tempo e confiança por palavra) e `audio_segments`; no bucket padrão, **URI temporária válida por 15 minutos** e resultado **apagado quando o job expira, em 90 dias** | verificado |
+| FAL-AWS-03 | AWS — Amazon Transcribe | Supported languages — https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html | 23/09/2026 | **`pt-BR` (Portuguese, Brazilian)** e `pt-PT` suportados em lote e streaming; `pt-BR` com transcrição de números, acrônimos, *redaction* e Call Analytics pós-chamada e em tempo real; SDKs disponíveis por modo | verificado |
+| FAL-AZ-01 | Azure — Azure Speech in Foundry Tools | Batch transcription overview — https://learn.microsoft.com/en-us/azure/ai-services/speech-service/batch-transcription | 23/09/2026 | Transcrição em lote pela Speech to text REST API com `Transcription_Create`; fluxo assíncrono em três passos; agendamento *best-effort*, podendo levar **até 30 min para iniciar e até 24 h para concluir** em horário de pico; **latência de percentil 90 inferior a 6 h**, com fórmula `ProcessDuration − AudioLength/5`; recomendação de ~1.000 arquivos por requisição e polling no máximo 1×/minuto | verificado |
+| FAL-AZ-02 | Azure — Azure Speech in Foundry Tools | Locate audio files for batch transcription — https://learn.microsoft.com/en-us/azure/ai-services/speech-service/batch-transcription-audio-data | 23/09/2026 | Formatos e codecs aceitos (WAV, MP3, OPUS/OGG, FLAC, WMA, AAC, ALAW e MULAW em WAV, AMR, WebM, SPEEX); origens: URI público, URI com SAS ou contêiner do Blob Storage via identidade gerenciada com papel *Storage Blob Data Reader*; campos `contentUrls` e `contentContainerUrl` | verificado |
+| FAL-AZ-03 | Azure — Azure Speech in Foundry Tools | Language and voice support — https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support | 23/09/2026 | Locale **`pt-BR` (Portuguese, Brazil)** suportado em speech to text | verificado |
+| FAL-GC-01 | Google Cloud — Cloud Speech-to-Text V2 | Transcription models — https://docs.cloud.google.com/speech-to-text/v2/docs/transcription-model | 23/09/2026 | Reconhecimento síncrono (áudio < 60 s), em lote (`BatchRecognize`, arquivos no Cloud Storage) e streaming; modelos `chirp_3`, `chirp_2` e `telephony` | verificado |
+| FAL-GC-02 | Google Cloud — Cloud Speech-to-Text V2 | Supported languages — https://docs.cloud.google.com/speech-to-text/v2/docs/speech-to-text-supported-languages | 23/09/2026 | **`pt-BR` (Portuguese, Brazil)** suportado nos modelos `chirp_3`, `long`, `short`, `telephony` e `telephony_short`; diarização disponível no `chirp_3` | verificado |
+
+## Enunciado do trabalho
+
+| ID | Documento | Data de acesso | Afirmação sustentada | Estado |
+|---|---|---|---|---|
+| ENU-01 | `pdfs/Computação em Nuvem - Trabalho I_ Comparação de Serviços de Inteligência Artificial em Nuvem.pdf` (5 páginas) | 23/09/2026 | Todas as exigências citadas em `etapa1/diagnostico.md`, com seção e página | verificado |
+
+## Preços
+
+Região **US East**, moeda **USD**, consulta em **23/09/2026**. Todos os valores estão em `custos/premissas.csv`, com a URL da fonte em cada linha.
+
+**Por que APIs de preço e não as páginas comerciais:** as páginas de preço da Azure e do Google servem suas tabelas por JavaScript — o conteúdo estático exibe apenas `$-`. Em vez de recorrer a fonte secundária, os valores foram lidos das APIs públicas de preço mantidas pelos próprios provedores, que são a fonte oficial dos mesmos números.
+
+| ID | Provedor / serviço | Título e URL | Data de acesso | Afirmação sustentada | Estado |
+|---|---|---|---|---|---|
+| PRE-AWS-01 | AWS — Amazon Comprehend | AWS Price List API — https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/comprehend/current/index.json | 23/09/2026 | `USE1-DetectSentiment`: $0,0001 por unidade até 10M; $0,00005 de 10M a 50M; $0,000025 acima de 50M. `publicationDate` 2026-09-11 | verificado |
+| PRE-AWS-02 | AWS — Amazon Comprehend | Pricing — https://aws.amazon.com/comprehend/pricing/ | 23/09/2026 | Unidade de 100 caracteres com **mínimo de 3 unidades (300 caracteres) por requisição**; franquia de 50.000 unidades/mês por API durante 12 meses | verificado |
+| PRE-AWS-03 | AWS — Amazon Rekognition | AWS Price List API — https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonRekognition/current/index.json | 23/09/2026 | `USE1-Group2-AsyncImagesProcessed`: $0,0010/imagem até 1M; $0,0008 de 1M a 5M; $0,0006 de 5M a 35M; $0,00025 acima. `publicationDate` 2026-09-11 | verificado |
+| PRE-AWS-04 | AWS — Amazon Rekognition | Pricing — https://aws.amazon.com/rekognition/pricing/ | 23/09/2026 | `DetectLabels` pertence às APIs do **Grupo 2**; franquia de 1.000 imagens/mês por 12 meses | verificado |
+| PRE-AWS-05 | AWS — Amazon Transcribe | AWS Price List API — https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/transcribe/current/index.json | 23/09/2026 | `USE1-TranscribeAudio`: **$0,0001 por segundo, preço único sem faixas** (equivale a $0,006/min). `publicationDate` 2026-09-11 | verificado |
+| PRE-AWS-06 | AWS — Amazon Transcribe | Pricing — https://aws.amazon.com/transcribe/pricing/ | 23/09/2026 | Cobrança em incrementos de 1 segundo, **sem mínimo**; franquia de 60 min/mês por 12 meses | verificado |
+| PRE-AZ-01 | Azure — Azure Language | Azure Retail Prices API — https://prices.azure.com/api/retail/prices (serviceName `Foundry Tools`, região `eastus`) | 23/09/2026 | `Standard Text Records`: $1,00 por 1.000 registros até 0,5M; $0,75 de 0,5M a 2,5M; $0,30 de 2,5M a 10M; $0,25 acima | verificado |
+| PRE-AZ-02 | Azure — Azure Vision | Azure Retail Prices API — https://prices.azure.com/api/retail/prices | 23/09/2026 | `Image Analysis Group 1 Transactions`: $1,00 por 1.000 até 1M; $0,65 de 1M a 10M; $0,60 de 10M a 100M; $0,40 acima | verificado |
+| PRE-AZ-03 | Azure — Azure Vision | Pricing — https://azure.microsoft.com/en-us/pricing/details/computer-vision/ | 23/09/2026 | A feature **`Tag` pertence ao Grupo 1** (o Grupo 2 reúne Describe, Read, Caption e Dense Captions); franquia F0 de 5.000 transações/mês, 20/minuto | verificado |
+| PRE-AZ-04 | Azure — Azure Speech | Azure Retail Prices API — https://prices.azure.com/api/retail/prices | 23/09/2026 | `S1 Speech to Text Batch`: **$0,18 por hora** (equivale a $0,003/min); `S1 Speech To Text` em tempo real: $1,00/hora | verificado |
+| PRE-AZ-05 | Azure — Azure Speech | Pricing — https://azure.microsoft.com/en-us/pricing/details/speech/ | 23/09/2026 | Franquia F0 de 5 horas de áudio por mês em transcrição em tempo real | verificado |
+| PRE-GC-01 | Google Cloud — Cloud Natural Language | Pricing — https://cloud.google.com/natural-language/pricing | 23/09/2026 | Sentiment Analysis: 0 a 5.000 unidades gratuitas; $1,00 por 1.000 de 5 mil a 1M; $0,50 de 1M a 5M; $0,25 acima. Unidade de 1.000 caracteres Unicode, **arredondada para cima**, conforme o exemplo oficial (800 + 1.500 + 600 caracteres = 4 unidades) | verificado |
+| PRE-GC-02 | Google Cloud — Cloud Vision | Pricing — https://cloud.google.com/vision/pricing | 23/09/2026 | Label Detection: primeiras 1.000 unidades/mês gratuitas; $1,50 por 1.000 de 1.001 a 5M; $1,00 acima de 5M. **Cada feature aplicada a uma imagem conta como uma unidade** | verificado |
+| PRE-GC-03 | Google Cloud — Cloud Speech-to-Text V2 | Pricing — https://cloud.google.com/speech-to-text/pricing | 23/09/2026 | Recognition Standard: $0,016/min até 500 mil; $0,010 de 500 mil a 1M; $0,008 de 1M a 2M; $0,004 acima. **Dynamic Batch Recognition: $0,003/min**, descrito como processamento de menor urgência. Cobrança em incrementos de 1 segundo | verificado |
+
+## Fontes não oficiais consultadas e descartadas
+
+Registradas por transparência: foram lidas durante a pesquisa, mas **não sustentam nenhuma afirmação** do trabalho.
+
+| Fonte | Motivo do descarte |
+|---|---|
+| Tópico "Analyze sentiment deprecation?" no fórum Google Developer (discuss.google.dev) | Um respondente afirma que a Cloud Natural Language API estaria "depreciada" em favor do Vertex AI. A afirmação **não se confirma** na documentação oficial: a página de `analyzeSentiment` não traz aviso de descontinuação (NLP-GC-01) e a única descontinuação oficial é a do `v1beta1` (NLP-GC-02). Fórum não é fonte oficial e a afirmação foi descartada. |

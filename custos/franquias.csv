@@ -1,0 +1,10 @@
+categoria,provedor,franquia,unidade,tipo,condicao,fonte_url,data_consulta,status_verificacao
+nlp,aws,50000,unidades de 100 caracteres por mes,promocional_12_meses,Free Tier da AWS por API por mes durante 12 meses a partir da primeira requisicao,https://aws.amazon.com/comprehend/pricing/,2026-09-23,verificado_oficial
+nlp,azure,5000,registros de texto por mes,tier_gratuito_separado,Tier F0 do recurso; compartilhado entre varias features do Azure Language; nao e desconto no tier S,https://azure.microsoft.com/en-us/pricing/details/language/,2026-09-23,verificado_oficial
+nlp,google,5000,unidades de 1000 caracteres por mes,faixa_da_tabela,Primeira faixa da tabela on-demand cobrada a 0.00 USD; permanente e nao promocional,https://cloud.google.com/natural-language/pricing,2026-09-23,verificado_oficial
+visao,aws,1000,imagens por mes,promocional_12_meses,Free Tier da AWS por 12 meses a partir da criacao da conta para APIs dos Grupos 1 e 2,https://aws.amazon.com/rekognition/pricing/,2026-09-23,verificado_oficial
+visao,azure,5000,transacoes por mes,tier_gratuito_separado,Tier F0 com limite de 20 transacoes por minuto,https://azure.microsoft.com/en-us/pricing/details/computer-vision/,2026-09-23,verificado_oficial
+visao,google,1000,unidades por mes,faixa_da_tabela,Primeira faixa da tabela cobrada a 0.00 USD; permanente e nao promocional,https://cloud.google.com/vision/pricing,2026-09-23,verificado_oficial
+fala,aws,60,minutos de audio por mes,promocional_12_meses,Free Tier da AWS por 12 meses a partir da primeira requisicao de transcricao,https://aws.amazon.com/transcribe/pricing/,2026-09-23,verificado_oficial
+fala,azure,5,horas de audio por mes,tier_gratuito_separado,Tier F0; a pagina declara a franquia para transcricao em tempo real,https://azure.microsoft.com/en-us/pricing/details/speech/,2026-09-23,verificado_oficial
+fala,google,0,,nao_localizada,Nao foi localizada franquia gratuita para a tabela Recognition da V2 na pagina consultada; a faixa de 60 minutos gratuitos aparece nas tabelas da API V1,https://cloud.google.com/speech-to-text/pricing,2026-09-23,informacao_nao_localizada
