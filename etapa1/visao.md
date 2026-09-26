@@ -141,7 +141,7 @@ AWS e Azure ficam empatados em $100,00 no volume do cenário, e o Google fica **
 | Provedor | Franquia | Natureza | Aplicável a este cenário? |
 |---|---|---|---|
 | AWS | 1.000 imagens/mês | Promocional, 12 meses a partir da criação da conta | **Sim, só nos 12 primeiros meses** |
-| Azure | 5.000 transações/mês (limite de 20/minuto) | Tier F0 separado | **Não** — recurso à parte, não desconto no tier pago; o limite de 20 transações/minuto também não sustentaria a carga |
+| Azure | 5.000 transações/mês (limite de 20/minuto) | Tier F0 separado | **Não** — recurso à parte, não desconto no tier pago. O que de fato impede o F0 de sustentar o cenário é a **cota mensal de 5.000 transações** (5% das 100.000 necessárias); o limite de 20/minuto, isoladamente, processaria as 100.000 imagens em cerca de 83 horas, o que caberia num mês — não é ele o fator restritivo |
 | Google | 1.000 unidades/mês | Primeira faixa da tabela, permanente | **Sim** |
 
 Como a faixa de 0,00 USD do Google é permanente, **a cobrança habitual dele é $148,50, não $150,00**; o valor sem franquia é uma simulação para manter a comparação simétrica com AWS e Azure.

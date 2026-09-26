@@ -272,14 +272,18 @@ O custo é progressivo por faixa: cada parcela do volume é cobrada ao preço da
 
 O cenário revela um efeito que a tabela de preços isolada esconde: **para textos curtos, a granularidade da unidade importa mais que o preço unitário**. Um comentário de 100 caracteres consome 3 unidades de 100 caracteres na AWS, mas **uma unidade inteira de 1.000 caracteres** na Azure e no Google — pagando-se, nos dois casos, por 900 caracteres não enviados. O resultado é que a AWS cobra **30% do que cobram os concorrentes** nesse comprimento — uma redução de 70%, ou 3,3× mais barato.
 
-A vantagem encolhe conforme o texto cresce e **zera exatamente em 4.000 caracteres**, onde os três convergem para $400,00. Esse empate, porém, **é pontual e não um patamar**: ele só acontece em comprimentos que são múltiplos exatos de 1.000 caracteres. Um único caractere a mais já devolve a vantagem à AWS, porque Azure e Google arredondam para o milhar seguinte — foi para mostrar isso que o cenário inclui 4.100 caracteres:
+A vantagem encolhe conforme o texto cresce e some perto de 4.000 caracteres — mas não só no ponto exato. Recalculando com as próprias funções do projeto para toda a vizinhança:
 
-| 100.000 documentos, sem franquia | AWS | Azure | Google |
+| Comprimento | AWS | Azure | Google |
 |---|---|---|---|
-| 4.000 caracteres | $400,00 | $400,00 | $400,00 |
+| 3.900 caracteres | $390,00 | $400,00 | $400,00 |
+| **3.901 a 4.000 caracteres** | **$400,00** | $400,00 | $400,00 |
+| 4.001 caracteres | **$410,00** | $500,00 | $500,00 |
 | 4.100 caracteres | **$410,00** | $500,00 | $500,00 |
 
-Acima de 4.000 caracteres, portanto, a diferença deixa de ser de 3× mas **não desaparece**: ela oscila conforme o resto da divisão do comprimento por 1.000, do empate exato até cerca de 22% a mais na Azure e no Google na vizinhança de 4.000 caracteres. O que muda a partir desse ponto é que a granularidade deixa de ser o fator dominante e passa a dividir espaço com as faixas de volume.
+**O empate vale para toda uma janela de 100 caracteres — de 3.901 a 4.000 —, não apenas para 4.000 exato.** A razão é aritmética: nesse trecho, `ceil(c/100)` (a regra da AWS) já chegou a 40 e só muda em 4.001, enquanto `ceil(c/1000)` (a regra de Azure e Google) permanece em 4 até 4.000 e só sobe em 4.001. As duas contagens colam nesse intervalo específico, não em um ponto isolado. O mesmo padrão se repete perto de cada múltiplo de 1.000 (por exemplo, 2.901 a 3.000, ou 1.901 a 2.000): é uma janela de 100 caracteres logo abaixo de cada múltiplo, não o múltiplo isolado.
+
+Fora dessas janelas, a diferença volta — até cerca de 22% a mais na Azure e no Google na vizinhança de 4.000 caracteres. O que muda a partir daí é que a granularidade deixa de ser o único fator: passa a dividir espaço com as faixas de volume.
 
 Isso tem consequência prática direta: **a escolha mais econômica depende do comprimento típico do texto da aplicação.** Para avaliações curtas de produto ou mensagens de chat, a diferença chega a 3,3 para 1; para documentos longos, cai para a casa de 0% a 22%, e só pode ser resolvida calculando com a distribuição real de comprimentos da aplicação.
 
@@ -297,7 +301,7 @@ As três franquias existem, mas **não são a mesma coisa** e por isso não entr
 
 Aplicada essa regra ao cenário de 100 caracteres: **$25,00 na AWS** (e só durante os 12 primeiros meses), **$100,00 na Azure** (sem abatimento) e **$95,00 no Google** (permanente).
 
-**Leitura honesta da coluna do Google.** Como a faixa de 0,00 USD é parte permanente da tabela on-demand, **a cobrança habitual do Google é $95,00, não $100,00**. O valor sem franquia é uma simulação criada para manter a comparação simétrica com AWS e Azure, e não a fatura esperada. Nas tabelas deste capítulo os dois números aparecem lado a lado justamente por isso. Como duas das três franquias são temporárias ou inaplicáveis, **a comparação principal usa os preços sem franquia** — que é a situação de regime e a única diretamente comparável entre os três.
+**Leitura honesta da coluna do Google.** Como a faixa de 0,00 USD é parte permanente da tabela on-demand, **a cobrança habitual do Google é $95,00, não $100,00**. O valor sem franquia é uma simulação criada para manter a comparação simétrica com AWS e Azure, e não a fatura esperada. Nas tabelas deste capítulo os dois números aparecem lado a lado justamente por isso. Como duas das três franquias são temporárias ou inaplicáveis, **a comparação principal usa os preços sem franquia**, por ser a única base que significa a mesma coisa nos três — um **cenário comparativo sem franquias**, não a fatura esperada de nenhum dos três (a do Google, em especial, costuma ser menor por causa da faixa permanente).
 
 ### 7. Síntese: vantagens, restrições e adequação por cenário
 
@@ -311,7 +315,7 @@ Aplicada essa regra ao cenário de 100 caracteres: **$25,00 na AWS** (e só dura
 
 #### Custo: a granularidade da unidade domina em textos curtos
 
-O cenário de 100.000 documentos mostrou que **a AWS cobra 30% do que cobram os concorrentes em textos de 100 caracteres** ($30,00 contra $100,00 — redução de 70%), porque cobra em unidades de 100 caracteres enquanto Azure e Google cobram uma unidade inteira de 1.000. A vantagem cai a zero em 4.000 caracteres, onde os três empatam em $400,00, mas volta em 4.100 ($410,00 contra $500,00): o empate vale para múltiplos exatos de 1.000 caracteres, e não para documentos longos em geral.
+O cenário de 100.000 documentos mostrou que **a AWS cobra 30% do que cobram os concorrentes em textos de 100 caracteres** ($30,00 contra $100,00 — redução de 70%), porque cobra em unidades de 100 caracteres enquanto Azure e Google cobram uma unidade inteira de 1.000. A vantagem cai a zero na janela de 3.901 a 4.000 caracteres, onde os três empatam em $400,00, mas volta em 4.001 ($410,00 contra $500,00): o empate vale para essa janela específica de 100 caracteres antes de cada múltiplo de 1.000, e não para documentos longos em geral.
 
 Ou seja: **não existe "o mais barato" nesta categoria — existe o mais barato para o seu comprimento de texto.**
 
@@ -328,7 +332,7 @@ A análise de sentimento da Azure tem **encerramento anunciado para 31/03/2029**
 | Restrição de **saída de dados** do ambiente próprio | **Azure Language** | Único dos três com contêiner Docker para execução local |
 | Aplicação que quer **calibrar o limiar** ao próprio domínio | **Cloud Natural Language** | O score contínuo é matéria-prima, não uma decisão já tomada |
 | Sistema com **horizonte longo de manutenção** | AWS ou Google | A oferta da Azure tem encerramento datado |
-| **Documentos longos** (acima de ~4.000 caracteres) | Calcular com o comprimento real | O empate só vale em múltiplos exatos de 1.000 caracteres; fora deles a AWS continua até ~22% mais barata |
+| **Documentos longos** (acima de ~4.000 caracteres) | Calcular com o comprimento real | O empate só vale na janela de 100 caracteres logo abaixo de cada múltiplo de 1.000 (ex.: 3.901–4.000); fora dela a AWS continua até ~22% mais barata |
 
 **O que esta etapa não responde:** qual dos três classifica melhor sentimento em português. Isso exige execução, gabarito e medição — é o objeto da Etapa 2.
 
@@ -505,7 +509,7 @@ AWS e Azure ficam empatados em $100,00 no volume do cenário, e o Google fica **
 | Provedor | Franquia | Natureza | Aplicável a este cenário? |
 |---|---|---|---|
 | AWS | 1.000 imagens/mês | Promocional, 12 meses a partir da criação da conta | **Sim, só nos 12 primeiros meses** |
-| Azure | 5.000 transações/mês (limite de 20/minuto) | Tier F0 separado | **Não** — recurso à parte, não desconto no tier pago; o limite de 20 transações/minuto também não sustentaria a carga |
+| Azure | 5.000 transações/mês (limite de 20/minuto) | Tier F0 separado | **Não** — recurso à parte, não desconto no tier pago. O que de fato impede o F0 de sustentar o cenário é a **cota mensal de 5.000 transações** (5% das 100.000 necessárias); o limite de 20/minuto, isoladamente, processaria as 100.000 imagens em cerca de 83 horas, o que caberia num mês — não é ele o fator restritivo |
 | Google | 1.000 unidades/mês | Primeira faixa da tabela, permanente | **Sim** |
 
 Como a faixa de 0,00 USD do Google é permanente, **a cobrança habitual dele é $148,50, não $150,00**; o valor sem franquia é uma simulação para manter a comparação simétrica com AWS e Azure.
@@ -708,9 +712,9 @@ Preços de **US East, em USD, consultados em 23/09/2026**, registrados em `custo
 
 | Premissa | Valor adotado | Por que importa |
 |---|---|---|
-| Canais | **1 (mono)** | A AWS aceita no máximo dois canais e trata identificação de canal como recurso próprio; a diarização da Azure exige mono; na Azure, os canais processados são declarados em `properties.channels`. Como a cobrança é por tempo de áudio, processar dois canais em vez de um muda a carga — e o cenário fixa um só para manter a equivalência |
+| Canais | **1 (mono)** | Na AWS, até dois canais são cobrados pela **duração total do áudio**, sem dobrar o preço — a página de preços é explícita: "for a two-channel conversation, you only pay for the total audio duration". A diarização da Azure exige mono; na Azure, os canais processados são declarados em `properties.channels`, e o comportamento de cobrança por canal não foi verificado nas fontes consultadas. O cenário fixa um canal para manter a equivalência entre os três, não porque dois custassem mais na AWS |
 | Idioma | **`pt-BR` declarado**, sem identificação automática de idioma | Identificação de idioma é recurso adicional nos três e, segundo a documentação da Azure, aumenta a latência do lote. A tabela da Azure ainda traz um medidor separado de *S1 Speech to Text Enhanced Feature Audio* ($0,30/h), fora do escopo deste cenário — quais recursos caem nele não foi verificado e não é afirmado aqui |
-| Recursos adicionais | **Nenhum** — sem diarização, sem *redaction*, sem Call Analytics, sem vocabulário customizado | Todos são cobrados à parte ou por medidor diferente |
+| Recursos adicionais | **Nenhum** — sem *redaction*, sem Call Analytics, sem vocabulário customizado além do padrão | Na **AWS**, diarização, vocabulário customizado, filtragem de vocabulário e identificação de idioma estão **incluídos no preço padrão** — a página de preços lista essas features como parte do que "this pricing includes". Nem todo recurso adicional é cobrado à parte nos três; isso não foi verificado para Azure e Google e não é afirmado aqui |
 | Distribuição dos arquivos | Irrelevante para o custo, **desde que nenhum arquivo estoure os limites** (1 GB e, na Azure com diarização, 240 min) | Os três cobram por duração total, em incrementos de 1 s (AWS e Google) ou por hora (Azure); 10.000 minutos custam o mesmo em 100 arquivos de 100 min ou em 1.000 de 10 min |
 | Custos **excluídos** | Armazenamento (S3, Blob Storage, Cloud Storage), transferência de dados, requisições de listagem e qualquer processamento posterior | O cenário compara **apenas** o preço da transcrição. A AWS obriga o áudio a estar no S3, o que acrescenta um custo de armazenamento que os outros dois podem dispensar (URI público na Azure) — esse custo não está nos $60,00 |
 
@@ -796,7 +800,7 @@ Um alívio comum aos três: **o arredondamento é favorável**. AWS e Google cob
 | Não depender de uma janela declarada de **baixa urgência** | **Amazon Transcribe** ($60,00) ou **Google padrão** ($160,00) | Nenhum dos dois pede que se aceite fila de baixa prioridade para chegar ao preço — mas nenhum dos três publica prazo garantido de conclusão |
 | Áudio já hospedado **fora da nuvem do provedor** | **Azure** | Única que aceita URI público como origem |
 | Requisito de **isolamento do armazenamento** | **Azure** | Caminho documentado com identidade gerenciada e acesso externo bloqueado |
-| **Telefonia** ou tipos específicos de áudio | **Cloud Speech-to-Text V2** | Único que expõe a escolha do modelo (`telephony`, `long`, `short`) |
+| **Telefonia** ou tipos específicos de áudio | **Cloud Speech-to-Text V2** | Tem perfil de modelo pronto para telefonia (`telephony`); a Azure também permite apontar para outro modelo via `model`, mas exige treinar ou hospedar esse modelo primeiro — o Google entrega o perfil pronto |
 | Necessidade de **diarização** | Os três | AWS no lote, Google no `chirp_3` e Azure por `diarizationEnabled`/`diarization` — nesta última, com canal mono e no máximo 240 min por arquivo |
 | Fluxo **sensível a tempo** | Nenhum dos modos em lote | Usar transcrição em tempo real, que tem preço e condições próprios |
 
@@ -813,7 +817,7 @@ Em nenhuma das três categorias um provedor domina em todos os critérios. Mais 
 
 | Categoria | O parâmetro que decide | Efeito |
 |---|---|---|
-| NLP | Comprimento típico do texto | AWS cobra 30% dos concorrentes em textos de 100 caracteres; empata em 4.000, mas volta a ser mais barata em 4.100 — o empate só vale em múltiplos exatos de 1.000 |
+| NLP | Comprimento típico do texto | AWS cobra 30% dos concorrentes em textos de 100 caracteres; empata na janela de 3.901–4.000 caracteres, mas volta a ser mais barata a partir de 4.001 — o empate vale numa janela de 100 caracteres antes de cada múltiplo de 1.000, não num ponto isolado |
 | Visão | Volume mensal | AWS e Azure empatam em 100 mil imagens; os degraus de faixa diferem acima de 1 milhão |
 | Fala | Tolerância a fila de processamento | Azure e Google empatam em $30,00 no modo de menor urgência; a AWS cobra $60,00 sem exigir essa tolerância |
 
@@ -947,6 +951,7 @@ Todas as datas são datas reais de acesso. Todas as páginas são documentação
 | FAL-AZ-01 | Azure — Azure Speech in Foundry Tools | Batch transcription overview — https://learn.microsoft.com/en-us/azure/ai-services/speech-service/batch-transcription | 23/09/2026 | Transcrição em lote pela Speech to text REST API com `Transcription_Create`; fluxo assíncrono em três passos; agendamento *best-effort*, podendo levar **até 30 min para iniciar e até 24 h para concluir** em horário de pico; **latência de percentil 90 inferior a 6 h**, com fórmula `ProcessDuration − AudioLength/5`; recomendação de ~1.000 arquivos por requisição e polling no máximo 1×/minuto | verificado |
 | FAL-AZ-02 | Azure — Azure Speech in Foundry Tools | Locate audio files for batch transcription — https://learn.microsoft.com/en-us/azure/ai-services/speech-service/batch-transcription-audio-data | 23/09/2026 | Formatos e codecs aceitos (WAV, MP3, OPUS/OGG, FLAC, WMA, AAC, ALAW e MULAW em WAV, AMR, WebM, SPEEX); origens: URI público, URI com SAS ou contêiner do Blob Storage via identidade gerenciada com papel *Storage Blob Data Reader*; campos `contentUrls` e `contentContainerUrl` | verificado |
 | FAL-AZ-03 | Azure — Azure Speech in Foundry Tools | Language and voice support — https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support | 23/09/2026 | Locale **`pt-BR` (Portuguese, Brazil)** suportado em speech to text | verificado |
+| FAL-AWS-04 | AWS — Amazon Transcribe | Amazon Transcribe pricing — https://aws.amazon.com/transcribe/pricing/ | 26/09/2026 | **"This pricing includes features such as custom vocabularies, vocabulary filtering, speaker diarization, and language identification"** — esses recursos não têm cobrança separada no preço padrão; e **"for a two-channel conversation, you only pay for the total audio duration and won't be charged separately for each channel"** — até dois canais são cobrados pela duração total, sem dobrar | verificado |
 | FAL-AZ-04 | Azure — Azure Speech in Foundry Tools | Quotas and limits for Azure Speech — https://learn.microsoft.com/en-us/azure/ai-services/speech-service/speech-services-quotas-and-limits | 26/09/2026 | Tabela de *Batch transcription*: **"Shared maximum requests per minute — Not available for F0 / 600"** (ou seja, **a transcrição em lote não existe no tier gratuito F0**, onde estão as 5 horas mensais); **1 GB** por arquivo de áudio; **10.000 blobs** por contêiner; **1.000 arquivos** por requisição; **240 minutos** por arquivo com diarização; cota de requisições compartilhada com a *fast transcription* e ajustável apenas no tier S0 | verificado |
 | FAL-AZ-05 | Azure — Azure Speech in Foundry Tools | Create a batch transcription — https://learn.microsoft.com/en-us/azure/ai-services/speech-service/batch-transcription-create | 26/09/2026 | Campo **`model`** no nível raiz do corpo, aceitando modelo base específico, modelo de *custom speech* ou **Whisper**; **`diarization`** (com `minCount`/`maxCount`, máximo abaixo de 36, só canal mono, áudio ≤ 240 min) e **`diarizationEnabled`** (dois locutores) dentro de `properties`; `languageIdentification` com 2 a 10 locales candidatos; `timeToLiveHours` obrigatório, de 6 horas a 31 dias; identificação de idioma **não** se combina com modelo customizado no lote | verificado |
 | FAL-GC-01 | Google Cloud — Cloud Speech-to-Text V2 | Transcription models — https://docs.cloud.google.com/speech-to-text/v2/docs/transcription-model | 23/09/2026 | Reconhecimento síncrono (áudio < 60 s), em lote (`BatchRecognize`, arquivos no Cloud Storage) e streaming; modelos `chirp_3`, `chirp_2` e `telephony` | verificado |

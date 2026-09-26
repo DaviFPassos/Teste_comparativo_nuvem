@@ -8,7 +8,7 @@ Em nenhuma das três categorias um provedor domina em todos os critérios. Mais 
 
 | Categoria | O parâmetro que decide | Efeito |
 |---|---|---|
-| NLP | Comprimento típico do texto | AWS cobra 30% dos concorrentes em textos de 100 caracteres; empata em 4.000, mas volta a ser mais barata em 4.100 — o empate só vale em múltiplos exatos de 1.000 |
+| NLP | Comprimento típico do texto | AWS cobra 30% dos concorrentes em textos de 100 caracteres; empata na janela de 3.901–4.000 caracteres, mas volta a ser mais barata a partir de 4.001 — o empate vale numa janela de 100 caracteres antes de cada múltiplo de 1.000, não num ponto isolado |
 | Visão | Volume mensal | AWS e Azure empatam em 100 mil imagens; os degraus de faixa diferem acima de 1 milhão |
 | Fala | Tolerância a fila de processamento | Azure e Google empatam em $30,00 no modo de menor urgência; a AWS cobra $60,00 sem exigir essa tolerância |
 

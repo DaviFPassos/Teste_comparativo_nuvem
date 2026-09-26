@@ -148,14 +148,18 @@ O custo é progressivo por faixa: cada parcela do volume é cobrada ao preço da
 
 O cenário revela um efeito que a tabela de preços isolada esconde: **para textos curtos, a granularidade da unidade importa mais que o preço unitário**. Um comentário de 100 caracteres consome 3 unidades de 100 caracteres na AWS, mas **uma unidade inteira de 1.000 caracteres** na Azure e no Google — pagando-se, nos dois casos, por 900 caracteres não enviados. O resultado é que a AWS cobra **30% do que cobram os concorrentes** nesse comprimento — uma redução de 70%, ou 3,3× mais barato.
 
-A vantagem encolhe conforme o texto cresce e **zera exatamente em 4.000 caracteres**, onde os três convergem para $400,00. Esse empate, porém, **é pontual e não um patamar**: ele só acontece em comprimentos que são múltiplos exatos de 1.000 caracteres. Um único caractere a mais já devolve a vantagem à AWS, porque Azure e Google arredondam para o milhar seguinte — foi para mostrar isso que o cenário inclui 4.100 caracteres:
+A vantagem encolhe conforme o texto cresce e some perto de 4.000 caracteres — mas não só no ponto exato. Recalculando com as próprias funções do projeto para toda a vizinhança:
 
-| 100.000 documentos, sem franquia | AWS | Azure | Google |
+| Comprimento | AWS | Azure | Google |
 |---|---|---|---|
-| 4.000 caracteres | $400,00 | $400,00 | $400,00 |
+| 3.900 caracteres | $390,00 | $400,00 | $400,00 |
+| **3.901 a 4.000 caracteres** | **$400,00** | $400,00 | $400,00 |
+| 4.001 caracteres | **$410,00** | $500,00 | $500,00 |
 | 4.100 caracteres | **$410,00** | $500,00 | $500,00 |
 
-Acima de 4.000 caracteres, portanto, a diferença deixa de ser de 3× mas **não desaparece**: ela oscila conforme o resto da divisão do comprimento por 1.000, do empate exato até cerca de 22% a mais na Azure e no Google na vizinhança de 4.000 caracteres. O que muda a partir desse ponto é que a granularidade deixa de ser o fator dominante e passa a dividir espaço com as faixas de volume.
+**O empate vale para toda uma janela de 100 caracteres — de 3.901 a 4.000 —, não apenas para 4.000 exato.** A razão é aritmética: nesse trecho, `ceil(c/100)` (a regra da AWS) já chegou a 40 e só muda em 4.001, enquanto `ceil(c/1000)` (a regra de Azure e Google) permanece em 4 até 4.000 e só sobe em 4.001. As duas contagens colam nesse intervalo específico, não em um ponto isolado. O mesmo padrão se repete perto de cada múltiplo de 1.000 (por exemplo, 2.901 a 3.000, ou 1.901 a 2.000): é uma janela de 100 caracteres logo abaixo de cada múltiplo, não o múltiplo isolado.
+
+Fora dessas janelas, a diferença volta — até cerca de 22% a mais na Azure e no Google na vizinhança de 4.000 caracteres. O que muda a partir daí é que a granularidade deixa de ser o único fator: passa a dividir espaço com as faixas de volume.
 
 Isso tem consequência prática direta: **a escolha mais econômica depende do comprimento típico do texto da aplicação.** Para avaliações curtas de produto ou mensagens de chat, a diferença chega a 3,3 para 1; para documentos longos, cai para a casa de 0% a 22%, e só pode ser resolvida calculando com a distribuição real de comprimentos da aplicação.
 
@@ -173,7 +177,7 @@ As três franquias existem, mas **não são a mesma coisa** e por isso não entr
 
 Aplicada essa regra ao cenário de 100 caracteres: **$25,00 na AWS** (e só durante os 12 primeiros meses), **$100,00 na Azure** (sem abatimento) e **$95,00 no Google** (permanente).
 
-**Leitura honesta da coluna do Google.** Como a faixa de 0,00 USD é parte permanente da tabela on-demand, **a cobrança habitual do Google é $95,00, não $100,00**. O valor sem franquia é uma simulação criada para manter a comparação simétrica com AWS e Azure, e não a fatura esperada. Nas tabelas deste capítulo os dois números aparecem lado a lado justamente por isso. Como duas das três franquias são temporárias ou inaplicáveis, **a comparação principal usa os preços sem franquia** — que é a situação de regime e a única diretamente comparável entre os três.
+**Leitura honesta da coluna do Google.** Como a faixa de 0,00 USD é parte permanente da tabela on-demand, **a cobrança habitual do Google é $95,00, não $100,00**. O valor sem franquia é uma simulação criada para manter a comparação simétrica com AWS e Azure, e não a fatura esperada. Nas tabelas deste capítulo os dois números aparecem lado a lado justamente por isso. Como duas das três franquias são temporárias ou inaplicáveis, **a comparação principal usa os preços sem franquia**, por ser a única base que significa a mesma coisa nos três — um **cenário comparativo sem franquias**, não a fatura esperada de nenhum dos três (a do Google, em especial, costuma ser menor por causa da faixa permanente).
 
 ### Reprodutibilidade
 
@@ -195,7 +199,7 @@ uv run custos/gerar_graficos.py       # gera os gráficos a partir do CSV
 
 ### Custo: a granularidade da unidade domina em textos curtos
 
-O cenário de 100.000 documentos mostrou que **a AWS cobra 30% do que cobram os concorrentes em textos de 100 caracteres** ($30,00 contra $100,00 — redução de 70%), porque cobra em unidades de 100 caracteres enquanto Azure e Google cobram uma unidade inteira de 1.000. A vantagem cai a zero em 4.000 caracteres, onde os três empatam em $400,00, mas volta em 4.100 ($410,00 contra $500,00): o empate vale para múltiplos exatos de 1.000 caracteres, e não para documentos longos em geral.
+O cenário de 100.000 documentos mostrou que **a AWS cobra 30% do que cobram os concorrentes em textos de 100 caracteres** ($30,00 contra $100,00 — redução de 70%), porque cobra em unidades de 100 caracteres enquanto Azure e Google cobram uma unidade inteira de 1.000. A vantagem cai a zero na janela de 3.901 a 4.000 caracteres, onde os três empatam em $400,00, mas volta em 4.001 ($410,00 contra $500,00): o empate vale para essa janela específica de 100 caracteres antes de cada múltiplo de 1.000, e não para documentos longos em geral.
 
 Ou seja: **não existe "o mais barato" nesta categoria — existe o mais barato para o seu comprimento de texto.**
 
@@ -212,7 +216,7 @@ A análise de sentimento da Azure tem **encerramento anunciado para 31/03/2029**
 | Restrição de **saída de dados** do ambiente próprio | **Azure Language** | Único dos três com contêiner Docker para execução local |
 | Aplicação que quer **calibrar o limiar** ao próprio domínio | **Cloud Natural Language** | O score contínuo é matéria-prima, não uma decisão já tomada |
 | Sistema com **horizonte longo de manutenção** | AWS ou Google | A oferta da Azure tem encerramento datado |
-| **Documentos longos** (acima de ~4.000 caracteres) | Calcular com o comprimento real | O empate só vale em múltiplos exatos de 1.000 caracteres; fora deles a AWS continua até ~22% mais barata |
+| **Documentos longos** (acima de ~4.000 caracteres) | Calcular com o comprimento real | O empate só vale na janela de 100 caracteres logo abaixo de cada múltiplo de 1.000 (ex.: 3.901–4.000); fora dela a AWS continua até ~22% mais barata |
 
 **O que esta etapa não responde:** qual dos três classifica melhor sentimento em português. Isso exige execução, gabarito e medição — é o objeto da Etapa 2.
 

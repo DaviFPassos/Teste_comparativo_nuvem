@@ -121,9 +121,9 @@ Preços de **US East, em USD, consultados em 23/09/2026**, registrados em `custo
 
 | Premissa | Valor adotado | Por que importa |
 |---|---|---|
-| Canais | **1 (mono)** | A AWS aceita no máximo dois canais e trata identificação de canal como recurso próprio; a diarização da Azure exige mono; na Azure, os canais processados são declarados em `properties.channels`. Como a cobrança é por tempo de áudio, processar dois canais em vez de um muda a carga — e o cenário fixa um só para manter a equivalência |
+| Canais | **1 (mono)** | Na AWS, até dois canais são cobrados pela **duração total do áudio**, sem dobrar o preço — a página de preços é explícita: "for a two-channel conversation, you only pay for the total audio duration". A diarização da Azure exige mono; na Azure, os canais processados são declarados em `properties.channels`, e o comportamento de cobrança por canal não foi verificado nas fontes consultadas. O cenário fixa um canal para manter a equivalência entre os três, não porque dois custassem mais na AWS |
 | Idioma | **`pt-BR` declarado**, sem identificação automática de idioma | Identificação de idioma é recurso adicional nos três e, segundo a documentação da Azure, aumenta a latência do lote. A tabela da Azure ainda traz um medidor separado de *S1 Speech to Text Enhanced Feature Audio* ($0,30/h), fora do escopo deste cenário — quais recursos caem nele não foi verificado e não é afirmado aqui |
-| Recursos adicionais | **Nenhum** — sem diarização, sem *redaction*, sem Call Analytics, sem vocabulário customizado | Todos são cobrados à parte ou por medidor diferente |
+| Recursos adicionais | **Nenhum** — sem *redaction*, sem Call Analytics, sem vocabulário customizado além do padrão | Na **AWS**, diarização, vocabulário customizado, filtragem de vocabulário e identificação de idioma estão **incluídos no preço padrão** — a página de preços lista essas features como parte do que "this pricing includes". Nem todo recurso adicional é cobrado à parte nos três; isso não foi verificado para Azure e Google e não é afirmado aqui |
 | Distribuição dos arquivos | Irrelevante para o custo, **desde que nenhum arquivo estoure os limites** (1 GB e, na Azure com diarização, 240 min) | Os três cobram por duração total, em incrementos de 1 s (AWS e Google) ou por hora (Azure); 10.000 minutos custam o mesmo em 100 arquivos de 100 min ou em 1.000 de 10 min |
 | Custos **excluídos** | Armazenamento (S3, Blob Storage, Cloud Storage), transferência de dados, requisições de listagem e qualquer processamento posterior | O cenário compara **apenas** o preço da transcrição. A AWS obriga o áudio a estar no S3, o que acrescenta um custo de armazenamento que os outros dois podem dispensar (URI público na Azure) — esse custo não está nos $60,00 |
 
@@ -217,7 +217,7 @@ Um alívio comum aos três: **o arredondamento é favorável**. AWS e Google cob
 | Não depender de uma janela declarada de **baixa urgência** | **Amazon Transcribe** ($60,00) ou **Google padrão** ($160,00) | Nenhum dos dois pede que se aceite fila de baixa prioridade para chegar ao preço — mas nenhum dos três publica prazo garantido de conclusão |
 | Áudio já hospedado **fora da nuvem do provedor** | **Azure** | Única que aceita URI público como origem |
 | Requisito de **isolamento do armazenamento** | **Azure** | Caminho documentado com identidade gerenciada e acesso externo bloqueado |
-| **Telefonia** ou tipos específicos de áudio | **Cloud Speech-to-Text V2** | Único que expõe a escolha do modelo (`telephony`, `long`, `short`) |
+| **Telefonia** ou tipos específicos de áudio | **Cloud Speech-to-Text V2** | Tem perfil de modelo pronto para telefonia (`telephony`); a Azure também permite apontar para outro modelo via `model`, mas exige treinar ou hospedar esse modelo primeiro — o Google entrega o perfil pronto |
 | Necessidade de **diarização** | Os três | AWS no lote, Google no `chirp_3` e Azure por `diarizationEnabled`/`diarization` — nesta última, com canal mono e no máximo 240 min por arquivo |
 | Fluxo **sensível a tempo** | Nenhum dos modos em lote | Usar transcrição em tempo real, que tem preço e condições próprios |
 

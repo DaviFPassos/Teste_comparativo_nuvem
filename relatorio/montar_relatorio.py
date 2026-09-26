@@ -297,9 +297,16 @@ th { background:var(--codigo-fundo); font-weight:600; }
 tr:nth-child(even) td { background:#fafaf8; }
 code { background:var(--codigo-fundo); padding:.12em .35em; border-radius:3px;
        font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.86em; }
+/* white-space:pre-wrap (em vez de pre puro) é o que faz a diferença no PDF:
+   overflow-x:auto rola na tela, mas o PDF não tem scroll, e uma linha de
+   código mais longa que a caixa simplesmente era cortada na borda. Com
+   pre-wrap a linha quebra e o recuo (indentação) é preservado; overflow-wrap
+   cobre o caso raro de um único token (uma URL, por exemplo) mais largo que
+   a própria caixa. */
 pre { background:var(--codigo-fundo); padding:.9rem 1.1rem; border-radius:6px;
-      overflow-x:auto; border:1px solid var(--linha); }
-pre code { background:none; padding:0; font-size:.84rem; }
+      overflow-x:auto; border:1px solid var(--linha);
+      white-space:pre-wrap; overflow-wrap:anywhere; }
+pre code { background:none; padding:0; font-size:.84rem; white-space:inherit; }
 img { max-width:100%; height:auto; display:block; margin:1.4rem auto;
       border:1px solid var(--linha); border-radius:6px; }
 blockquote { border-left:3px solid var(--destaque); margin:1rem 0; padding:.2rem 0 .2rem 1rem;
