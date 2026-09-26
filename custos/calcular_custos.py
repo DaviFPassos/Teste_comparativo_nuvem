@@ -10,8 +10,27 @@ reproduzir os números sem instalar dependências:
 
     python3 custos/calcular_custos.py
 
-Região de referência: US East (us-east-1 / eastus / us-central1). Moeda: USD.
-As APIs do Google comparadas em NLP e visão têm preço global, não regional.
+Região de referência: us-east-1 (AWS) / eastus (Azure) / us-central1 (Google
+Cloud Speech-to-Text). As APIs do Google comparadas em NLP e visão têm preço
+global, não regional. Moeda: USD.
+
+AS DUAS COLUNAS DE CUSTO
+    custo_usd_sem_franquia — preço de tabela aplicado à carga inteira. É a base
+        da comparação, porque as franquias dos três provedores têm naturezas
+        diferentes e não são comparáveis entre si.
+    custo_usd_com_franquia — mesmo cenário descontando APENAS as franquias
+        marcadas como aplicáveis à operação comparada em custos/franquias.csv
+        (coluna `aplicavel_ao_cenario`, com a justificativa ao lado). Quando a
+        franquia não é aplicável, esta coluna repete a anterior e a coluna
+        `franquia_aplicada` registra "nao".
+
+        Não são aplicáveis: o tier F0 da Azure, que é um recurso separado e não
+        um desconto no tier pago (e que, no caso da transcrição em lote, nem
+        oferece a operação), e a franquia do Google em fala, não localizada.
+        São aplicáveis: o Free Tier da AWS — que abate a fatura da própria
+        operação, mas SÓ nos 12 primeiros meses, e é isso que a coluna
+        representa — e as faixas de 0,00 USD das tabelas do Google em NLP e
+        visão, que são permanentes.
 """
 
 import csv
@@ -28,7 +47,9 @@ RESULTADOS = AQUI / "resultados.csv"
 # a seção 4 do enunciado ("cargas equivalentes").
 # ---------------------------------------------------------------------------
 DOCUMENTOS_NLP = 100_000
-COMPRIMENTOS_NLP = (100, 500, 1_200, 4_000)  # caracteres por documento
+# 4.100 existe para testar se o empate observado em 4.000 caracteres é um
+# patamar ou uma coincidência de múltiplo exato de 1.000 (ver etapa1/nlp.md).
+COMPRIMENTOS_NLP = (100, 500, 1_200, 4_000, 4_100)  # caracteres por documento
 IMAGENS_VISAO = 100_000
 MINUTOS_FALA = 10_000
 
@@ -55,6 +76,27 @@ def carregar_premissas():
 def carregar_franquias():
     with open(FRANQUIAS, encoding="utf-8") as f:
         return {(l["categoria"], l["provedor"]): l for l in csv.DictReader(f)}
+
+
+def franquia_a_descontar(franquias, categoria, provedor, fator=1.0):
+    """
+    Quanto da franquia pode ser descontado do cenário, na unidade cobrada.
+
+    Devolve zero quando `aplicavel_ao_cenario` não é "sim" em franquias.csv —
+    caso do tier F0 da Azure (recurso separado, e indisponível para transcrição
+    em lote) e da franquia não localizada do Google em fala. `fator` converte a
+    unidade da franquia na unidade do cálculo (por exemplo, minutos em segundos).
+    """
+    f = franquias[(categoria, provedor)]
+    if f["aplicavel_ao_cenario"].strip().lower() != "sim":
+        return 0.0
+    return float(f["franquia"]) * fator
+
+
+def franquia_aplicada(franquias, categoria, provedor):
+    """"sim"/"nao" para registrar no CSV de resultados."""
+    f = franquias[(categoria, provedor)]
+    return "sim" if f["aplicavel_ao_cenario"].strip().lower() == "sim" else "nao"
 
 
 def custo_por_faixas(quantidade, faixas, por_mil=False):
@@ -124,6 +166,7 @@ def calcular():
             "custo_usd_sem_franquia": round(custo_sem, 4),
             "custo_usd_com_franquia": round(custo_com, 4),
             "tipo_franquia": franquias.get((categoria, provedor), {}).get("tipo", ""),
+            "franquia_aplicada": franquia_aplicada(franquias, categoria, provedor),
             "observacao": obs,
         })
 
@@ -135,7 +178,7 @@ def calcular():
         # AWS — unidades de 100 caracteres, mínimo de 3 por requisição
         un = unidades_comprehend(chars) * DOCUMENTOS_NLP
         fx = faixas[("nlp", "aws", "DetectSentiment")]
-        franquia = float(franquias[("nlp", "aws")]["franquia"])
+        franquia = franquia_a_descontar(franquias, "nlp", "aws")
         registrar("nlp", cenario, carga, "aws", "DetectSentiment", un,
                   "unidades de 100 caracteres",
                   custo_por_faixas(un, fx),
@@ -147,7 +190,8 @@ def calcular():
         # Azure — registros de 1.000 caracteres
         reg = registros_azure_language(chars) * DOCUMENTOS_NLP
         fx = faixas[("nlp", "azure", "Sentiment analysis")]
-        franquia = float(franquias[("nlp", "azure")]["franquia"])
+        # Zero: o F0 é tier separado, não desconto no tier S (ver franquias.csv).
+        franquia = franquia_a_descontar(franquias, "nlp", "azure")
         registrar("nlp", cenario, carga, "azure", "Sentiment analysis", reg,
                   "registros de texto de 1000 caracteres",
                   custo_por_faixas(reg, fx, por_mil=True),
@@ -172,14 +216,15 @@ def calcular():
     carga = f"{IMAGENS_VISAO} imagens x 1 feature"
 
     fx = faixas[("visao", "aws", "DetectLabels (Group 2)")]
-    franquia = float(franquias[("visao", "aws")]["franquia"])
+    franquia = franquia_a_descontar(franquias, "visao", "aws")
     registrar("visao", cenario, carga, "aws", "DetectLabels (Group 2)", IMAGENS_VISAO,
               "imagens processadas",
               custo_por_faixas(IMAGENS_VISAO, fx),
               custo_por_faixas(max(0, IMAGENS_VISAO - franquia), fx))
 
     fx = faixas[("visao", "azure", "Image Analysis Tag (Group 1)")]
-    franquia = float(franquias[("visao", "azure")]["franquia"])
+    # Zero: o F0 é tier separado, não desconto no tier pago (ver franquias.csv).
+    franquia = franquia_a_descontar(franquias, "visao", "azure")
     registrar("visao", cenario, carga, "azure", "Image Analysis Tag (Group 1)",
               IMAGENS_VISAO, "transacoes",
               custo_por_faixas(IMAGENS_VISAO, fx, por_mil=True),
@@ -201,7 +246,7 @@ def calcular():
     # AWS cobra por segundo
     segundos = MINUTOS_FALA * 60
     fx = faixas[("fala", "aws", "StartTranscriptionJob (lote)")]
-    franquia_seg = float(franquias[("fala", "aws")]["franquia"]) * 60
+    franquia_seg = franquia_a_descontar(franquias, "fala", "aws", fator=60)
     registrar("fala", cenario, carga, "aws", "StartTranscriptionJob (lote)", segundos,
               "segundos de audio",
               custo_por_faixas(segundos, fx),
@@ -211,12 +256,15 @@ def calcular():
     # Azure cobra por hora
     horas = MINUTOS_FALA / 60
     fx = faixas[("fala", "azure", "Speech to text Batch (S1)")]
-    franquia_h = float(franquias[("fala", "azure")]["franquia"])
+    # Zero: a transcrição em lote não existe no tier F0, onde estão as 5 horas
+    # gratuitas — a cota oficial registra "Not available for F0" (franquias.csv).
+    franquia_h = franquia_a_descontar(franquias, "fala", "azure")
     registrar("fala", cenario, carga, "azure", "Speech to text Batch (S1)",
               round(horas, 4), "horas de audio",
               custo_por_faixas(horas, fx),
               custo_por_faixas(max(0, horas - franquia_h), fx),
-              "modo best-effort: documentacao admite ate 24h em horario de pico")
+              "modo best-effort: documentacao admite ate 24h em horario de pico; "
+              "franquia F0 de 5h nao aplicavel (transcricao em lote indisponivel no F0)")
 
     # Google: dois modos de lote com preços diferentes
     for operacao, obs in (
@@ -237,7 +285,8 @@ def main():
     linhas = calcular()
     campos = ["categoria", "cenario", "carga", "provedor", "servico", "operacao",
               "unidades_cobradas", "unidade_cobranca", "custo_usd_sem_franquia",
-              "custo_usd_com_franquia", "tipo_franquia", "observacao"]
+              "custo_usd_com_franquia", "tipo_franquia", "franquia_aplicada",
+              "observacao"]
 
     with open(RESULTADOS, "w", encoding="utf-8", newline="") as f:
         escritor = csv.DictWriter(f, fieldnames=campos)

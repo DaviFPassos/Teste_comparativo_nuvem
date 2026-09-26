@@ -53,12 +53,14 @@ INTERVALO_CONSULTA_S = 10
 
 def iniciar_job(cliente, nome_job: str) -> None:
     """Passo 1 — envio: cria o job assíncrono de transcrição."""
+    # --- TRECHO CITADO NO RELATÓRIO (início) ---
     cliente.start_transcription_job(
         TranscriptionJobName=nome_job,
         Media={"MediaFileUri": URI_AUDIO},
         MediaFormat="flac",
         LanguageCode=IDIOMA,
     )
+    # --- TRECHO CITADO NO RELATÓRIO (fim) ---
 
 
 def aguardar_conclusao(cliente, nome_job: str) -> dict:

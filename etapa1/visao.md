@@ -26,12 +26,14 @@ Escolheu-se a detecção de rótulos — e não detecção de objetos com caixas
 
 | Aspecto | Amazon Rekognition | Azure Image Analysis | Cloud Vision API |
 |---|---|---|---|
-| **Formatos aceitos** | **Apenas PNG e JPEG** | v4.0: JPEG, PNG, GIF, BMP, WEBP, ICO, TIFF, MPO · v3.2: JPEG, PNG, GIF, BMP | JPEG, PNG8, PNG24, GIF, GIF animado (só o primeiro quadro), BMP, WEBP, RAW, ICO, PDF, TIFF |
+| **Formatos aceitos** | **Apenas PNG e JPEG** | v4.0: JPEG, PNG, GIF, BMP, WEBP, ICO, TIFF, MPO · v3.2: JPEG, PNG, GIF, BMP | Em `images:annotate` (o endpoint comparado): JPEG, PNG8, PNG24, GIF, GIF animado (só o primeiro quadro), BMP, WEBP, RAW, ICO. **PDF e TIFF existem, mas por outro endpoint** — ver nota abaixo |
 | **Tamanho máximo** | **15 MB** como objeto no Amazon S3; **5 MB** quando enviada como bytes na requisição | v4.0: **menos de 20 MB** · v3.2: **menos de 4 MB** | **20 MB** por imagem; requisição JSON limitada a **10 MB** |
 | **Dimensões** | Mínimo 80×80 px; máximo **10.000 px** de largura e altura para `DetectLabels` | Entre **50×50** e **16.000×16.000** px | Resolução recomendada de **640×480 px** para `LABEL_DETECTION` |
 | **Origem da imagem** | Objeto no Amazon S3 ou bytes na requisição | Bytes na requisição ou URL da imagem | Arquivo local em base64, URI do Cloud Storage (`gs://`) ou URL remota |
 
-O Cloud Vision aceita a maior variedade de formatos (inclusive PDF e RAW) e o Rekognition a menor (só PNG e JPEG). Para um pipeline que recebe upload livre de usuários, isso significa que **a AWS exige uma etapa de conversão** que os outros dois dispensam em vários casos.
+O Cloud Vision aceita a maior variedade de formatos e o Rekognition a menor (só PNG e JPEG). Para um pipeline que recebe upload livre de usuários, isso significa que **a AWS exige uma etapa de conversão** que os outros dois dispensam em vários casos.
+
+**PDF e TIFF no Cloud Vision são outro caminho, não o mesmo.** A lista oficial de formatos suportados inclui PDF e TIFF, mas eles **não** são aceitos pelo `images:annotate` usado nesta comparação: exigem o endpoint **`files:annotate`**, que trata o arquivo como documento de várias páginas. O `LABEL_DETECTION` está entre as features suportadas nesse endpoint, de modo que a capacidade existe — porém com fluxo, limites e condições próprios (entre eles, chaves de API não são aceitas em `files:annotate`). Misturar as duas coisas na mesma linha da tabela superestimaria a compatibilidade do endpoint comparado, e por isso os dois caminhos ficam separados aqui.
 
 ### 3.2 Saídas
 
@@ -120,11 +122,11 @@ Google:  100.000 unidades (1 feature x 1 imagem = 1 unidade)
 
 ### Resultados (USD/mês)
 
-| Provedor | Unidades cobradas | Sem franquia | Com franquia |
+| Provedor | Unidades cobradas | Sem franquia | Com a franquia aplicável |
 |---|---|---|---|
-| AWS — Rekognition | 100.000 imagens | **$100,00** | $99,00 |
-| Azure — Image Analysis (Grupo 1) | 100.000 transações | **$100,00** | $95,00 |
-| Google — Cloud Vision | 100.000 unidades | $150,00 | $148,50 |
+| AWS — Rekognition | 100.000 imagens | **$100,00** | $99,00 (só nos 12 primeiros meses) |
+| Azure — Image Analysis (Grupo 1) | 100.000 transações | **$100,00** | **$100,00** (o F0 não abate o tier pago) |
+| Google — Cloud Vision | 100.000 unidades | $150,00 | $148,50 (faixa permanente da tabela) |
 
 ![Custo de detecção de rótulos em 100.000 imagens](../custos/graficos/custos_visao.png)
 
@@ -136,11 +138,15 @@ AWS e Azure ficam empatados em $100,00 no volume do cenário, e o Google fica **
 
 ### Franquias
 
-| Provedor | Franquia | Natureza |
-|---|---|---|
-| AWS | 1.000 imagens/mês | Promocional, 12 meses a partir da criação da conta |
-| Azure | 5.000 transações/mês (limite de 20/minuto) | Tier F0 separado |
-| Google | 1.000 unidades/mês | Primeira faixa da tabela, permanente |
+| Provedor | Franquia | Natureza | Aplicável a este cenário? |
+|---|---|---|---|
+| AWS | 1.000 imagens/mês | Promocional, 12 meses a partir da criação da conta | **Sim, só nos 12 primeiros meses** |
+| Azure | 5.000 transações/mês (limite de 20/minuto) | Tier F0 separado | **Não** — recurso à parte, não desconto no tier pago; o limite de 20 transações/minuto também não sustentaria a carga |
+| Google | 1.000 unidades/mês | Primeira faixa da tabela, permanente | **Sim** |
+
+Como a faixa de 0,00 USD do Google é permanente, **a cobrança habitual dele é $148,50, não $150,00**; o valor sem franquia é uma simulação para manter a comparação simétrica com AWS e Azure.
+
+**Regra adotada em todo o trabalho.** A coluna `custo_usd_com_franquia` de `custos/resultados.csv` desconta **somente** as franquias que incidem sobre a operação comparada; a coluna `franquia_aplicada` registra a decisão linha por linha e `custos/franquias.csv` guarda a justificativa de cada caso. Abater o tier F0 da Azure de uma fatura do tier pago somaria duas coisas que a Microsoft cobra separadamente: o F0 é um **recurso à parte**, com cota e limites próprios, e não um desconto no recurso pago. Usá-lo exigiria dividir a carga entre dois recursos — uma hipótese de arquitetura que teria de ser definida e justificada, e que este cenário não adota.
 
 ### Reprodutibilidade
 
@@ -156,7 +162,7 @@ uv run custos/gerar_graficos.py       # gera os gráficos a partir do CSV
 
 **A AWS é a única que entrega taxonomia junto com o rótulo.** `Parents`, `Aliases` e `Categories` permitem agrupar e filtrar rótulos sem manter um dicionário próprio, e os filtros de inclusão/exclusão rodam no servidor. Nos outros dois, essa camada fica por conta da aplicação.
 
-**O Google é o mais permissivo na entrada e o único com identificador estável.** Aceita PDF, RAW, TIFF e mais — contra **apenas PNG e JPEG na AWS** — o que elimina uma etapa de conversão em pipelines que recebem upload livre. E o campo `mid` liga cada rótulo a uma entidade do Knowledge Graph, em vez de obrigar comparação por string.
+**O Google é o mais permissivo na entrada e o único com identificador estável.** No endpoint comparado aceita RAW, WEBP, GIF, BMP e ICO além de PNG e JPEG — contra **apenas PNG e JPEG na AWS** —, o que elimina uma etapa de conversão em pipelines que recebem upload livre; PDF e TIFF também são suportados, mas pelo endpoint `files:annotate`, com fluxo próprio. E o campo `mid` liga cada rótulo a uma entidade do Knowledge Graph, em vez de obrigar comparação por string.
 
 **A Azure é a que exige mais atenção à região e ao calendário.** É a única com lista fechada de regiões para a própria funcionalidade, e a única com **encerramento anunciado: o Image Analysis 4.0 sai de operação em 25/09/2028**. O histórico reforça o ponto: quatro funcionalidades em preview já foram desativadas em 31/03/2025.
 
@@ -172,7 +178,7 @@ Essa ordem não vale para qualquer volume: os degraus de faixa são diferentes, 
 
 | Situação | Alternativa mais adequada | Por quê |
 |---|---|---|
-| Pipeline com **formatos heterogêneos** de upload | **Cloud Vision** | Aceita PDF, RAW, TIFF, WEBP e outros; a AWS exigiria conversão para PNG/JPEG |
+| Pipeline com **formatos heterogêneos** de upload | **Cloud Vision** | Aceita RAW, WEBP, GIF, BMP e ICO no mesmo endpoint, e PDF/TIFF por `files:annotate`; a AWS exigiria conversão para PNG/JPEG |
 | Necessidade de **agrupar rótulos por categoria ou hierarquia** | **Amazon Rekognition** | Único que devolve `Parents`, `Aliases` e `Categories` |
 | Integração com **base de conhecimento** | **Cloud Vision** | O `mid` dá identificador estável em vez de string |
 | Sensibilidade a **custo** no volume analisado | **AWS ou Azure** | $100,00 contra $150,00 do Google em 100 mil imagens |
@@ -192,10 +198,11 @@ Essa ordem não vale para qualquer volume: os degraus de faixa são diferentes, 
 | VIS-AZ-01 | Nome atual do serviço, aviso de encerramento em 25/09/2028, funcionalidades retiradas em 31/03/2025, requisitos de entrada v4.0 e v3.2, disponibilidade regional |
 | VIS-GC-01 | Feature `LABEL_DETECTION`, endpoint, campos da resposta e `maxResults` padrão |
 | VIS-GC-02 | Formatos suportados, limite de 20 MB por imagem e 10 MB por requisição JSON, resolução recomendada |
+| VIS-GC-03 | PDF e TIFF são processados por `files:annotate`, não por `images:annotate`; `LABEL_DETECTION` está entre as features aceitas nesse endpoint |
 
 ### Pendências
 
-- **Preços não verificados** até esta data; a seção 5 registra apenas as unidades a confirmar. Nenhum cálculo é apresentado antes disso.
+- **Preços: verificados.** As faixas usadas estão em `custos/premissas.csv` com status `verificado_oficial`, URL, região e data (23/09/2026). O enquadramento da feature *Tag* no Grupo 1 da Azure foi confirmado na página de preços.
 - O valor padrão de `MinConfidence` do `DetectLabels` **não foi localizado** nas páginas consultadas; o exemplo de código define o parâmetro explicitamente para não depender do padrão.
 - A Azure não publica, nas páginas consultadas, limite de tamanho de resposta ou número máximo de tags por imagem.
 - Qual serviço produz rótulos mais corretos é pergunta **experimental** e não é respondida nesta etapa.

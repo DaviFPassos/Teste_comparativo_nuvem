@@ -148,6 +148,53 @@ conferir("Fala · Google dynamic batch · 10.000 minutos",
          "10.000 min x $0,003/min = $30,00")
 
 print("=" * 78)
+print("4. O EMPATE DE 4.000 CARACTERES É PONTUAL, NÃO UM PATAMAR")
+print("=" * 78)
+
+# Em 4.000 caracteres os três empatam; em 4.100 a AWS volta a ser mais barata,
+# porque Azure e Google arredondam para o milhar seguinte.
+for prov, esperado in (("aws", 400.0), ("azure", 400.0), ("google", 400.0)):
+    conferir(f"NLP · {prov} · 100.000 docs de 4.000 caracteres (empate)",
+             buscar("nlp", prov, "x 4000 chars")["custo_usd_sem_franquia"], esperado,
+             "4.000 é múltiplo exato de 100 e de 1.000: 40 unidades (AWS) e "
+             "4 registros/unidades (Azure e Google) por documento = $400,00 nos três")
+
+conferir("NLP · AWS · 100.000 docs de 4.100 caracteres (empate desfeito)",
+         buscar("nlp", "aws", "x 4100 chars")["custo_usd_sem_franquia"], 410.0,
+         "ceil(4100/100) = 41 unidades x 100.000 = 4.100.000 x $0,0001 = $410,00")
+conferir("NLP · Azure · 100.000 docs de 4.100 caracteres (arredonda o milhar)",
+         buscar("nlp", "azure", "x 4100 chars")["custo_usd_sem_franquia"], 500.0,
+         "ceil(4100/1000) = 5 registros x 100.000 = 500.000 = 500 x $1,00/mil = $500,00")
+conferir("NLP · Google · 100.000 docs de 4.100 caracteres (arredonda o milhar)",
+         buscar("nlp", "google", "x 4100 chars")["custo_usd_sem_franquia"], 500.0,
+         "ceil(4100/1000) = 5 unidades x 100.000 = 500.000 = 500 x $1,00/mil = $500,00")
+
+print("=" * 78)
+print("5. REGRA DE APLICAÇÃO DAS FRANQUIAS")
+print("=" * 78)
+
+# O tier F0 da Azure é um recurso separado, não um desconto no tier pago: não
+# pode ser abatido do cenário. Na transcrição em lote, o F0 nem oferece a
+# operação ("Not available for F0" na tabela oficial de cotas).
+for categoria, carga, valor in (("nlp", "x 100 chars", 100.0),
+                                ("visao", None, 100.0),
+                                ("fala", None, 30.0)):
+    linha = buscar(categoria, "azure", carga)
+    conferir(f"{categoria} · Azure · franquia F0 NÃO é descontada",
+             linha["custo_usd_com_franquia"], valor,
+             "F0 é tier/recurso separado; em fala o lote nem está disponível no F0, "
+             "logo custo com franquia = custo sem franquia")
+    conferir(f"{categoria} · Azure · CSV registra franquia_aplicada = nao",
+             linha["franquia_aplicada"] == "nao", True,
+             "a coluna franquia_aplicada documenta a decisão no próprio resultado")
+
+# A franquia do Google em NLP e visão é a primeira faixa da tabela (permanente):
+# essa sim é descontada. A de fala não foi localizada e não é descontada.
+conferir("Fala · Google · franquia não localizada NÃO é descontada",
+         buscar("fala", "google", contem_operacao="Standard")["custo_usd_com_franquia"], 160.0,
+         "nenhuma franquia verificada para a tabela Recognition da V2")
+
+print("=" * 78)
 if falhas:
     print(f"FALHARAM {len(falhas)} conferências:")
     for f_ in falhas:

@@ -31,17 +31,19 @@ Três categorias, escolhidas por tratarem modalidades de entrada diferentes (tex
 
 ### Principais achados
 
-- **A unidade de cobrança pesa mais que o preço unitário.** Em análise de sentimento, a AWS custa **um terço** dos concorrentes para textos de 100 caracteres — porque cobra em unidades de 100 caracteres enquanto Azure e Google cobram uma unidade inteira de 1.000. A diferença desaparece em textos de 4.000 caracteres.
+- **A unidade de cobrança pesa mais que o preço unitário.** Em análise de sentimento, a AWS cobra **30% do que cobram os concorrentes** para textos de 100 caracteres ($30,00 contra $100,00) — porque cobra em unidades de 100 caracteres enquanto Azure e Google cobram uma unidade inteira de 1.000. Os três empatam em 4.000 caracteres, mas **o empate é pontual**: em 4.100 a AWS volta a $410,00 contra $500,00 dos outros dois, porque só ela não arredonda para o milhar.
 - **"Lote" significa coisas diferentes em cada provedor.** Na transcrição de áudio, Azure e Google *dynamic batch* empatam em $30,00 no modo de menor urgência, mas o lote da Azure admite fila de até 24 h. A AWS cobra $60,00 sem exigir essa tolerância.
 - **Dois serviços da Azure têm encerramento anunciado:** análise de sentimento em **31/03/2029** e Image Analysis 4.0 em **25/09/2028**. Nenhum concorrente comparado tem aviso equivalente.
 - **Só a Azure distingue `pt-BR` de `pt-PT`** em análise de sentimento; na transcrição de áudio, os três distinguem.
+- **Texto ambíguo tem tratamento em dois dos três.** A AWS devolve `MIXED` como classe do modelo, com score próprio; a Azure devolve `mixed` no nível do documento, composto quando há sentenças positivas e negativas; o Google não rotula — devolve um número e deixa o limiar para a aplicação.
+- **Franquia gratuita não é desconto automático.** O tier F0 da Azure é um recurso separado do tier pago e, na transcrição em lote, sequer oferece a operação. Os cenários só descontam franquias que incidem sobre a operação comparada, e cada decisão está justificada em [custos/franquias.csv](custos/franquias.csv).
 
 ## Organização do repositório
 
 | Caminho | Conteúdo |
 |---|---|
 | [relatorio/relatorio_etapa1.md](relatorio/relatorio_etapa1.md) | **Relatório consolidado da Etapa 1** |
-| [etapa1/diagnostico.md](etapa1/diagnostico.md) | Exigências do enunciado × material existente × pendências |
+| [etapa1/diagnostico.md](etapa1/diagnostico.md) | **Documento histórico:** retrato do ponto de partida (23/09/2026), antes de o conteúdo existir. Não descreve o estado atual |
 | [etapa1/categorias.md](etapa1/categorias.md) | Seleção das categorias, critérios e operação comparada |
 | [etapa1/nlp.md](etapa1/nlp.md) · [etapa1/visao.md](etapa1/visao.md) · [etapa1/fala.md](etapa1/fala.md) | Capítulos por categoria |
 | [exemplos/](exemplos/) | 9 exemplos de código (3 categorias × 3 provedores) |
@@ -76,7 +78,7 @@ Os números do relatório não são digitados: saem de `custos/premissas.csv`, o
 # recalcula os custos e regrava custos/resultados.csv (só biblioteca padrão)
 uv run custos/calcular_custos.py
 
-# confere as contas feitas à mão contra o que o programa calculou (18 verificações)
+# confere as contas feitas à mão contra o que o programa calculou (31 verificações)
 uv run custos/verificar_calculos.py
 
 # regera os gráficos a partir do CSV de resultados
@@ -94,19 +96,23 @@ Os 9 exemplos **não têm lockfile por decisão**: eles são ilustrativos e não
 
 **Parâmetros dos cenários** — quantidades hipotéticas, idênticas entre provedores:
 
-| Categoria | Carga | Região | Moeda | Preços consultados em |
+| Categoria | Carga | Região dos preços | Moeda | Preços consultados em |
 |---|---|---|---|---|
-| NLP | 100.000 documentos de 100, 500, 1.200 e 4.000 caracteres | US East | USD | 23/09/2026 |
-| Visão | 100.000 imagens, 1 feature por imagem | US East | USD | 23/09/2026 |
-| Fala | 10.000 minutos de áudio em pt-BR, em lote | US East | USD | 23/09/2026 |
+| NLP | 100.000 documentos de 100, 500, 1.200, 4.000 e 4.100 caracteres | AWS `us-east-1` · Azure `East US` · Google global | USD | 23/09/2026 |
+| Visão | 100.000 imagens, 1 feature por imagem | AWS `us-east-1` · Azure `East US` · Google global | USD | 23/09/2026 |
+| Fala | 10.000 minutos de áudio em pt-BR, em lote, mono, sem recursos adicionais | AWS `us-east-1` · Azure `East US` · Google **`us-central1`** | USD | 23/09/2026 |
+
+A região do Google em fala (`us-central1`, Iowa) **não** é US East: a tabela da Cloud Speech-to-Text V2 é regional, e essa diferença está declarada como limitação em vez de tratada como equivalência.
 
 Preços de nuvem mudam. Para uma data diferente, reverifique `custos/premissas.csv` antes de reutilizar os resultados.
 
 ## Gerar o PDF do relatório
 
-**→ [pdfs/relatorio_etapa1.pdf](pdfs/relatorio_etapa1.pdf)** — 28 páginas, A4, texto pesquisável.
+**→ [pdfs/relatorio_etapa1.pdf](pdfs/relatorio_etapa1.pdf)** — 43 páginas, A4, texto pesquisável.
 
-O relatório traz, por categoria, os serviços comparados, a tabela técnica que mais pesa na escolha, os avisos oficiais de encerramento, os exemplos de código, o cenário de custo e a síntese. O detalhamento técnico completo — limites numéricos, cotas, formatos aceitos, autenticação e configuração — fica nos capítulos [etapa1/nlp.md](etapa1/nlp.md), [etapa1/visao.md](etapa1/visao.md) e [etapa1/fala.md](etapa1/fala.md), que o relatório referencia.
+O PDF é feito para ser lido **fora do repositório**: traz, por categoria, os serviços comparados, entradas e saídas, formas de acesso e autenticação, limites e cotas, avisos oficiais de encerramento, o trecho essencial de cada exemplo de código, o cenário de custo com gráfico e a síntese. Todos os links apontam para as URLs públicas deste repositório no GitHub — o gerador recusa montar o relatório se algum link só funcionar localmente.
+
+O que fica apenas nos capítulos [etapa1/nlp.md](etapa1/nlp.md), [etapa1/visao.md](etapa1/visao.md) e [etapa1/fala.md](etapa1/fala.md) é o aparato de rastreabilidade: a tabela que liga cada afirmação à sua fonte oficial e as pendências de verificação.
 
 Para regerar:
 

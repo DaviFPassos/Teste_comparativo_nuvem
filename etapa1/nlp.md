@@ -28,15 +28,26 @@ Cada provedor também oferece modos adicionais, que **não** entram na comparaç
 
 | Aspecto | Amazon Comprehend | Azure Language | Cloud Natural Language |
 |---|---|---|---|
-| **Formato da saída** | Uma classe entre `POSITIVE`, `NEGATIVE`, `NEUTRAL` e `MIXED`, mais `SentimentScore` com um score para cada uma das quatro classes | Rótulo `positive`, `neutral` ou `negative`, com scores de confiança de 0 a 1 para as três classes | **Não retorna classe.** Devolve `score` (de −1,0 a +1,0) e `magnitude` (intensidade acumulada, não normalizada) |
+| **Formato da saída** | Uma classe entre `POSITIVE`, `NEGATIVE`, `NEUTRAL` e `MIXED`, mais `SentimentScore` com um score para cada uma das quatro classes | Rótulo `positive`, `neutral`, `negative` ou `mixed` — este último **só em nível de documento**; três scores de confiança de 0 a 1 (positivo, neutro e negativo), que somam 1 | **Não retorna classe.** Devolve `score` (de −1,0 a +1,0) e `magnitude` (intensidade acumulada, não normalizada) |
 | **Granularidade** | Documento | **Documento e sentença** (ambos na mesma resposta) | Documento e sentença |
-| **Classe para texto ambíguo** | `MIXED` é uma classe própria, distinta de `NEUTRAL` | Não há classe `mixed` na saída de documento; o rótulo sai do maior score | Não há classe; cabe ao desenvolvedor definir limiares |
+| **Classe para texto ambíguo** | `MIXED` é uma **classe do próprio modelo**, distinta de `NEUTRAL`, com score próprio em `SentimentScore` | **`mixed` existe em nível de documento**, mas é **composto a partir das sentenças**: sai quando há ao menos uma sentença positiva e ao menos uma negativa. Não tem score de confiança próprio | Não há classe; cabe ao desenvolvedor definir limiares |
 | **Codificação de entrada** | UTF-8 | Texto (string única por documento) | UTF-8 |
 | **Tamanho máximo do documento** | **5 KB** por documento na operação síncrona de sentimento | **5.120 caracteres** por documento (síncrono), medidos por `StringInfo.LengthInTextElements` | **1.000.000 bytes** de conteúdo; até 100.000 tokens por requisição |
 | **Documentos por requisição** | 1 (`DetectSentiment`); até 25 em `BatchDetectSentiment` | **10** documentos por requisição em análise de sentimento | 1 documento por requisição |
 | **Tamanho máximo da requisição** | — | 1 MB | — |
 
 O contraste mais importante para quem integra: **a AWS e a Azure entregam uma decisão pronta (uma classe), enquanto o Google entrega apenas um número contínuo.** Usar o Google exige que a aplicação defina os limiares que separam positivo, neutro e negativo — uma decisão de produto que os outros dois já tomam pelo desenvolvedor. Além disso, `magnitude` (Google) e `SentimentScore` (AWS) e confiança (Azure) são grandezas diferentes e não podem ser comparadas entre si.
+
+**Como a Azure decide o rótulo do documento.** A documentação oficial publica a regra, e ela **não** é "o maior dos três scores":
+
+| Sentenças do documento | Rótulo devolvido para o documento |
+|---|---|
+| Ao menos uma positiva, as demais neutras | `positive` |
+| Ao menos uma negativa, as demais neutras | `negative` |
+| Ao menos uma positiva **e** ao menos uma negativa | **`mixed`** |
+| Todas neutras | `neutral` |
+
+São, portanto, **três scores de confiança e quatro rótulos possíveis** no nível do documento. Isso muda a leitura da comparação: **dois dos três provedores rotulam texto ambíguo** — o que difere é o caminho. Na AWS, `MIXED` é uma classe do próprio modelo, com score próprio, e pode sair de um documento de uma única frase. Na Azure, `mixed` é composto a partir dos rótulos das sentenças, o que exige sentenças de sinais opostos no mesmo documento e não vem acompanhado de score próprio. O Google não rotula.
 
 ### 3.2 Suporte a português
 
@@ -107,9 +118,9 @@ A diferença de unidade é o fator que mais afeta o custo comparado: **um texto 
 
 ### Carga do cenário
 
-**100.000 documentos por mês**, submetidos um por chamada síncrona, em quatro comprimentos: **100, 500, 1.200 e 4.000 caracteres**. A quantidade é hipotética e declarada como tal; o que importa é que **é idêntica nos três provedores**, como exige a seção 4 do enunciado. Os quatro comprimentos existem justamente para expor o efeito do tamanho da unidade de cobrança.
+**100.000 documentos por mês**, submetidos um por chamada síncrona, em cinco comprimentos: **100, 500, 1.200, 4.000 e 4.100 caracteres**. A quantidade é hipotética e declarada como tal; o que importa é que **é idêntica nos três provedores**, como exige a seção 4 do enunciado. Os comprimentos existem para expor o efeito do tamanho da unidade de cobrança, e o de 4.100 entra especificamente para testar se o empate que aparece em 4.000 é um patamar ou uma coincidência.
 
-Todos os comprimentos cabem nos limites de entrada dos três serviços (o menor limite relevante é o de 5 KB do Comprehend).
+**Condições de entrada assumidas.** Um documento por requisição, texto plano, sem *opinion mining* nem análise por aspecto, e **um único idioma declarado** (`pt-BR` na Azure, `pt` na AWS e no Google). O limite do Comprehend é de **5 KB, medido em bytes**, e não em caracteres: em UTF-8 cada caractere acentuado ocupa 2 bytes, de modo que 4.100 caracteres só cabem nos 5 KB enquanto no máximo cerca de 25% deles forem acentuados (em português corrente, com 4% a 6% de acentuados, o documento fica em torno de 4,2 KB). Textos fora dessa condição precisariam ser divididos, e a divisão mudaria a contagem de unidades. Os limites da Azure (5.120 caracteres) e do Google (1.000.000 de bytes) não são atingidos em nenhum dos comprimentos.
 
 ### Fórmulas
 
@@ -129,28 +140,40 @@ O custo é progressivo por faixa: cada parcela do volume é cobrada ao preço da
 | 500 caracteres | 500.000 | **$50,00** | $100,00 | $100,00 |
 | 1.200 caracteres | 1.200.000 | **$120,00** | $200,00 | $200,00 |
 | 4.000 caracteres | 4.000.000 | $400,00 | $400,00 | $400,00 |
+| 4.100 caracteres | 4.100.000 | **$410,00** | $500,00 | $500,00 |
 
 ![Custo de análise de sentimento por comprimento de documento](../custos/graficos/custos_nlp.png)
 
 ### O que os números mostram
 
-O cenário revela um efeito que a tabela de preços isolada esconde: **para textos curtos, a granularidade da unidade importa mais que o preço unitário**. Um comentário de 100 caracteres consome 3 unidades de 100 caracteres na AWS, mas **uma unidade inteira de 1.000 caracteres** na Azure e no Google — pagando-se, nos dois casos, por 900 caracteres não enviados. O resultado é que a AWS custa **um terço** dos concorrentes nesse comprimento.
+O cenário revela um efeito que a tabela de preços isolada esconde: **para textos curtos, a granularidade da unidade importa mais que o preço unitário**. Um comentário de 100 caracteres consome 3 unidades de 100 caracteres na AWS, mas **uma unidade inteira de 1.000 caracteres** na Azure e no Google — pagando-se, nos dois casos, por 900 caracteres não enviados. O resultado é que a AWS cobra **30% do que cobram os concorrentes** nesse comprimento — uma redução de 70%, ou 3,3× mais barato.
 
-A vantagem encolhe conforme o texto cresce e **desaparece em 4.000 caracteres**, onde os três convergem para $400,00. A partir daí, o que separa os provedores não é mais a granularidade, e sim as faixas de volume.
+A vantagem encolhe conforme o texto cresce e **zera exatamente em 4.000 caracteres**, onde os três convergem para $400,00. Esse empate, porém, **é pontual e não um patamar**: ele só acontece em comprimentos que são múltiplos exatos de 1.000 caracteres. Um único caractere a mais já devolve a vantagem à AWS, porque Azure e Google arredondam para o milhar seguinte — foi para mostrar isso que o cenário inclui 4.100 caracteres:
 
-Isso tem consequência prática direta: **a escolha mais econômica depende do comprimento típico do texto da aplicação.** Para avaliações curtas de produto ou mensagens de chat, a diferença é de 3 para 1; para documentos longos, é irrelevante.
+| 100.000 documentos, sem franquia | AWS | Azure | Google |
+|---|---|---|---|
+| 4.000 caracteres | $400,00 | $400,00 | $400,00 |
+| 4.100 caracteres | **$410,00** | $500,00 | $500,00 |
+
+Acima de 4.000 caracteres, portanto, a diferença deixa de ser de 3× mas **não desaparece**: ela oscila conforme o resto da divisão do comprimento por 1.000, do empate exato até cerca de 22% a mais na Azure e no Google na vizinhança de 4.000 caracteres. O que muda a partir desse ponto é que a granularidade deixa de ser o fator dominante e passa a dividir espaço com as faixas de volume.
+
+Isso tem consequência prática direta: **a escolha mais econômica depende do comprimento típico do texto da aplicação.** Para avaliações curtas de produto ou mensagens de chat, a diferença chega a 3,3 para 1; para documentos longos, cai para a casa de 0% a 22%, e só pode ser resolvida calculando com a distribuição real de comprimentos da aplicação.
 
 ### Franquias
 
 As três franquias existem, mas **não são a mesma coisa** e por isso não entram na comparação principal:
 
-| Provedor | Franquia | Natureza |
-|---|---|---|
-| AWS | 50.000 unidades/mês por API | **Promocional**: vale 12 meses a partir da primeira requisição |
-| Azure | 5.000 registros/mês | **Tier F0 separado**, compartilhado entre várias features do Azure Language; não é desconto no tier S |
-| Google | 5.000 unidades/mês | **Faixa da própria tabela** cobrada a $0,00; permanente |
+| Provedor | Franquia | Natureza | Aplicável a este cenário? |
+|---|---|---|---|
+| AWS | 50.000 unidades/mês por API | **Promocional**: vale 12 meses a partir da primeira requisição | **Sim, só nos 12 primeiros meses** — abate a fatura da própria operação, na mesma conta e no mesmo tier |
+| Azure | 5.000 registros/mês | **Tier F0 separado**, compartilhado entre várias features do Azure Language | **Não** — é um recurso à parte, não um desconto no tier S usado no cenário |
+| Google | 5.000 unidades/mês | **Faixa da própria tabela** cobrada a $0,00; permanente | **Sim** — é a primeira faixa da tabela que já está sendo aplicada |
 
-Aplicadas ao cenário de 100 caracteres, reduzem o custo para $25,00 (AWS), $95,00 (Azure) e $95,00 (Google) — valores na coluna `custo_usd_com_franquia` de `custos/resultados.csv`. Como só a do Google é permanente e as três têm regras distintas, **a comparação principal usa os preços sem franquia**, que é a situação de regime.
+**Regra adotada em todo o trabalho.** A coluna `custo_usd_com_franquia` de `custos/resultados.csv` desconta **somente** as franquias que incidem sobre a operação comparada; a coluna `franquia_aplicada` registra a decisão linha por linha e `custos/franquias.csv` guarda a justificativa de cada caso. Abater o tier F0 da Azure de uma fatura do tier pago somaria duas coisas que a Microsoft cobra separadamente: o F0 é um **recurso à parte**, com cota e limites próprios, e não um desconto no recurso pago. Usá-lo exigiria dividir a carga entre dois recursos — uma hipótese de arquitetura que teria de ser definida e justificada, e que este cenário não adota.
+
+Aplicada essa regra ao cenário de 100 caracteres: **$25,00 na AWS** (e só durante os 12 primeiros meses), **$100,00 na Azure** (sem abatimento) e **$95,00 no Google** (permanente).
+
+**Leitura honesta da coluna do Google.** Como a faixa de 0,00 USD é parte permanente da tabela on-demand, **a cobrança habitual do Google é $95,00, não $100,00**. O valor sem franquia é uma simulação criada para manter a comparação simétrica com AWS e Azure, e não a fatura esperada. Nas tabelas deste capítulo os dois números aparecem lado a lado justamente por isso. Como duas das três franquias são temporárias ou inaplicáveis, **a comparação principal usa os preços sem franquia** — que é a situação de regime e a única diretamente comparável entre os três.
 
 ### Reprodutibilidade
 
@@ -166,13 +189,13 @@ uv run custos/gerar_graficos.py       # gera os gráficos a partir do CSV
 
 **1. O Google não entrega uma decisão, entrega um número.** AWS e Azure devolvem uma classe pronta (`POSITIVE`/`positive`); o Google devolve `score` e `magnitude` e deixa para a aplicação definir onde ficam as fronteiras entre positivo, neutro e negativo. Isso não é detalhe de formato: é trabalho de produto transferido para quem integra, e uma decisão que precisa ser justificada e congelada antes de qualquer avaliação. Em compensação, dá controle a quem quer calibrar o limiar ao próprio domínio.
 
-**2. Só a AWS trata texto ambíguo como categoria.** A classe `MIXED` existe apenas no Comprehend. Na Azure, o rótulo sai do maior score entre três classes; no Google, não há classe alguma. Para uma aplicação que precisa separar "opinião dividida" de "sem opinião", só um dos três oferece isso pronto.
+**2. AWS e Azure rotulam texto ambíguo; o Google não — e as duas chegam lá por caminhos diferentes.** Na AWS, `MIXED` é uma classe do modelo, com score próprio em `SentimentScore`, e pode sair de um documento de uma única frase. Na Azure, `mixed` é um rótulo **de documento**, composto pela regra oficial: ao menos uma sentença positiva e ao menos uma negativa. A consequência prática para quem integra é essa: a AWS distingue "opinião dividida" de "sem opinião" já em textos de uma frase; a Azure só produz esse rótulo quando o documento tem sentenças de sinais opostos, e sem score próprio para ele. No Google não há classe alguma — quem integra define os limiares.
 
 **3. Só a Azure distingue português do Brasil.** `pt-BR` e `pt-PT` são códigos separados na Azure, contra um `pt` genérico na AWS e no Google. Para um produto brasileiro isso é atraente — mas **a documentação não promete resultado melhor**, e afirmar que produz seria extrapolar. É exatamente o tipo de hipótese que a Etapa 2 pode testar.
 
 ### Custo: a granularidade da unidade domina em textos curtos
 
-O cenário de 100.000 documentos mostrou que **a AWS custa um terço dos concorrentes em textos de 100 caracteres** ($30,00 contra $100,00), porque cobra em unidades de 100 caracteres enquanto Azure e Google cobram uma unidade inteira de 1.000. A vantagem some em 4.000 caracteres, onde os três convergem para $400,00.
+O cenário de 100.000 documentos mostrou que **a AWS cobra 30% do que cobram os concorrentes em textos de 100 caracteres** ($30,00 contra $100,00 — redução de 70%), porque cobra em unidades de 100 caracteres enquanto Azure e Google cobram uma unidade inteira de 1.000. A vantagem cai a zero em 4.000 caracteres, onde os três empatam em $400,00, mas volta em 4.100 ($410,00 contra $500,00): o empate vale para múltiplos exatos de 1.000 caracteres, e não para documentos longos em geral.
 
 Ou seja: **não existe "o mais barato" nesta categoria — existe o mais barato para o seu comprimento de texto.**
 
@@ -184,12 +207,12 @@ A análise de sentimento da Azure tem **encerramento anunciado para 31/03/2029**
 
 | Situação | Alternativa mais adequada | Por quê |
 |---|---|---|
-| Alto volume de **textos curtos** (avaliações, chat, comentários) | **Amazon Comprehend** | Unidade de 100 caracteres torna o custo até 3× menor; `MIXED` ajuda em opinião dividida |
+| Alto volume de **textos curtos** (avaliações, chat, comentários) | **Amazon Comprehend** | Unidade de 100 caracteres reduz o custo em 70% no cenário de 100 caracteres; `MIXED` sai com score próprio mesmo em textos de uma única frase |
 | Necessidade de **sentimento por sentença** junto com o do documento | **Azure Language** | Entrega os dois níveis na mesma resposta |
 | Restrição de **saída de dados** do ambiente próprio | **Azure Language** | Único dos três com contêiner Docker para execução local |
 | Aplicação que quer **calibrar o limiar** ao próprio domínio | **Cloud Natural Language** | O score contínuo é matéria-prima, não uma decisão já tomada |
 | Sistema com **horizonte longo de manutenção** | AWS ou Google | A oferta da Azure tem encerramento datado |
-| **Documentos longos** (acima de ~4.000 caracteres) | Indiferente no custo | Os três convergem; decidir por critério técnico |
+| **Documentos longos** (acima de ~4.000 caracteres) | Calcular com o comprimento real | O empate só vale em múltiplos exatos de 1.000 caracteres; fora deles a AWS continua até ~22% mais barata |
 
 **O que esta etapa não responde:** qual dos três classifica melhor sentimento em português. Isso exige execução, gabarito e medição — é o objeto da Etapa 2.
 
@@ -205,6 +228,7 @@ Detalhamento completo em `referencias/fontes.md`.
 | NLP-AWS-02 | Limites de tamanho por operação (5 KB síncrono, 25 documentos em lote) e regiões suportadas |
 | NLP-AWS-03 | Idiomas suportados: sentimento cobre todos os 12 idiomas, incluindo `pt` |
 | NLP-AZ-01 | Nome atual do serviço, aviso de encerramento em 31/03/2029, rótulos e granularidade, formas de acesso |
+| NLP-AZ-04 | Regra oficial do rótulo de documento, incluindo `mixed`, e os três scores de confiança que somam 1 |
 | NLP-AZ-02 | Limites de dados: 5.120 caracteres por documento, 10 documentos por requisição, 1 MB por requisição, limites de taxa por tier, definição de registro de texto como 1.000 caracteres |
 | NLP-AZ-03 | Suporte a 94 idiomas, com `pt-BR` e `pt-PT` distintos |
 | NLP-GC-01 | Operação `analyzeSentiment` e ausência de aviso de descontinuação |
@@ -214,6 +238,6 @@ Detalhamento completo em `referencias/fontes.md`.
 
 ### Pendências
 
-- **Preços não verificados** até esta data. As unidades de cobrança na seção 5 estão marcadas como "a confirmar" para AWS e Google; apenas a definição de registro de texto da Azure vem de fonte já consultada. Nenhum cálculo de custo é apresentado antes dessa verificação.
+- **Preços: verificados.** As nove linhas de preço usadas no trabalho estão em `custos/premissas.csv` com status `verificado_oficial`, URL da fonte, região e data de consulta (23/09/2026). Os da AWS vêm da *AWS Price List API*, os da Azure da *Azure Retail Prices API* e os do Google da página oficial de preços. Esta lista de pendências registra o que **continua** em aberto, e preço não é mais um deles.
 - A documentação da AWS **não publica cota fixa de requisições por segundo** para o modo síncrono; a comparação de vazão fica limitada a esse fato, sem número.
-- O comportamento do `MIXED` da AWS e a ausência de classe equivalente nos outros dois é uma diferença **documental**. Qual serviço classifica melhor textos ambíguos em português é pergunta experimental, e só pode ser respondida na Etapa 2.
+- A diferença entre o `MIXED` da AWS (classe do modelo, com score próprio) e o `mixed` da Azure (rótulo de documento composto a partir das sentenças) é **documental**. Qual dos dois identifica melhor opinião dividida em português é pergunta experimental, e só pode ser respondida na Etapa 2.

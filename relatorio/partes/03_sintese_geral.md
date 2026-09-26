@@ -8,7 +8,7 @@ Em nenhuma das três categorias um provedor domina em todos os critérios. Mais 
 
 | Categoria | O parâmetro que decide | Efeito |
 |---|---|---|
-| NLP | Comprimento típico do texto | AWS custa 1/3 dos concorrentes em textos de 100 caracteres e empata em 4.000 |
+| NLP | Comprimento típico do texto | AWS cobra 30% dos concorrentes em textos de 100 caracteres; empata em 4.000, mas volta a ser mais barata em 4.100 — o empate só vale em múltiplos exatos de 1.000 |
 | Visão | Volume mensal | AWS e Azure empatam em 100 mil imagens; os degraus de faixa diferem acima de 1 milhão |
 | Fala | Tolerância a fila de processamento | Azure e Google empatam em $30,00 no modo de menor urgência; a AWS cobra $60,00 sem exigir essa tolerância |
 
@@ -18,7 +18,7 @@ Quem escolher um provedor a partir de uma tabela de preço isolada, sem fixar es
 
 O achado mais transferível deste trabalho é que **a granularidade da unidade de cobrança pode importar mais do que o preço da unidade**.
 
-Em análise de sentimento, Azure e Google cobram uma unidade inteira de 1.000 caracteres mesmo para um comentário de 100 caracteres — pagando-se por 900 caracteres nunca enviados. A AWS, cobrando em unidades de 100 caracteres, custa um terço no mesmo cenário. Os três têm preços unitários da mesma ordem de grandeza; o que separa é como contam.
+Em análise de sentimento, Azure e Google cobram uma unidade inteira de 1.000 caracteres mesmo para um comentário de 100 caracteres — pagando-se por 900 caracteres nunca enviados. A AWS, cobrando em unidades de 100 caracteres, cobra 30% disso no mesmo cenário — uma redução de 70%. Os três têm preços unitários da mesma ordem de grandeza; o que separa é como contam.
 
 Na transcrição de áudio, a mesma lógica trabalhou a favor de todos: os três cobram em incrementos de um segundo, e a AWS declara não haver cobrança mínima.
 
@@ -41,10 +41,24 @@ Esse é um custo que não aparece em cenário de preço nenhum: para um sistema 
 
 Nenhuma das três categorias permite trocar de provedor apenas trocando o endpoint:
 
-- **Sentimento:** a saída do Google é um número contínuo, a da AWS tem quatro classes e a da Azure tem três com granularidade de sentença. Migrar exige redefinir a lógica de classificação.
+- **Sentimento:** a saída do Google é um número contínuo; a da AWS tem quatro classes, cada uma com score próprio; a da Azure tem quatro rótulos possíveis no documento mas só três scores, e `mixed` só aparece por composição das sentenças. Migrar exige redefinir a lógica de classificação, não só ler outro campo.
 - **Visão:** as escalas de confiança diferem (0–100 × 0–1) e os vocabulários de rótulos não têm tabela de equivalência oficial. Migrar exige recalibrar limiares e remapear termos.
 - **Fala:** a origem do áudio é imposta de forma diferente (S3 obrigatório na AWS; URI público aceito na Azure; Cloud Storage no Google), o que atinge a arquitetura, não só o código de chamada.
 
-### 6.5 O que a documentação não permite concluir
+### 6.5 Franquia gratuita não é desconto — e a diferença muda o número
+
+As três nuvens anunciam "camada gratuita", e as três querem dizer coisas diferentes:
+
+| Provedor | O que é | Entra no cenário? |
+|---|---|---|
+| AWS | Free Tier promocional, na mesma conta e no mesmo tier da operação | Sim, mas **só nos 12 primeiros meses** |
+| Microsoft Azure | Tier **F0**, um recurso separado do tier pago, com cota e limites próprios | **Não** — e na transcrição em lote o F0 **nem oferece a operação** |
+| Google Cloud | Primeira **faixa da própria tabela**, cobrada a 0,00 USD | Sim, permanente |
+
+A consequência prática aparece no número: descontar as 5 horas gratuitas do F0 da Azure de uma fatura de transcrição em lote produziria $29,10 em vez dos **$30,00** corretos — um desconto que a Microsoft não concede, porque a operação não existe naquele tier. Por isso `custos/franquias.csv` registra, para cada franquia, se ela é aplicável ao cenário e por quê, e `custos/resultados.csv` carrega essa decisão na coluna `franquia_aplicada`.
+
+Pela mesma razão, a comparação principal usa os preços **sem franquia**: é a única base que significa a mesma coisa nos três. Onde a franquia é permanente — Google em NLP e visão —, a cobrança habitual é a coluna com franquia, e isso está dito nos capítulos.
+
+### 6.6 O que a documentação não permite concluir
 
 A análise é **documental**. Ela não estabelece qual serviço classifica sentimento com mais acerto, qual rotula imagens de forma mais útil, ou qual transcreve português do Brasil com menos erros. Essas perguntas exigem execução, dados de teste, gabarito e medição — objeto da Etapa 2.

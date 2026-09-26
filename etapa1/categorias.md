@@ -64,7 +64,7 @@ Para que a comparação técnica e a de custos usem a mesma tarefa, foi fixada u
 
 A comparação é entre serviços concorrentes, não entre implementações idênticas. As diferenças abaixo foram identificadas já na fase de seleção e impedem tratar as saídas como intercambiáveis:
 
-- **Formato de saída do sentimento diverge entre os três.** A AWS retorna uma classe entre `POSITIVE`, `NEGATIVE`, `NEUTRAL` e `MIXED`, mais um score para cada uma. A Azure retorna rótulo `positive`/`neutral`/`negative` com confiança de 0 a 1, em nível de documento **e** de sentença. O Google **não retorna classe**: devolve `score` (de −1 a +1) e `magnitude`, exigindo que o desenvolvedor defina limiares. Comparar diretamente o `score` do Google com a confiança da Azure seria comparar grandezas diferentes.
+- **Formato de saída do sentimento diverge entre os três.** A AWS retorna uma classe entre `POSITIVE`, `NEGATIVE`, `NEUTRAL` e `MIXED`, mais um score para cada uma. A Azure retorna rótulo em nível de documento **e** de sentença, com três scores de confiança de 0 a 1; no documento o rótulo pode ainda ser `mixed`, quando há sentenças positivas e negativas. O Google **não retorna classe**: devolve `score` (de −1 a +1) e `magnitude`, exigindo que o desenvolvedor defina limiares. Comparar diretamente o `score` do Google com a confiança da Azure seria comparar grandezas diferentes.
 - **Rótulos de imagem não têm taxonomia comum.** A AWS retorna `Name` com `Parents`, `Aliases` e `Categories` e confiança de 0 a 100; o Google retorna `description`, `score` (0 a 1), `topicality` e `mid` (identificador do Knowledge Graph); a Azure retorna tags com confiança própria. Nomes e granularidade não coincidem.
 - **Processamento em lote de áudio tem latência muito diferente de tempo real.** A própria documentação da Azure afirma que a fila de lote pode levar até 30 minutos para iniciar e até 24 horas para concluir em horários de pico, com p90 abaixo de 6 horas. Isso não é medida de qualidade do modelo e não será apresentado como tal nesta etapa.
 
@@ -81,8 +81,14 @@ Os capítulos `nlp.md`, `visao.md` e `fala.md` respondem às mesmas oito pergunt
 7. **Quanto custa** (unidade de cobrança, faixas, franquia, cenário calculado)?
 8. **Para qual cenário é adequado**, considerando técnica e custo em conjunto.
 
-## 7. Pendências desta fase
+## 7. Situação das pendências desta fase
 
-- Confirmar o **suporte a português** de cada serviço na operação comparada, na página oficial de idiomas suportados (será feito ao escrever cada capítulo, com fonte e data).
-- Confirmar os **limites numéricos de entrada** do Amazon Comprehend e da Cloud Natural Language API (tamanho máximo de documento), ainda não coletados.
-- Os **preços** ainda não foram levantados; isso é objeto da Fase 4, com região fixada em US East e moeda USD.
+Este documento foi escrito na Fase 2, antes dos capítulos e dos custos. As três pendências que ele registrou foram todas resolvidas depois — e ficam aqui com o desfecho, para que não reste dúvida sobre qual informação vale:
+
+| Pendência registrada na Fase 2 | Situação atual | Onde está |
+|---|---|---|
+| Confirmar o **suporte a português** de cada serviço na operação comparada | **Resolvida.** Os nove serviços foram conferidos nas páginas oficiais de idiomas | Seção 3.2 de `nlp.md`, 3.3 de `fala.md`; fontes `NLP-*-03`, `FAL-*-03` |
+| Confirmar os **limites numéricos de entrada** do Comprehend e da Cloud Natural Language | **Resolvida.** 5 KB por documento no Comprehend; 1.000.000 de bytes e 100.000 tokens no Google | Seção 3.1 de `nlp.md`; fontes `NLP-AWS-02` e `NLP-GC-03` |
+| Levantar os **preços** | **Resolvida.** Nove linhas de preço verificadas em fonte oficial, com região e data | `custos/premissas.csv`, `custos/resultados.csv` e a seção 6 de cada capítulo |
+
+As pendências que **continuam** abertas ao fim da Etapa 1 estão listadas em `relatorio/partes/04_limitacoes.md` e no fim de cada capítulo.

@@ -44,10 +44,12 @@ IDIOMA = "pt"  # o Comprehend não distingue pt-BR de pt-PT
 REGIAO = os.environ.get("AWS_REGION", "us-east-1")
 
 
+# --- TRECHO CITADO NO RELATÓRIO (início) ---
 def detectar_sentimento(texto: str, idioma: str = IDIOMA) -> dict:
     """Envia um documento e devolve a resposta completa do DetectSentiment."""
     cliente = boto3.client("comprehend", region_name=REGIAO)
     return cliente.detect_sentiment(Text=texto, LanguageCode=idioma)
+# --- TRECHO CITADO NO RELATÓRIO (fim) ---
 
 
 def main() -> None:

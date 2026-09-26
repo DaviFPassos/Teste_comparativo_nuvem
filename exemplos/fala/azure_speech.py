@@ -61,6 +61,7 @@ INTERVALO_CONSULTA_S = 60
 
 def criar_transcricao() -> str:
     """Passo 1 — envio: cria a transcrição e devolve a URL do recurso criado."""
+    # --- TRECHO CITADO NO RELATÓRIO (início) ---
     corpo = {
         "contentUrls": [URL_AUDIO],
         "locale": IDIOMA,
@@ -68,6 +69,7 @@ def criar_transcricao() -> str:
         "properties": {"wordLevelTimestampsEnabled": True},
     }
     resposta = requests.post(BASE, headers=CABECALHOS, json=corpo, timeout=30)
+    # --- TRECHO CITADO NO RELATÓRIO (fim) ---
     resposta.raise_for_status()
     return resposta.json()["self"]
 

@@ -50,12 +50,14 @@ def detectar_rotulos(caminho: str) -> dict:
     with open(caminho, "rb") as arquivo:
         bytes_imagem = arquivo.read()
 
+    # --- TRECHO CITADO NO RELATÓRIO (início) ---
     return cliente.detect_labels(
         Image={"Bytes": bytes_imagem},
         MaxLabels=MAX_LABELS,
         MinConfidence=MIN_CONFIANCA,
         Features=["GENERAL_LABELS"],
     )
+    # --- TRECHO CITADO NO RELATÓRIO (fim) ---
 
 
 def main() -> None:

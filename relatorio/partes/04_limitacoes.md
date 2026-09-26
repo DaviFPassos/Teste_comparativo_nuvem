@@ -4,7 +4,9 @@ Registradas para delimitar o alcance das conclusões:
 
 **1. Nenhum exemplo de código foi executado.** A seção 3 do enunciado permite isso nesta etapa. Consequentemente, não há neste relatório qualquer medição de latência, taxa de acerto, taxa de erro ou comportamento em produção.
 
-**2. As conclusões valem para a data e a região declaradas.** Preços de nuvem mudam. Todos os valores são de **US East, em USD, consultados em 23/09/2026**, com a fonte de cada um registrada em `custos/premissas.csv`. Uma consulta futura pode divergir, e a reprodução dos cálculos exige reverificar as premissas.
+**2. As conclusões valem para a data e a região declaradas.** Preços de nuvem mudam. Todos os valores são de **23/09/2026, em USD**, com a fonte de cada um registrada em `custos/premissas.csv`. Uma consulta futura pode divergir, e a reprodução dos cálculos exige reverificar as premissas.
+
+**2a. As regiões não são idênticas nas três nuvens.** AWS em `us-east-1` e Azure em `East US`; no Google, Natural Language e Vision têm preço global, e a Cloud Speech-to-Text V2 foi consultada em **`us-central1` (Iowa)**, que é US Central. A comparação de custo de transcrição, portanto, não é entre três regiões equivalentes, e a diferença de preço entre regiões do Google não foi levantada.
 
 **3. As cargas dos cenários são hipotéticas.** 100.000 documentos, 100.000 imagens e 10.000 minutos de áudio são quantidades escolhidas pelo grupo para permitir comparação, não estimativas de uso real de nenhuma aplicação. O que garante a validade da comparação não é a quantidade em si, mas o fato de ser **idêntica entre provedores**.
 
@@ -20,6 +22,7 @@ Registradas para delimitar o alcance das conclusões:
 | Franquia gratuita da tabela Recognition da Cloud Speech-to-Text **V2** | Não localizada; a faixa de 60 minutos consta das tabelas da V1 |
 | Valor padrão de `MinConfidence` do `DetectLabels` | Não localizado; o exemplo de código fixa o parâmetro explicitamente |
 | Limite de tags por imagem no Azure Image Analysis | Não localizado nas páginas consultadas |
+| Limites de tamanho e duração do `BatchRecognize` da Cloud Speech-to-Text V2 | Não localizados nas páginas consultadas (os equivalentes da Azure foram localizados na tabela oficial de cotas) |
 
 Nenhuma dessas lacunas foi preenchida por estimativa.
 

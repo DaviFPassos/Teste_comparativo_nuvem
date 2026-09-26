@@ -1,5 +1,20 @@
 # Diagnóstico da Etapa 1 — exigências do enunciado × material existente
 
+> ## ⚠️ DOCUMENTO HISTÓRICO — NÃO DESCREVE O ESTADO ATUAL
+>
+> Este é o **retrato do ponto de partida**, feito em 23/09/2026, antes de qualquer
+> conteúdo ser produzido. É por isso que quase toda exigência aparece como
+> `ausente`: naquele momento ela estava mesmo.
+>
+> **Nenhuma linha deste arquivo deve ser lida como pendência atual.** Ele é
+> mantido no repositório porque registra o que existia antes e justifica as
+> decisões tomadas em seguida — não porque descreva a entrega.
+>
+> Para o estado atual, ver: `STATUS.md` (situação geral, artefatos produzidos e
+> pendências que restam), `relatorio/relatorio_etapa1.md` (entrega consolidada) e a
+> seção de pendências ao fim de cada capítulo em `etapa1/`. Os artefatos previstos
+> nas ações desta tabela existem todos, e estão listados em `STATUS.md`.
+
 **Data do diagnóstico:** 23/09/2026
 **Fonte das exigências:** `pdfs/Computação em Nuvem - Trabalho I_ Comparação de Serviços de Inteligência Artificial em Nuvem.pdf` (5 páginas), seções 1 a 6 e 12.
 
@@ -46,7 +61,7 @@ O `etapas/ROTEIRO_ETAPA1.md` (seções 1 e 4) pressupõe que o grupo já possui 
 | 17 | README identificando o trabalho e os integrantes e dando acesso aos artefatos | 6, p. 3 | README publicado com título, integrantes, objetivo, categorias e estrutura; links para artefatos ainda apontam para itens "a criar" | parcial | Atualizar os links quando os arquivos existirem (Fase 6) |
 | 18 | Usar prioritariamente documentação oficial dos provedores, em especial APIs/SDKs e páginas de preços | 12, p. 5 | — | ausente | Registrar cada fonte em `referencias/fontes.md` com data real de consulta (Fases 2 a 4) |
 
-## Resumo
+## Resumo do ponto de partida (23/09/2026 — não do estado atual)
 
 - **atendido:** 0
 - **parcial:** 3 (itens 2, 15, 17)

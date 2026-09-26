@@ -18,8 +18,12 @@ Duas decisões metodológicas merecem registro:
 
 | Parâmetro | Valor |
 |---|---|
-| Região de referência | **US East** — `us-east-1` (N. Virginia) / `East US` / `us-central1` |
+| AWS | **`us-east-1`** (N. Virginia) nas três categorias |
+| Microsoft Azure | **`East US`** nas três categorias |
+| Google Cloud | **Preço global** em Natural Language e Vision; **`us-central1`** (Iowa) em Speech-to-Text |
 | Moeda | **USD** |
 | Data de consulta dos preços | **23/09/2026** |
 
-A região US East foi escolhida por ser a região de referência das três tabelas de preço e por ter as nove ofertas disponíveis. Duas das APIs do Google comparadas (Natural Language e Vision) têm **preço global, não regional** — o que está registrado nas premissas.
+US East foi escolhida por ser a região de referência das tabelas da AWS e da Azure e por ter as nove ofertas disponíveis. Duas das APIs do Google comparadas (Natural Language e Vision) têm **preço global, não regional**.
+
+**Uma ressalva explícita sobre a terceira.** A tabela da Cloud Speech-to-Text V2 é regional, e o preço utilizado é o de **`us-central1` (Iowa)** — que é US Central, **não** US East. Essa é a única linha do trabalho em que a região do Google não coincide com a das outras duas, e ela está registrada assim em `custos/premissas.csv` e na lista de limitações, em vez de ser apresentada como se fosse a mesma região.

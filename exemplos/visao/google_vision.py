@@ -50,7 +50,9 @@ def detectar_rotulos(caminho: str):
     with open(caminho, "rb") as arquivo:
         imagem = vision.Image(content=arquivo.read())
 
+    # --- TRECHO CITADO NO RELATÓRIO (início) ---
     resposta = cliente.label_detection(image=imagem, max_results=MAX_RESULTADOS)
+    # --- TRECHO CITADO NO RELATÓRIO (fim) ---
 
     if resposta.error.message:
         raise RuntimeError(resposta.error.message)

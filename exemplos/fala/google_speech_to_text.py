@@ -14,6 +14,8 @@ ESTADO DE VALIDAÇÃO: exemplo ILUSTRATIVO, NÃO EXECUTADO pelo grupo.
 FONTES DA ADAPTAÇÃO (consultadas em 23/09/2026):
     https://docs.cloud.google.com/speech-to-text/v2/docs/transcription-model
     https://docs.cloud.google.com/speech-to-text/v2/docs/speech-to-text-supported-languages
+    Campos do resultado por arquivo (consultado em 26/09/2026):
+    https://docs.cloud.google.com/python/docs/reference/speech/latest/google.cloud.speech_v2.types.BatchRecognizeFileResult
 
 DEPENDÊNCIA (declarada no bloco PEP 723 no topo do arquivo):
     google-cloud-speech
@@ -28,10 +30,13 @@ AUTENTICAÇÃO:
         GOOGLE_APPLICATION_CREDENTIALS=/caminho/para/conta-de-servico.json
 
 PARTICULARIDADE DESTE PROVEDOR:
-    É o único dos três que expõe a ESCOLHA DO MODELO na operação comparada.
-    Para pt-BR estão documentados os modelos chirp_3, long, short, telephony e
-    telephony_short. Usamos 'long', adequado a arquivos de áudio longos.
-    O modelo chirp_3 acrescenta diarização (separação de locutores).
+    Expõe a ESCOLHA DO MODELO por perfis prontos de áudio: para pt-BR estão
+    documentados chirp_3, long, short, telephony e telephony_short. Usamos
+    'long', adequado a arquivos de áudio longos. O chirp_3 acrescenta
+    diarização (separação de locutores).
+    A Azure também aceita um campo `model`, mas apontando para a URI de outro
+    modelo (base, custom speech ou Whisper) — é outra liberdade, não a mesma.
+    A AWS não expõe essa escolha na transcrição em lote padrão.
 """
 
 import os
@@ -62,6 +67,7 @@ def main() -> None:
     )
 
     # Passo 1 — envio: BatchRecognize devolve uma operação de longa duração.
+    # --- TRECHO CITADO NO RELATÓRIO (início) ---
     requisicao = cloud_speech.BatchRecognizeRequest(
         recognizer=reconhecedor,
         config=config,
@@ -72,6 +78,7 @@ def main() -> None:
     )
 
     operacao = cliente.batch_recognize(request=requisicao)
+    # --- TRECHO CITADO NO RELATÓRIO (fim) ---
 
     # Passo 2 — acompanhamento: aguarda a operação concluir.
     print("Aguardando a conclusão da operação em lote...")
@@ -80,7 +87,11 @@ def main() -> None:
     # Passo 3 — obtenção: lê a transcrição de cada arquivo enviado.
     for uri, resultado in resposta.results.items():
         print(f"\nArquivo: {uri}")
-        for trecho in resultado.transcript.results:
+        # `resultado.transcript` está DESCONTINUADO na referência da API
+        # ("Deprecated. Use inline_result.transcript instead"). Com
+        # InlineOutputConfig, a transcrição vem em inline_result.transcript;
+        # com GcsOutputConfig, viria em cloud_storage_result.
+        for trecho in resultado.inline_result.transcript.results:
             if trecho.alternatives:
                 alternativa = trecho.alternatives[0]
                 print(f"  {alternativa.transcript} (confiança {alternativa.confidence:.4f})")

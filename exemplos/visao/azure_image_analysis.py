@@ -64,10 +64,12 @@ def main() -> None:
 
     # Apenas TAGS: uma única feature, para manter a carga equivalente à dos
     # outros provedores no cenário de custo.
+    # --- TRECHO CITADO NO RELATÓRIO (início) ---
     resultado = cliente.analyze(
         image_data=bytes_imagem,
         visual_features=[VisualFeatures.TAGS],
     )
+    # --- TRECHO CITADO NO RELATÓRIO (fim) ---
 
     if resultado.tags is not None:
         for tag in resultado.tags.list:

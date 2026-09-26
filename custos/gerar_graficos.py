@@ -108,7 +108,8 @@ def grafico_nlp(linhas):
     ax.set_xticklabels([f"{c:,} caracteres".replace(",", ".") for c in comprimentos])
     estilizar(ax,
               "Análise de sentimento: custo de 100.000 documentos",
-              "Por comprimento do documento · US East · USD · sem franquia · preços de 23/09/2026",
+              "Por comprimento do documento · AWS us-east-1 · Azure East US · Google global · "
+              "USD · sem franquia · preços de 23/09/2026",
               "Custo mensal (USD)")
     ax.legend(frameon=False, fontsize=9, labelcolor=TINTA_FRACA, ncols=3,
               loc="upper left", bbox_to_anchor=(0, -0.09))
@@ -128,7 +129,8 @@ def grafico_visao(linhas):
     rotular(ax, barras)
     estilizar(ax,
               "Detecção de rótulos: custo de 100.000 imagens",
-              "Uma feature por imagem · US East · USD · sem franquia · preços de 23/09/2026",
+              "Uma feature por imagem · AWS us-east-1 · Azure East US · Google global · "
+              "USD · sem franquia · preços de 23/09/2026",
               "Custo mensal (USD)")
     salvar(fig, "custos_visao.png")
 
@@ -155,7 +157,8 @@ def grafico_fala(linhas):
     rotular(ax, barras)
     estilizar(ax,
               "Transcrição em lote: custo de 10.000 minutos de áudio",
-              "pt-BR · US East · USD · sem franquia · preços de 23/09/2026",
+              "pt-BR · AWS us-east-1 · Azure East US · Google us-central1 · "
+              "USD · sem franquia · preços de 23/09/2026",
               "Custo mensal (USD)")
     salvar(fig, "custos_fala.png")
 

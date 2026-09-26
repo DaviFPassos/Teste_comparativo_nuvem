@@ -28,6 +28,6 @@ Durante a pesquisa constatou-se que **a Microsoft reorganizou suas ofertas de IA
 
 A comparação é entre serviços **concorrentes**, não idênticos. Três limites à equivalência foram identificados já na seleção e são retomados nos capítulos:
 
-- **O formato de saída do sentimento diverge nos três.** AWS retorna uma de quatro classes com scores; Azure retorna rótulo entre três classes com confiança, em nível de documento e sentença; o Google não retorna classe alguma, apenas `score` e `magnitude`.
+- **O formato de saída do sentimento diverge nos três.** A AWS retorna uma de quatro classes, com um score para cada uma. A Azure retorna rótulo em nível de documento **e** de sentença, com três scores de confiança — mas **quatro** rótulos possíveis no documento, porque `mixed` aparece quando há sentenças positivas e negativas. O Google não retorna classe alguma, apenas `score` e `magnitude`.
 - **Os vocabulários de rótulos de imagem não têm equivalência oficial**, e as escalas de confiança diferem (0–100 na AWS, 0–1 nos demais).
 - **"Lote" significa compromissos de tempo diferentes** em cada provedor na transcrição de áudio, o que afeta diretamente a comparação de preço.

@@ -15,6 +15,9 @@ ESTADO DE VALIDAÇÃO: exemplo ILUSTRATIVO, NÃO EXECUTADO pelo grupo.
 FONTE DA ADAPTAÇÃO:
     https://learn.microsoft.com/en-us/azure/ai-services/language-service/sentiment-opinion-mining/overview
     (consultado em 23/09/2026)
+    Regra do rótulo de documento (incluindo `mixed`):
+    https://learn.microsoft.com/en-us/azure/ai-services/language-service/sentiment-opinion-mining/how-to/call-api
+    (consultado em 26/09/2026)
 
 DEPENDÊNCIA (declarada no bloco PEP 723 no topo do arquivo):
     azure-ai-textanalytics
@@ -60,15 +63,19 @@ def criar_cliente() -> TextAnalyticsClient:
 def main() -> None:
     cliente = criar_cliente()
 
+    # --- TRECHO CITADO NO RELATÓRIO (início) ---
     # A API recebe uma LISTA de documentos, mesmo para um único texto.
     resultados = cliente.analyze_sentiment(documents=[TEXTO], language=IDIOMA)
+    # --- TRECHO CITADO NO RELATÓRIO (fim) ---
 
     for documento in resultados:
         if documento.is_error:
             print("Erro:", documento.error)
             continue
 
-        # Rótulo do documento: positive, neutral ou negative.
+        # Rótulo do documento: positive, neutral, negative ou mixed.
+        # `mixed` sai quando o documento tem ao menos uma sentença positiva e
+        # ao menos uma negativa; não há score de confiança próprio para ele.
         print("Classe do documento:", documento.sentiment)
         print(f"  positive: {documento.confidence_scores.positive:.4f}")
         print(f"  neutral:  {documento.confidence_scores.neutral:.4f}")

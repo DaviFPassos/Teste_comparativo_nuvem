@@ -14,7 +14,11 @@
 
 **Provedores analisados:** Amazon Web Services · Microsoft Azure · Google Cloud
 
-**Região de referência:** US East · **Moeda:** USD · **Preços consultados em:** 23/09/2026
+**Região dos preços:** `us-east-1` (AWS) · `East US` (Azure) · global em NLP e visão e `us-central1` em fala (Google Cloud)
+
+**Moeda:** USD · **Preços consultados em:** 23/09/2026
+
+**Repositório público (código, dados, gráficos e capítulos completos):** https://github.com/DaviFPassos/Teste_comparativo_nuvem
 
 ---
 
@@ -39,11 +43,15 @@ Duas decisões metodológicas merecem registro:
 
 | Parâmetro | Valor |
 |---|---|
-| Região de referência | **US East** — `us-east-1` (N. Virginia) / `East US` / `us-central1` |
+| AWS | **`us-east-1`** (N. Virginia) nas três categorias |
+| Microsoft Azure | **`East US`** nas três categorias |
+| Google Cloud | **Preço global** em Natural Language e Vision; **`us-central1`** (Iowa) em Speech-to-Text |
 | Moeda | **USD** |
 | Data de consulta dos preços | **23/09/2026** |
 
-A região US East foi escolhida por ser a região de referência das três tabelas de preço e por ter as nove ofertas disponíveis. Duas das APIs do Google comparadas (Natural Language e Vision) têm **preço global, não regional** — o que está registrado nas premissas.
+US East foi escolhida por ser a região de referência das tabelas da AWS e da Azure e por ter as nove ofertas disponíveis. Duas das APIs do Google comparadas (Natural Language e Vision) têm **preço global, não regional**.
+
+**Uma ressalva explícita sobre a terceira.** A tabela da Cloud Speech-to-Text V2 é regional, e o preço utilizado é o de **`us-central1` (Iowa)** — que é US Central, **não** US East. Essa é a única linha do trabalho em que a região do Google não coincide com a das outras duas, e ela está registrada assim em `custos/premissas.csv` e na lista de limitações, em vez de ser apresentada como se fosse a mesma região.
 
 
 ## 2. Seleção das categorias e critérios
@@ -76,7 +84,7 @@ Durante a pesquisa constatou-se que **a Microsoft reorganizou suas ofertas de IA
 
 A comparação é entre serviços **concorrentes**, não idênticos. Três limites à equivalência foram identificados já na seleção e são retomados nos capítulos:
 
-- **O formato de saída do sentimento diverge nos três.** AWS retorna uma de quatro classes com scores; Azure retorna rótulo entre três classes com confiança, em nível de documento e sentença; o Google não retorna classe alguma, apenas `score` e `magnitude`.
+- **O formato de saída do sentimento diverge nos três.** A AWS retorna uma de quatro classes, com um score para cada uma. A Azure retorna rótulo em nível de documento **e** de sentença, com três scores de confiança — mas **quatro** rótulos possíveis no documento, porque `mixed` aparece quando há sentenças positivas e negativas. O Google não retorna classe alguma, apenas `score` e `magnitude`.
 - **Os vocabulários de rótulos de imagem não têm equivalência oficial**, e as escalas de confiança diferem (0–100 na AWS, 0–1 nos demais).
 - **"Lote" significa compromissos de tempo diferentes** em cada provedor na transcrição de áudio, o que afeta diretamente a comparação de preço.
 
@@ -107,22 +115,64 @@ Cada provedor também oferece modos adicionais, que **não** entram na comparaç
 
 ### 3. Comparação técnica
 
-As tabelas abaixo trazem a comparação que mais pesa na escolha. O detalhamento completo — limites numéricos, cotas, formatos aceitos, autenticação e configuração — está em [`etapa1/nlp.md`](../etapa1/nlp.md).
+As tabelas abaixo comparam entradas, saídas, formas de acesso, autenticação, limites e avisos oficiais dos três serviços. O capítulo completo — com a fonte oficial de cada afirmação e as pendências de verificação — está em [`etapa1/nlp.md`](https://github.com/DaviFPassos/Teste_comparativo_nuvem/blob/main/etapa1/nlp.md).
 
 
 #### 3.1 Funcionalidades, entradas e saídas
 
 | Aspecto | Amazon Comprehend | Azure Language | Cloud Natural Language |
 |---|---|---|---|
-| **Formato da saída** | Uma classe entre `POSITIVE`, `NEGATIVE`, `NEUTRAL` e `MIXED`, mais `SentimentScore` com um score para cada uma das quatro classes | Rótulo `positive`, `neutral` ou `negative`, com scores de confiança de 0 a 1 para as três classes | **Não retorna classe.** Devolve `score` (de −1,0 a +1,0) e `magnitude` (intensidade acumulada, não normalizada) |
+| **Formato da saída** | Uma classe entre `POSITIVE`, `NEGATIVE`, `NEUTRAL` e `MIXED`, mais `SentimentScore` com um score para cada uma das quatro classes | Rótulo `positive`, `neutral`, `negative` ou `mixed` — este último **só em nível de documento**; três scores de confiança de 0 a 1 (positivo, neutro e negativo), que somam 1 | **Não retorna classe.** Devolve `score` (de −1,0 a +1,0) e `magnitude` (intensidade acumulada, não normalizada) |
 | **Granularidade** | Documento | **Documento e sentença** (ambos na mesma resposta) | Documento e sentença |
-| **Classe para texto ambíguo** | `MIXED` é uma classe própria, distinta de `NEUTRAL` | Não há classe `mixed` na saída de documento; o rótulo sai do maior score | Não há classe; cabe ao desenvolvedor definir limiares |
+| **Classe para texto ambíguo** | `MIXED` é uma **classe do próprio modelo**, distinta de `NEUTRAL`, com score próprio em `SentimentScore` | **`mixed` existe em nível de documento**, mas é **composto a partir das sentenças**: sai quando há ao menos uma sentença positiva e ao menos uma negativa. Não tem score de confiança próprio | Não há classe; cabe ao desenvolvedor definir limiares |
 | **Codificação de entrada** | UTF-8 | Texto (string única por documento) | UTF-8 |
 | **Tamanho máximo do documento** | **5 KB** por documento na operação síncrona de sentimento | **5.120 caracteres** por documento (síncrono), medidos por `StringInfo.LengthInTextElements` | **1.000.000 bytes** de conteúdo; até 100.000 tokens por requisição |
 | **Documentos por requisição** | 1 (`DetectSentiment`); até 25 em `BatchDetectSentiment` | **10** documentos por requisição em análise de sentimento | 1 documento por requisição |
 | **Tamanho máximo da requisição** | — | 1 MB | — |
 
 O contraste mais importante para quem integra: **a AWS e a Azure entregam uma decisão pronta (uma classe), enquanto o Google entrega apenas um número contínuo.** Usar o Google exige que a aplicação defina os limiares que separam positivo, neutro e negativo — uma decisão de produto que os outros dois já tomam pelo desenvolvedor. Além disso, `magnitude` (Google) e `SentimentScore` (AWS) e confiança (Azure) são grandezas diferentes e não podem ser comparadas entre si.
+
+**Como a Azure decide o rótulo do documento.** A documentação oficial publica a regra, e ela **não** é "o maior dos três scores":
+
+| Sentenças do documento | Rótulo devolvido para o documento |
+|---|---|
+| Ao menos uma positiva, as demais neutras | `positive` |
+| Ao menos uma negativa, as demais neutras | `negative` |
+| Ao menos uma positiva **e** ao menos uma negativa | **`mixed`** |
+| Todas neutras | `neutral` |
+
+São, portanto, **três scores de confiança e quatro rótulos possíveis** no nível do documento. Isso muda a leitura da comparação: **dois dos três provedores rotulam texto ambíguo** — o que difere é o caminho. Na AWS, `MIXED` é uma classe do próprio modelo, com score próprio, e pode sair de um documento de uma única frase. Na Azure, `mixed` é composto a partir dos rótulos das sentenças, o que exige sentenças de sinais opostos no mesmo documento e não vem acompanhado de score próprio. O Google não rotula.
+
+#### 3.2 Suporte a português
+
+| Provedor | Códigos aceitos | Total de idiomas na operação |
+|---|---|---|
+| Amazon Comprehend | `pt` (Português, sem distinção de variante) | 12 idiomas, e o sentimento cobre todos eles |
+| Azure Language | **`pt-BR` (Português do Brasil)** e `pt-PT` (Português de Portugal); `pt` também é aceito | **94 códigos de idioma** |
+| Cloud Natural Language | `pt` (Português, sem distinção de variante) | 16 idiomas na análise de sentimento |
+
+**Diferença relevante para aplicações brasileiras:** apenas a Azure distingue formalmente o português do Brasil do português de Portugal na análise de sentimento. AWS e Google tratam "português" como um único idioma. A documentação não afirma que essa distinção produza resultado melhor em textos brasileiros — isso seria uma conclusão experimental, fora do escopo desta etapa.
+
+#### 3.3 Formas de acesso, autenticação e configuração
+
+| Aspecto | Amazon Comprehend | Azure Language | Cloud Natural Language |
+|---|---|---|---|
+| **Acesso** | API REST, AWS SDKs (Python/boto3, Java, .NET, Node.js, Ruby...), AWS CLI | REST API, client libraries (C#, Java, JavaScript, Python), **contêiner Docker para execução local** | REST (`POST .../v1/documents:analyzeSentiment`), gRPC, client libraries |
+| **Autenticação** | Credenciais IAM (chave de acesso/segredo ou role), resolvidas pela cadeia padrão do SDK | **Chave do recurso + endpoint** próprios do recurso criado, ou Microsoft Entra ID | Conta de serviço com Application Default Credentials (`GOOGLE_APPLICATION_CREDENTIALS`) ou chave de API |
+| **Endpoint** | Regional (`comprehend.us-east-1.amazonaws.com`) | Endpoint próprio do recurso, vinculado à região escolhida na criação | `language.googleapis.com` (global) |
+| **Configuração mínima** | Região + credenciais | Criar um recurso *Azure Language in Foundry Tools*, obter chave e endpoint | Projeto com a API habilitada + credenciais |
+
+A Azure é a única das três que oferece **execução em contêiner local** da análise de sentimento, o que importa em cenários com restrição de saída de dados. Em contrapartida, é a única que exige criar previamente um recurso e administrar um par chave/endpoint específico dele.
+
+#### 3.4 Limites operacionais e de taxa
+
+| Aspecto | Amazon Comprehend | Azure Language | Cloud Natural Language |
+|---|---|---|---|
+| **Limite de requisições** | *Throttling* dinâmico: a AWS ajusta a vazão conforme a banda de processamento disponível, sem número fixo publicado para o modo síncrono | Depende do tier: **S/Multi-service 1.000 req/s**; **S0/F0 100 req/s e 300 req/min** | **600 requisições/minuto** e **800.000 requisições/dia** |
+| **Regiões** | 13 regiões, incluindo US East (N. Virginia) e US East (Ohio); **não há região no Brasil** na lista publicada | Endpoint regional; East US disponível | API global |
+| **Previsibilidade de vazão** | Baixa: não há cota publicada para planejar | Alta: cota explícita por tier | Alta: cota explícita |
+
+O *throttling* dinâmico da AWS é uma diferença prática relevante: não é possível dimensionar a aplicação a partir de um número publicado, e a própria documentação recomenda implementar limitação de taxa no cliente e ativar alertas de cobrança.
 
 #### 3.5 Situação do serviço (avisos oficiais)
 
@@ -138,9 +188,39 @@ Este é um critério de decisão concreto: escolher a análise de sentimento da 
 
 Os três exemplos executam a **mesma operação** sobre o **mesmo texto**, e estão em:
 
-- `exemplos/nlp/aws_comprehend.py`
-- `exemplos/nlp/azure_language.py`
-- `exemplos/nlp/google_natural_language.py`
+
+**[`exemplos/nlp/aws_comprehend.py`](https://github.com/DaviFPassos/Teste_comparativo_nuvem/blob/main/exemplos/nlp/aws_comprehend.py)** — trecho essencial. O arquivo completo, no link, traz a autenticação por variável de ambiente, o tratamento de erro, os limites do serviço e a fonte da adaptação:
+
+```python
+def detectar_sentimento(texto: str, idioma: str = IDIOMA) -> dict:
+    """Envia um documento e devolve a resposta completa do DetectSentiment."""
+    cliente = boto3.client("comprehend", region_name=REGIAO)
+    return cliente.detect_sentiment(Text=texto, LanguageCode=idioma)
+```
+
+
+**[`exemplos/nlp/azure_language.py`](https://github.com/DaviFPassos/Teste_comparativo_nuvem/blob/main/exemplos/nlp/azure_language.py)** — trecho essencial. O arquivo completo, no link, traz a autenticação por variável de ambiente, o tratamento de erro, os limites do serviço e a fonte da adaptação:
+
+```python
+# A API recebe uma LISTA de documentos, mesmo para um único texto.
+resultados = cliente.analyze_sentiment(documents=[TEXTO], language=IDIOMA)
+```
+
+
+**[`exemplos/nlp/google_natural_language.py`](https://github.com/DaviFPassos/Teste_comparativo_nuvem/blob/main/exemplos/nlp/google_natural_language.py)** — trecho essencial. O arquivo completo, no link, traz a autenticação por variável de ambiente, o tratamento de erro, os limites do serviço e a fonte da adaptação:
+
+```python
+documento = language_v1.Document(
+    content=TEXTO,
+    type_=language_v1.Document.Type.PLAIN_TEXT,
+    language=IDIOMA,
+)
+
+resposta = cliente.analyze_sentiment(
+    request={"document": documento, "encoding_type": language_v1.EncodingType.UTF8}
+)
+```
+
 
 **Estado de validação:** os três exemplos são **ilustrativos e não foram executados pelo grupo**. Foram adaptados da documentação oficial de cada provedor, conforme permitido pela seção 3 do enunciado ("Nesta etapa, os exemplos não precisam ter sido desenvolvidos ou executados pelo grupo"). Cada arquivo declara sua dependência, a fonte da adaptação e o mecanismo de autenticação. Nenhuma credencial está embutida no código: todos leem variáveis de ambiente.
 
@@ -162,9 +242,9 @@ A diferença de unidade é o fator que mais afeta o custo comparado: **um texto 
 
 #### Carga do cenário
 
-**100.000 documentos por mês**, submetidos um por chamada síncrona, em quatro comprimentos: **100, 500, 1.200 e 4.000 caracteres**. A quantidade é hipotética e declarada como tal; o que importa é que **é idêntica nos três provedores**, como exige a seção 4 do enunciado. Os quatro comprimentos existem justamente para expor o efeito do tamanho da unidade de cobrança.
+**100.000 documentos por mês**, submetidos um por chamada síncrona, em cinco comprimentos: **100, 500, 1.200, 4.000 e 4.100 caracteres**. A quantidade é hipotética e declarada como tal; o que importa é que **é idêntica nos três provedores**, como exige a seção 4 do enunciado. Os comprimentos existem para expor o efeito do tamanho da unidade de cobrança, e o de 4.100 entra especificamente para testar se o empate que aparece em 4.000 é um patamar ou uma coincidência.
 
-Todos os comprimentos cabem nos limites de entrada dos três serviços (o menor limite relevante é o de 5 KB do Comprehend).
+**Condições de entrada assumidas.** Um documento por requisição, texto plano, sem *opinion mining* nem análise por aspecto, e **um único idioma declarado** (`pt-BR` na Azure, `pt` na AWS e no Google). O limite do Comprehend é de **5 KB, medido em bytes**, e não em caracteres: em UTF-8 cada caractere acentuado ocupa 2 bytes, de modo que 4.100 caracteres só cabem nos 5 KB enquanto no máximo cerca de 25% deles forem acentuados (em português corrente, com 4% a 6% de acentuados, o documento fica em torno de 4,2 KB). Textos fora dessa condição precisariam ser divididos, e a divisão mudaria a contagem de unidades. Os limites da Azure (5.120 caracteres) e do Google (1.000.000 de bytes) não são atingidos em nenhum dos comprimentos.
 
 #### Fórmulas
 
@@ -184,28 +264,40 @@ O custo é progressivo por faixa: cada parcela do volume é cobrada ao preço da
 | 500 caracteres | 500.000 | **$50,00** | $100,00 | $100,00 |
 | 1.200 caracteres | 1.200.000 | **$120,00** | $200,00 | $200,00 |
 | 4.000 caracteres | 4.000.000 | $400,00 | $400,00 | $400,00 |
+| 4.100 caracteres | 4.100.000 | **$410,00** | $500,00 | $500,00 |
 
 ![Custo de análise de sentimento por comprimento de documento](../custos/graficos/custos_nlp.png)
 
 #### O que os números mostram
 
-O cenário revela um efeito que a tabela de preços isolada esconde: **para textos curtos, a granularidade da unidade importa mais que o preço unitário**. Um comentário de 100 caracteres consome 3 unidades de 100 caracteres na AWS, mas **uma unidade inteira de 1.000 caracteres** na Azure e no Google — pagando-se, nos dois casos, por 900 caracteres não enviados. O resultado é que a AWS custa **um terço** dos concorrentes nesse comprimento.
+O cenário revela um efeito que a tabela de preços isolada esconde: **para textos curtos, a granularidade da unidade importa mais que o preço unitário**. Um comentário de 100 caracteres consome 3 unidades de 100 caracteres na AWS, mas **uma unidade inteira de 1.000 caracteres** na Azure e no Google — pagando-se, nos dois casos, por 900 caracteres não enviados. O resultado é que a AWS cobra **30% do que cobram os concorrentes** nesse comprimento — uma redução de 70%, ou 3,3× mais barato.
 
-A vantagem encolhe conforme o texto cresce e **desaparece em 4.000 caracteres**, onde os três convergem para $400,00. A partir daí, o que separa os provedores não é mais a granularidade, e sim as faixas de volume.
+A vantagem encolhe conforme o texto cresce e **zera exatamente em 4.000 caracteres**, onde os três convergem para $400,00. Esse empate, porém, **é pontual e não um patamar**: ele só acontece em comprimentos que são múltiplos exatos de 1.000 caracteres. Um único caractere a mais já devolve a vantagem à AWS, porque Azure e Google arredondam para o milhar seguinte — foi para mostrar isso que o cenário inclui 4.100 caracteres:
 
-Isso tem consequência prática direta: **a escolha mais econômica depende do comprimento típico do texto da aplicação.** Para avaliações curtas de produto ou mensagens de chat, a diferença é de 3 para 1; para documentos longos, é irrelevante.
+| 100.000 documentos, sem franquia | AWS | Azure | Google |
+|---|---|---|---|
+| 4.000 caracteres | $400,00 | $400,00 | $400,00 |
+| 4.100 caracteres | **$410,00** | $500,00 | $500,00 |
+
+Acima de 4.000 caracteres, portanto, a diferença deixa de ser de 3× mas **não desaparece**: ela oscila conforme o resto da divisão do comprimento por 1.000, do empate exato até cerca de 22% a mais na Azure e no Google na vizinhança de 4.000 caracteres. O que muda a partir desse ponto é que a granularidade deixa de ser o fator dominante e passa a dividir espaço com as faixas de volume.
+
+Isso tem consequência prática direta: **a escolha mais econômica depende do comprimento típico do texto da aplicação.** Para avaliações curtas de produto ou mensagens de chat, a diferença chega a 3,3 para 1; para documentos longos, cai para a casa de 0% a 22%, e só pode ser resolvida calculando com a distribuição real de comprimentos da aplicação.
 
 #### Franquias
 
 As três franquias existem, mas **não são a mesma coisa** e por isso não entram na comparação principal:
 
-| Provedor | Franquia | Natureza |
-|---|---|---|
-| AWS | 50.000 unidades/mês por API | **Promocional**: vale 12 meses a partir da primeira requisição |
-| Azure | 5.000 registros/mês | **Tier F0 separado**, compartilhado entre várias features do Azure Language; não é desconto no tier S |
-| Google | 5.000 unidades/mês | **Faixa da própria tabela** cobrada a $0,00; permanente |
+| Provedor | Franquia | Natureza | Aplicável a este cenário? |
+|---|---|---|---|
+| AWS | 50.000 unidades/mês por API | **Promocional**: vale 12 meses a partir da primeira requisição | **Sim, só nos 12 primeiros meses** — abate a fatura da própria operação, na mesma conta e no mesmo tier |
+| Azure | 5.000 registros/mês | **Tier F0 separado**, compartilhado entre várias features do Azure Language | **Não** — é um recurso à parte, não um desconto no tier S usado no cenário |
+| Google | 5.000 unidades/mês | **Faixa da própria tabela** cobrada a $0,00; permanente | **Sim** — é a primeira faixa da tabela que já está sendo aplicada |
 
-Aplicadas ao cenário de 100 caracteres, reduzem o custo para $25,00 (AWS), $95,00 (Azure) e $95,00 (Google) — valores na coluna `custo_usd_com_franquia` de `custos/resultados.csv`. Como só a do Google é permanente e as três têm regras distintas, **a comparação principal usa os preços sem franquia**, que é a situação de regime.
+**Regra adotada em todo o trabalho.** A coluna `custo_usd_com_franquia` de `custos/resultados.csv` desconta **somente** as franquias que incidem sobre a operação comparada; a coluna `franquia_aplicada` registra a decisão linha por linha e `custos/franquias.csv` guarda a justificativa de cada caso. Abater o tier F0 da Azure de uma fatura do tier pago somaria duas coisas que a Microsoft cobra separadamente: o F0 é um **recurso à parte**, com cota e limites próprios, e não um desconto no recurso pago. Usá-lo exigiria dividir a carga entre dois recursos — uma hipótese de arquitetura que teria de ser definida e justificada, e que este cenário não adota.
+
+Aplicada essa regra ao cenário de 100 caracteres: **$25,00 na AWS** (e só durante os 12 primeiros meses), **$100,00 na Azure** (sem abatimento) e **$95,00 no Google** (permanente).
+
+**Leitura honesta da coluna do Google.** Como a faixa de 0,00 USD é parte permanente da tabela on-demand, **a cobrança habitual do Google é $95,00, não $100,00**. O valor sem franquia é uma simulação criada para manter a comparação simétrica com AWS e Azure, e não a fatura esperada. Nas tabelas deste capítulo os dois números aparecem lado a lado justamente por isso. Como duas das três franquias são temporárias ou inaplicáveis, **a comparação principal usa os preços sem franquia** — que é a situação de regime e a única diretamente comparável entre os três.
 
 ### 7. Síntese: vantagens, restrições e adequação por cenário
 
@@ -213,13 +305,13 @@ Aplicadas ao cenário de 100 caracteres, reduzem o custo para $25,00 (AWS), $95,
 
 **1. O Google não entrega uma decisão, entrega um número.** AWS e Azure devolvem uma classe pronta (`POSITIVE`/`positive`); o Google devolve `score` e `magnitude` e deixa para a aplicação definir onde ficam as fronteiras entre positivo, neutro e negativo. Isso não é detalhe de formato: é trabalho de produto transferido para quem integra, e uma decisão que precisa ser justificada e congelada antes de qualquer avaliação. Em compensação, dá controle a quem quer calibrar o limiar ao próprio domínio.
 
-**2. Só a AWS trata texto ambíguo como categoria.** A classe `MIXED` existe apenas no Comprehend. Na Azure, o rótulo sai do maior score entre três classes; no Google, não há classe alguma. Para uma aplicação que precisa separar "opinião dividida" de "sem opinião", só um dos três oferece isso pronto.
+**2. AWS e Azure rotulam texto ambíguo; o Google não — e as duas chegam lá por caminhos diferentes.** Na AWS, `MIXED` é uma classe do modelo, com score próprio em `SentimentScore`, e pode sair de um documento de uma única frase. Na Azure, `mixed` é um rótulo **de documento**, composto pela regra oficial: ao menos uma sentença positiva e ao menos uma negativa. A consequência prática para quem integra é essa: a AWS distingue "opinião dividida" de "sem opinião" já em textos de uma frase; a Azure só produz esse rótulo quando o documento tem sentenças de sinais opostos, e sem score próprio para ele. No Google não há classe alguma — quem integra define os limiares.
 
 **3. Só a Azure distingue português do Brasil.** `pt-BR` e `pt-PT` são códigos separados na Azure, contra um `pt` genérico na AWS e no Google. Para um produto brasileiro isso é atraente — mas **a documentação não promete resultado melhor**, e afirmar que produz seria extrapolar. É exatamente o tipo de hipótese que a Etapa 2 pode testar.
 
 #### Custo: a granularidade da unidade domina em textos curtos
 
-O cenário de 100.000 documentos mostrou que **a AWS custa um terço dos concorrentes em textos de 100 caracteres** ($30,00 contra $100,00), porque cobra em unidades de 100 caracteres enquanto Azure e Google cobram uma unidade inteira de 1.000. A vantagem some em 4.000 caracteres, onde os três convergem para $400,00.
+O cenário de 100.000 documentos mostrou que **a AWS cobra 30% do que cobram os concorrentes em textos de 100 caracteres** ($30,00 contra $100,00 — redução de 70%), porque cobra em unidades de 100 caracteres enquanto Azure e Google cobram uma unidade inteira de 1.000. A vantagem cai a zero em 4.000 caracteres, onde os três empatam em $400,00, mas volta em 4.100 ($410,00 contra $500,00): o empate vale para múltiplos exatos de 1.000 caracteres, e não para documentos longos em geral.
 
 Ou seja: **não existe "o mais barato" nesta categoria — existe o mais barato para o seu comprimento de texto.**
 
@@ -231,12 +323,12 @@ A análise de sentimento da Azure tem **encerramento anunciado para 31/03/2029**
 
 | Situação | Alternativa mais adequada | Por quê |
 |---|---|---|
-| Alto volume de **textos curtos** (avaliações, chat, comentários) | **Amazon Comprehend** | Unidade de 100 caracteres torna o custo até 3× menor; `MIXED` ajuda em opinião dividida |
+| Alto volume de **textos curtos** (avaliações, chat, comentários) | **Amazon Comprehend** | Unidade de 100 caracteres reduz o custo em 70% no cenário de 100 caracteres; `MIXED` sai com score próprio mesmo em textos de uma única frase |
 | Necessidade de **sentimento por sentença** junto com o do documento | **Azure Language** | Entrega os dois níveis na mesma resposta |
 | Restrição de **saída de dados** do ambiente próprio | **Azure Language** | Único dos três com contêiner Docker para execução local |
 | Aplicação que quer **calibrar o limiar** ao próprio domínio | **Cloud Natural Language** | O score contínuo é matéria-prima, não uma decisão já tomada |
 | Sistema com **horizonte longo de manutenção** | AWS ou Google | A oferta da Azure tem encerramento datado |
-| **Documentos longos** (acima de ~4.000 caracteres) | Indiferente no custo | Os três convergem; decidir por critério técnico |
+| **Documentos longos** (acima de ~4.000 caracteres) | Calcular com o comprimento real | O empate só vale em múltiplos exatos de 1.000 caracteres; fora deles a AWS continua até ~22% mais barata |
 
 **O que esta etapa não responde:** qual dos três classifica melhor sentimento em português. Isso exige execução, gabarito e medição — é o objeto da Etapa 2.
 
@@ -265,19 +357,58 @@ Escolheu-se a detecção de rótulos — e não detecção de objetos com caixas
 
 ### 3. Comparação técnica
 
-As tabelas abaixo trazem a comparação que mais pesa na escolha. O detalhamento completo — limites numéricos, cotas, formatos aceitos, autenticação e configuração — está em [`etapa1/visao.md`](../etapa1/visao.md).
+As tabelas abaixo comparam entradas, saídas, formas de acesso, autenticação, limites e avisos oficiais dos três serviços. O capítulo completo — com a fonte oficial de cada afirmação e as pendências de verificação — está em [`etapa1/visao.md`](https://github.com/DaviFPassos/Teste_comparativo_nuvem/blob/main/etapa1/visao.md).
 
 
 #### 3.1 Entradas: formatos e limites
 
 | Aspecto | Amazon Rekognition | Azure Image Analysis | Cloud Vision API |
 |---|---|---|---|
-| **Formatos aceitos** | **Apenas PNG e JPEG** | v4.0: JPEG, PNG, GIF, BMP, WEBP, ICO, TIFF, MPO · v3.2: JPEG, PNG, GIF, BMP | JPEG, PNG8, PNG24, GIF, GIF animado (só o primeiro quadro), BMP, WEBP, RAW, ICO, PDF, TIFF |
+| **Formatos aceitos** | **Apenas PNG e JPEG** | v4.0: JPEG, PNG, GIF, BMP, WEBP, ICO, TIFF, MPO · v3.2: JPEG, PNG, GIF, BMP | Em `images:annotate` (o endpoint comparado): JPEG, PNG8, PNG24, GIF, GIF animado (só o primeiro quadro), BMP, WEBP, RAW, ICO. **PDF e TIFF existem, mas por outro endpoint** — ver nota abaixo |
 | **Tamanho máximo** | **15 MB** como objeto no Amazon S3; **5 MB** quando enviada como bytes na requisição | v4.0: **menos de 20 MB** · v3.2: **menos de 4 MB** | **20 MB** por imagem; requisição JSON limitada a **10 MB** |
 | **Dimensões** | Mínimo 80×80 px; máximo **10.000 px** de largura e altura para `DetectLabels` | Entre **50×50** e **16.000×16.000** px | Resolução recomendada de **640×480 px** para `LABEL_DETECTION` |
 | **Origem da imagem** | Objeto no Amazon S3 ou bytes na requisição | Bytes na requisição ou URL da imagem | Arquivo local em base64, URI do Cloud Storage (`gs://`) ou URL remota |
 
-O Cloud Vision aceita a maior variedade de formatos (inclusive PDF e RAW) e o Rekognition a menor (só PNG e JPEG). Para um pipeline que recebe upload livre de usuários, isso significa que **a AWS exige uma etapa de conversão** que os outros dois dispensam em vários casos.
+O Cloud Vision aceita a maior variedade de formatos e o Rekognition a menor (só PNG e JPEG). Para um pipeline que recebe upload livre de usuários, isso significa que **a AWS exige uma etapa de conversão** que os outros dois dispensam em vários casos.
+
+**PDF e TIFF no Cloud Vision são outro caminho, não o mesmo.** A lista oficial de formatos suportados inclui PDF e TIFF, mas eles **não** são aceitos pelo `images:annotate` usado nesta comparação: exigem o endpoint **`files:annotate`**, que trata o arquivo como documento de várias páginas. O `LABEL_DETECTION` está entre as features suportadas nesse endpoint, de modo que a capacidade existe — porém com fluxo, limites e condições próprios (entre eles, chaves de API não são aceitas em `files:annotate`). Misturar as duas coisas na mesma linha da tabela superestimaria a compatibilidade do endpoint comparado, e por isso os dois caminhos ficam separados aqui.
+
+#### 3.2 Saídas
+
+| Aspecto | Amazon Rekognition | Azure Image Analysis | Cloud Vision API |
+|---|---|---|---|
+| **Campos por rótulo** | `Name`, `Confidence`, `Parents` (hierarquia), `Aliases` (sinônimos), `Categories`, `Instances` (com `BoundingBox` quando aplicável) | Tags com nome e confiança | `mid` (identificador no Google Knowledge Graph), `description`, `score`, `topicality` |
+| **Escala da confiança** | **0 a 100** | 0 a 1 | **0 a 1** |
+| **Estrutura semântica** | Hierarquia explícita: um rótulo traz seus rótulos-pai, apelidos e categoria | Lista plana de tags | `mid` permite ligar o rótulo a uma entidade do Knowledge Graph |
+| **Controle de quantidade** | `MaxLabels` e `MinConfidence` | Parâmetros da chamada Analyze | `maxResults` (**padrão 10** se omitido) |
+| **Filtros** | `LabelInclusionFilters`, `LabelExclusionFilters`, `LabelCategoryInclusionFilters`, `LabelCategoryExclusionFilters` | — | — |
+| **Versão do modelo na resposta** | `LabelModelVersion` | — | — |
+
+Três diferenças importam na integração:
+
+1. **A escala de confiança não é a mesma.** A AWS usa 0–100 e os outros dois 0–1. Qualquer comparação ou limiar compartilhado exige normalização explícita.
+2. **A AWS é a única que devolve taxonomia.** `Parents`, `Aliases` e `Categories` permitem agrupar rótulos sem manter um dicionário próprio, e os filtros de inclusão/exclusão permitem restringir a resposta no servidor. Nos outros dois isso fica por conta da aplicação.
+3. **O Google é o único que devolve identificador estável** (`mid`) ligado ao Knowledge Graph, útil para associar rótulos a uma base de conhecimento em vez de comparar strings.
+
+Os vocabulários de rótulos **não são compatíveis entre provedores**: nomes, granularidade e idioma dos termos diferem, e não há tabela oficial de equivalência. Comparar "quantos rótulos cada um acertou" exigiria um gabarito próprio — trabalho de avaliação prática, não desta etapa.
+
+#### 3.3 Formas de acesso, autenticação e configuração
+
+| Aspecto | Amazon Rekognition | Azure Image Analysis | Cloud Vision API |
+|---|---|---|---|
+| **Acesso** | API REST, AWS SDKs (Python, Java, .NET, Node.js, Ruby), AWS CLI | REST API (`aka.ms/vision-4-0-ref`) e client library SDK | REST (`POST https://vision.googleapis.com/v1/images:annotate`), gRPC, client libraries, `gcloud ml vision detect-labels` |
+| **Autenticação** | Credenciais IAM; para ler imagem do S3, também permissão de leitura no bucket | Chave + endpoint do recurso *Azure Vision in Foundry Tools* | Application Default Credentials ou chave de API |
+| **Configuração mínima** | Região + credenciais (+ bucket S3, se usar essa origem) | Criar o recurso **em região suportada** (East US está na lista) | Projeto com a API habilitada |
+
+A Azure é a única das três com **restrição de região documentada para a própria funcionalidade**: a página oficial lista as regiões em que o Image Analysis existe, e recursos criados fora delas não atendem à operação. AWS e Google não impõem essa barreira para a operação comparada.
+
+#### 3.4 Limites operacionais e de taxa
+
+| Aspecto | Amazon Rekognition | Azure Image Analysis | Cloud Vision API |
+|---|---|---|---|
+| **Limite de requisições** | TPS por operação e por região, ajustável via AWS Service Quotas; erros `ProvisionedThroughputExceededException` e `ThrottlingException` são documentados como reentráveis | Conforme o tier do recurso | Cotas por projeto |
+| **Recomendação oficial** | Suavizar picos de tráfego (fila), configurar *retries* com *backoff* exponencial e *jitter* | — | — |
+| **Processamento em massa** | Image Bulk Analysis: lotes de até 10.000 imagens, manifesto de até 50 MB | — | — |
 
 #### 3.5 Situação do serviço (avisos oficiais)
 
@@ -293,9 +424,35 @@ Esse é o segundo serviço da Azure comparado neste trabalho com encerramento an
 
 Os três exemplos executam a **mesma operação** sobre a **mesma imagem**:
 
-- `exemplos/visao/aws_rekognition.py`
-- `exemplos/visao/azure_image_analysis.py`
-- `exemplos/visao/google_vision.py`
+
+**[`exemplos/visao/aws_rekognition.py`](https://github.com/DaviFPassos/Teste_comparativo_nuvem/blob/main/exemplos/visao/aws_rekognition.py)** — trecho essencial. O arquivo completo, no link, traz a autenticação por variável de ambiente, o tratamento de erro, os limites do serviço e a fonte da adaptação:
+
+```python
+return cliente.detect_labels(
+    Image={"Bytes": bytes_imagem},
+    MaxLabels=MAX_LABELS,
+    MinConfidence=MIN_CONFIANCA,
+    Features=["GENERAL_LABELS"],
+)
+```
+
+
+**[`exemplos/visao/azure_image_analysis.py`](https://github.com/DaviFPassos/Teste_comparativo_nuvem/blob/main/exemplos/visao/azure_image_analysis.py)** — trecho essencial. O arquivo completo, no link, traz a autenticação por variável de ambiente, o tratamento de erro, os limites do serviço e a fonte da adaptação:
+
+```python
+resultado = cliente.analyze(
+    image_data=bytes_imagem,
+    visual_features=[VisualFeatures.TAGS],
+)
+```
+
+
+**[`exemplos/visao/google_vision.py`](https://github.com/DaviFPassos/Teste_comparativo_nuvem/blob/main/exemplos/visao/google_vision.py)** — trecho essencial. O arquivo completo, no link, traz a autenticação por variável de ambiente, o tratamento de erro, os limites do serviço e a fonte da adaptação:
+
+```python
+resposta = cliente.label_detection(image=imagem, max_results=MAX_RESULTADOS)
+```
+
 
 **Estado de validação:** exemplos **ilustrativos, não executados pelo grupo**, adaptados da documentação oficial de cada provedor, conforme a seção 3 do enunciado. Nenhuma credencial está embutida: todos leem variáveis de ambiente.
 
@@ -329,11 +486,11 @@ Google:  100.000 unidades (1 feature x 1 imagem = 1 unidade)
 
 #### Resultados (USD/mês)
 
-| Provedor | Unidades cobradas | Sem franquia | Com franquia |
+| Provedor | Unidades cobradas | Sem franquia | Com a franquia aplicável |
 |---|---|---|---|
-| AWS — Rekognition | 100.000 imagens | **$100,00** | $99,00 |
-| Azure — Image Analysis (Grupo 1) | 100.000 transações | **$100,00** | $95,00 |
-| Google — Cloud Vision | 100.000 unidades | $150,00 | $148,50 |
+| AWS — Rekognition | 100.000 imagens | **$100,00** | $99,00 (só nos 12 primeiros meses) |
+| Azure — Image Analysis (Grupo 1) | 100.000 transações | **$100,00** | **$100,00** (o F0 não abate o tier pago) |
+| Google — Cloud Vision | 100.000 unidades | $150,00 | $148,50 (faixa permanente da tabela) |
 
 ![Custo de detecção de rótulos em 100.000 imagens](../custos/graficos/custos_visao.png)
 
@@ -345,11 +502,15 @@ AWS e Azure ficam empatados em $100,00 no volume do cenário, e o Google fica **
 
 #### Franquias
 
-| Provedor | Franquia | Natureza |
-|---|---|---|
-| AWS | 1.000 imagens/mês | Promocional, 12 meses a partir da criação da conta |
-| Azure | 5.000 transações/mês (limite de 20/minuto) | Tier F0 separado |
-| Google | 1.000 unidades/mês | Primeira faixa da tabela, permanente |
+| Provedor | Franquia | Natureza | Aplicável a este cenário? |
+|---|---|---|---|
+| AWS | 1.000 imagens/mês | Promocional, 12 meses a partir da criação da conta | **Sim, só nos 12 primeiros meses** |
+| Azure | 5.000 transações/mês (limite de 20/minuto) | Tier F0 separado | **Não** — recurso à parte, não desconto no tier pago; o limite de 20 transações/minuto também não sustentaria a carga |
+| Google | 1.000 unidades/mês | Primeira faixa da tabela, permanente | **Sim** |
+
+Como a faixa de 0,00 USD do Google é permanente, **a cobrança habitual dele é $148,50, não $150,00**; o valor sem franquia é uma simulação para manter a comparação simétrica com AWS e Azure.
+
+**Regra adotada em todo o trabalho.** A coluna `custo_usd_com_franquia` de `custos/resultados.csv` desconta **somente** as franquias que incidem sobre a operação comparada; a coluna `franquia_aplicada` registra a decisão linha por linha e `custos/franquias.csv` guarda a justificativa de cada caso. Abater o tier F0 da Azure de uma fatura do tier pago somaria duas coisas que a Microsoft cobra separadamente: o F0 é um **recurso à parte**, com cota e limites próprios, e não um desconto no recurso pago. Usá-lo exigiria dividir a carga entre dois recursos — uma hipótese de arquitetura que teria de ser definida e justificada, e que este cenário não adota.
 
 ### 7. Síntese: vantagens, restrições e adequação por cenário
 
@@ -357,7 +518,7 @@ AWS e Azure ficam empatados em $100,00 no volume do cenário, e o Google fica **
 
 **A AWS é a única que entrega taxonomia junto com o rótulo.** `Parents`, `Aliases` e `Categories` permitem agrupar e filtrar rótulos sem manter um dicionário próprio, e os filtros de inclusão/exclusão rodam no servidor. Nos outros dois, essa camada fica por conta da aplicação.
 
-**O Google é o mais permissivo na entrada e o único com identificador estável.** Aceita PDF, RAW, TIFF e mais — contra **apenas PNG e JPEG na AWS** — o que elimina uma etapa de conversão em pipelines que recebem upload livre. E o campo `mid` liga cada rótulo a uma entidade do Knowledge Graph, em vez de obrigar comparação por string.
+**O Google é o mais permissivo na entrada e o único com identificador estável.** No endpoint comparado aceita RAW, WEBP, GIF, BMP e ICO além de PNG e JPEG — contra **apenas PNG e JPEG na AWS** —, o que elimina uma etapa de conversão em pipelines que recebem upload livre; PDF e TIFF também são suportados, mas pelo endpoint `files:annotate`, com fluxo próprio. E o campo `mid` liga cada rótulo a uma entidade do Knowledge Graph, em vez de obrigar comparação por string.
 
 **A Azure é a que exige mais atenção à região e ao calendário.** É a única com lista fechada de regiões para a própria funcionalidade, e a única com **encerramento anunciado: o Image Analysis 4.0 sai de operação em 25/09/2028**. O histórico reforça o ponto: quatro funcionalidades em preview já foram desativadas em 31/03/2025.
 
@@ -373,7 +534,7 @@ Essa ordem não vale para qualquer volume: os degraus de faixa são diferentes, 
 
 | Situação | Alternativa mais adequada | Por quê |
 |---|---|---|
-| Pipeline com **formatos heterogêneos** de upload | **Cloud Vision** | Aceita PDF, RAW, TIFF, WEBP e outros; a AWS exigiria conversão para PNG/JPEG |
+| Pipeline com **formatos heterogêneos** de upload | **Cloud Vision** | Aceita RAW, WEBP, GIF, BMP e ICO no mesmo endpoint, e PDF/TIFF por `files:annotate`; a AWS exigiria conversão para PNG/JPEG |
 | Necessidade de **agrupar rótulos por categoria ou hierarquia** | **Amazon Rekognition** | Único que devolve `Parents`, `Aliases` e `Categories` |
 | Integração com **base de conhecimento** | **Cloud Vision** | O `mid` dá identificador estável em vez de string |
 | Sensibilidade a **custo** no volume analisado | **AWS ou Azure** | $100,00 contra $150,00 do Google em 100 mil imagens |
@@ -388,7 +549,7 @@ Essa ordem não vale para qualquer volume: os degraus de faixa são diferentes, 
 **Operação comparada:** transcrição assíncrona (em lote) do mesmo arquivo de áudio em português do Brasil
 **Modo de chamada:** assíncrono / lote — único modo oferecido pelos três para arquivos longos
 **Data da consulta às fontes:** 23/09/2026
-**Região de referência:** US East (`us-east-1` / `East US` / `us-central1`)
+**Região de referência:** `us-east-1` (N. Virginia) na AWS e `East US` na Azure; no Google, **`us-central1` (Iowa)** — a tabela da Cloud Speech-to-Text V2 é regional e `us-central1` **não** é uma região US East. A diferença está declarada como limitação em vez de ser tratada como equivalência
 
 
 ### 1. Objetivo da categoria e caso de uso
@@ -407,7 +568,7 @@ Conversão de fala em texto transforma áudio gravado em transcrição pesquisá
 
 ### 3. Comparação técnica
 
-As tabelas abaixo trazem a comparação que mais pesa na escolha. O detalhamento completo — limites numéricos, cotas, formatos aceitos, autenticação e configuração — está em [`etapa1/fala.md`](../etapa1/fala.md).
+As tabelas abaixo comparam entradas, saídas, formas de acesso, autenticação, limites e avisos oficiais dos três serviços. O capítulo completo — com a fonte oficial de cada afirmação e as pendências de verificação — está em [`etapa1/fala.md`](https://github.com/DaviFPassos/Teste_comparativo_nuvem/blob/main/etapa1/fala.md).
 
 
 #### 3.1 Entradas: formatos e origem do áudio
@@ -422,6 +583,54 @@ As tabelas abaixo trazem a comparação que mais pesa na escolha. O detalhamento
 
 A Azure aceita a lista mais ampla de formatos e é a única das três que permite **URI público** como origem, dispensando armazenamento no próprio provedor. A AWS é a mais restritiva nesse ponto: o arquivo precisa estar no S3, o que acrescenta um passo de upload e uma configuração de permissão ao fluxo.
 
+#### 3.2 Saídas
+
+| Aspecto | Amazon Transcribe | Azure Speech (lote) | Cloud Speech-to-Text V2 |
+|---|---|---|---|
+| **Formato** | JSON | JSON | JSON |
+| **Conteúdo mínimo** | Transcrição em bloco (`transcripts`), detalhamento por palavra e pontuação (`items`) com tempo de início, fim e confiança, e segmentos de áudio (`audio_segments`) | Transcrição com metadados da execução | Transcrição com alternativas e confiança |
+| **Onde o resultado fica** | Bucket S3 do cliente **ou** bucket gerenciado pelo serviço, com **URI temporária válida por 15 minutos**; no bucket padrão, o resultado é **apagado quando o job expira, em 90 dias** | Contêiner de armazenamento, recuperado de forma assíncrona | Cloud Storage ou resposta da operação |
+| **Recursos adicionais** | Diarização (separação de locutores), identificação de canal | **Diarização** (`diarizationEnabled` para dois locutores; `diarization` com `minCount`/`maxCount` para três ou mais, máximo abaixo de 36), identificação de idioma (`languageIdentification`), timestamps por palavra, modo de pontuação e filtro de profanidade | Diarização disponível no modelo `chirp_3` |
+
+O detalhe de retenção da AWS é operacionalmente relevante: quem usa o bucket padrão precisa baixar a transcrição antes de 90 dias, e a URI temporária expira em 15 minutos — se expirar, é preciso uma nova chamada `GetTranscriptionJob`.
+
+#### 3.3 Suporte ao português do Brasil
+
+| Provedor | Código | Cobertura |
+|---|---|---|
+| Amazon Transcribe | **`pt-BR`** (Português, Brasileiro) e `pt-PT` (Português) | `pt-BR` em lote **e** streaming; suporta transcrição de números, acrônimos, *redaction* e Call Analytics pós-chamada e em tempo real |
+| Azure Speech | **`pt-BR`** (Portuguese, Brazil) | Suportado, inclusive com *fast transcription* |
+| Cloud Speech-to-Text V2 | **`pt-BR`** (Portuguese, Brazil) | Disponível nos modelos `chirp_3`, `long`, `short`, `telephony` e `telephony_short`; o `chirp_3` acrescenta diarização |
+
+**Diferença em relação à categoria de NLP:** aqui os três provedores distinguem formalmente o português do Brasil. Na análise de sentimento, apenas a Azure faz essa distinção. Isso mostra que o suporte a variantes regionais não é uniforme nem dentro do mesmo provedor.
+
+**Escolha do modelo: Google e Azure expõem, a AWS não.** O Google publica modelos nomeados e otimizados por tipo de áudio (`telephony`, `long`, `short`, `chirp_3`) e o desenvolvedor escolhe um deles no campo `model` da configuração. A Azure também aceita um campo `model` na criação da transcrição em lote, mas o que ele recebe é a **URI de um modelo**: um modelo base específico, um modelo de *custom speech* treinado pelo grupo, ou o **Whisper** da OpenAI hospedado no serviço; omitido o campo, usa-se o modelo base padrão do locale. São duas liberdades diferentes — o Google deixa escolher entre perfis prontos de áudio, a Azure deixa apontar para outro modelo, inclusive treinado. A AWS não expõe essa escolha na transcrição em lote padrão.
+
+Uma ressalva documentada na Azure: identificação de idioma e modelo customizado **não se combinam** no lote — pedindo os dois, o serviço cai para os modelos base dos idiomas candidatos.
+
+#### 3.4 Formas de acesso, autenticação e configuração
+
+| Aspecto | Amazon Transcribe | Azure Speech | Cloud Speech-to-Text V2 |
+|---|---|---|---|
+| **Acesso** | API REST, AWS CLI e SDKs (.NET, C++, Go, Java V2, JavaScript, PHP V3, Python/boto3, Ruby V3, Rust) | Speech to text REST API e Speech CLI | REST, gRPC e client libraries |
+| **Autenticação** | Credenciais IAM, com permissão de leitura no bucket de origem e de escrita no de destino | Chave do recurso; para Blob Storage protegido, **identidade gerenciada atribuída pelo sistema** com papel *Storage Blob Data Reader* | Application Default Credentials |
+| **Fluxo** | Inicia o job, consulta com `GetTranscriptionJob`, lê o resultado no S3 | Três passos: localizar áudio → criar transcrição → obter resultados | Inicia a operação de longa duração e consulta até concluir |
+
+A Azure tem a configuração de segurança mais elaborada das três para o caso de armazenamento privado — exige habilitar identidade gerenciada no recurso de Speech e conceder papel específico na conta de armazenamento. É mais trabalho inicial, mas permite bloquear completamente o acesso externo ao armazenamento, algo que a documentação descreve passo a passo.
+
+#### 3.5 Latência de processamento e limites operacionais
+
+| Aspecto | Amazon Transcribe | Azure Speech (lote) | Cloud Speech-to-Text V2 |
+|---|---|---|---|
+| **Agendamento** | Fila de jobs opcional quando não é necessário processar tudo simultaneamente | **Best-effort**: em horário de pico, pode levar **até 30 minutos para iniciar** e **até 24 horas para concluir** | Operação de longa duração |
+| **Latência publicada** | — | **Percentil 90 abaixo de 6 horas**, com fórmula de latência normalizada publicada (`ProcessDuration − AudioLength/5`, com o serviço processando a cerca de 5× o tempo real) | — |
+| **Recomendações de uso** | — | Enviar cerca de **1.000 arquivos por requisição**; distribuir envios ao longo de horas; consultar status **no máximo uma vez por minuto**, sendo suficiente a cada 10 minutos | — |
+| **Limites de entrada publicados** | **Não localizados**: a página de cotas não estava acessível na consulta | **1 GB** por arquivo de áudio; **1.000 arquivos** por requisição de transcrição; **10.000 blobs** por contêiner; **240 min** por arquivo quando a diarização está ativada | Não localizados nas páginas consultadas para o `BatchRecognize` |
+| **Cota de requisições** | Não localizada | **600 requisições/minuto**, compartilhadas com a *fast transcription*; ajustável no tier S0 e **indisponível no F0** | Cotas por projeto |
+| **Retenção do resultado** | Bucket padrão: apagado quando o job expira, em 90 dias | `timeToLiveHours` obrigatório, de **6 horas a 31 dias** | Cloud Storage ou resposta da operação |
+
+A Azure é a única das três que publica expectativa de latência e um método de cálculo para ela. Isso é transparência útil, mas também revela que o modo em lote da Azure **não é adequado a fluxos sensíveis a tempo**: a própria documentação admite picos de até 24 horas. Esse número descreve fila de processamento e não qualidade do reconhecimento.
+
 #### 3.6 Situação do serviço (avisos oficiais)
 
 Nenhum dos três serviços desta categoria apresenta aviso de descontinuação nas páginas consultadas. É a única das três categorias deste trabalho em que isso ocorre — nas outras duas, a oferta da Azure tem encerramento anunciado.
@@ -430,9 +639,47 @@ Nenhum dos três serviços desta categoria apresenta aviso de descontinuação n
 
 Os três exemplos submetem o **mesmo áudio** à **mesma operação em lote**, com idioma `pt-BR`:
 
-- `exemplos/fala/aws_transcribe.py`
-- `exemplos/fala/azure_speech.py`
-- `exemplos/fala/google_speech_to_text.py`
+
+**[`exemplos/fala/aws_transcribe.py`](https://github.com/DaviFPassos/Teste_comparativo_nuvem/blob/main/exemplos/fala/aws_transcribe.py)** — trecho essencial. O arquivo completo, no link, traz a autenticação por variável de ambiente, o tratamento de erro, os limites do serviço e a fonte da adaptação:
+
+```python
+cliente.start_transcription_job(
+    TranscriptionJobName=nome_job,
+    Media={"MediaFileUri": URI_AUDIO},
+    MediaFormat="flac",
+    LanguageCode=IDIOMA,
+)
+```
+
+
+**[`exemplos/fala/azure_speech.py`](https://github.com/DaviFPassos/Teste_comparativo_nuvem/blob/main/exemplos/fala/azure_speech.py)** — trecho essencial. O arquivo completo, no link, traz a autenticação por variável de ambiente, o tratamento de erro, os limites do serviço e a fonte da adaptação:
+
+```python
+corpo = {
+    "contentUrls": [URL_AUDIO],
+    "locale": IDIOMA,
+    "displayName": "transcricao-exemplo-etapa1",
+    "properties": {"wordLevelTimestampsEnabled": True},
+}
+resposta = requests.post(BASE, headers=CABECALHOS, json=corpo, timeout=30)
+```
+
+
+**[`exemplos/fala/google_speech_to_text.py`](https://github.com/DaviFPassos/Teste_comparativo_nuvem/blob/main/exemplos/fala/google_speech_to_text.py)** — trecho essencial. O arquivo completo, no link, traz a autenticação por variável de ambiente, o tratamento de erro, os limites do serviço e a fonte da adaptação:
+
+```python
+requisicao = cloud_speech.BatchRecognizeRequest(
+    recognizer=reconhecedor,
+    config=config,
+    files=[cloud_speech.BatchRecognizeFileMetadata(uri=URI_AUDIO)],
+    recognition_output_config=cloud_speech.RecognitionOutputConfig(
+        inline_response_config=cloud_speech.InlineOutputConfig(),
+    ),
+)
+
+operacao = cliente.batch_recognize(request=requisicao)
+```
+
 
 **Estado de validação:** exemplos **ilustrativos, não executados pelo grupo**, adaptados da documentação oficial, conforme a seção 3 do enunciado. Por serem operações assíncronas, cada exemplo mostra os três momentos do fluxo: envio, acompanhamento e obtenção do resultado. Nenhuma credencial está embutida.
 
@@ -456,6 +703,16 @@ Preços de **US East, em USD, consultados em 23/09/2026**, registrados em `custo
 #### Carga do cenário
 
 **10.000 minutos de áudio por mês** (cerca de 167 horas) em português do Brasil, transcritos em lote. A quantidade é hipotética e declarada como tal, e é idêntica nos três provedores.
+
+**Condições de entrada assumidas**, porque os três cobram por tempo de áudio e não por arquivo:
+
+| Premissa | Valor adotado | Por que importa |
+|---|---|---|
+| Canais | **1 (mono)** | A AWS aceita no máximo dois canais e trata identificação de canal como recurso próprio; a diarização da Azure exige mono; na Azure, os canais processados são declarados em `properties.channels`. Como a cobrança é por tempo de áudio, processar dois canais em vez de um muda a carga — e o cenário fixa um só para manter a equivalência |
+| Idioma | **`pt-BR` declarado**, sem identificação automática de idioma | Identificação de idioma é recurso adicional nos três e, segundo a documentação da Azure, aumenta a latência do lote. A tabela da Azure ainda traz um medidor separado de *S1 Speech to Text Enhanced Feature Audio* ($0,30/h), fora do escopo deste cenário — quais recursos caem nele não foi verificado e não é afirmado aqui |
+| Recursos adicionais | **Nenhum** — sem diarização, sem *redaction*, sem Call Analytics, sem vocabulário customizado | Todos são cobrados à parte ou por medidor diferente |
+| Distribuição dos arquivos | Irrelevante para o custo, **desde que nenhum arquivo estoure os limites** (1 GB e, na Azure com diarização, 240 min) | Os três cobram por duração total, em incrementos de 1 s (AWS e Google) ou por hora (Azure); 10.000 minutos custam o mesmo em 100 arquivos de 100 min ou em 1.000 de 10 min |
+| Custos **excluídos** | Armazenamento (S3, Blob Storage, Cloud Storage), transferência de dados, requisições de listagem e qualquer processamento posterior | O cenário compara **apenas** o preço da transcrição. A AWS obriga o áudio a estar no S3, o que acrescenta um custo de armazenamento que os outros dois podem dispensar (URI público na Azure) — esse custo não está nos $60,00 |
 
 #### Fórmulas
 
@@ -486,17 +743,23 @@ Mas o número isolado engana, e é por isso que a coluna de urgência está na t
 A leitura correta é, portanto:
 
 - **Se a aplicação tolera fila longa** (transcrição noturna de gravações, processamento de acervo): Azure e Google *dynamic batch* empatam em $30,00.
-- **Se a aplicação precisa de prazo previsível**: a AWS entrega $60,00 sem depender de janela de baixa urgência, enquanto o equivalente no Google custa $160,00.
+- **Se a aplicação não quer depender de uma janela declaradamente de baixa urgência**: AWS por $60,00 e Google padrão por $160,00.
+
+**Uma ressalva importante sobre prazo.** Nenhum dos três publica prazo garantido de conclusão para o lote, e este trabalho não tem base para atribuir "previsibilidade" a nenhum deles. O que existe é assimetria de **informação** e de **oferta**: a Azure é a única que publica uma expectativa (p90 abaixo de 6 h, admitindo até 24 h em pico) e o Google é o único que separa a prioridade padrão do modo de menor urgência no próprio preço. A AWS não publica expectativa de prazo nem oferece modo mais barato — a fila de jobs é apenas uma opção de enfileiramento do cliente, e por si só não demonstra previsibilidade. Medir tempo real de conclusão é objeto da Etapa 2.
 
 Este é o ponto do trabalho em que a análise econômica mais depende da análise técnica: sem a informação de fila da seção 3.5, o cenário produziria um ranking enganoso.
 
 #### Franquias
 
-| Provedor | Franquia | Natureza |
-|---|---|---|
-| AWS | 60 minutos/mês | Promocional, 12 meses |
-| Azure | 5 horas/mês | Tier F0; a página declara a franquia para transcrição em tempo real |
-| Google | — | **Não localizada** para a tabela Recognition da V2 na página consultada |
+| Provedor | Franquia | Natureza | Aplicável a este cenário? |
+|---|---|---|---|
+| AWS | 60 minutos/mês | Promocional, 12 meses | **Sim, só nos 12 primeiros meses** ($59,64 em vez de $60,00) |
+| Azure | 5 horas/mês | Tier F0; a página de preços declara a franquia para transcrição **em tempo real** | **Não** — ver abaixo |
+| Google | — | **Não localizada** para a tabela Recognition da V2 na página consultada | **Não** — nada é descontado sem valor verificado |
+
+**Por que a franquia da Azure não entra neste cenário.** A tabela oficial de cotas do serviço registra, para *batch transcription*, **"Not available for F0"**: a transcrição em lote simplesmente não existe no tier gratuito onde estão as 5 horas. Além disso, o medidor efetivamente cobrado no cenário é o **`S1 Speech to Text Batch`**, do tier pago. Descontar as 5 horas do F0 de uma fatura S1 misturaria dois tiers distintos, e por isso o custo da Azure permanece em **$30,00** nas duas colunas de `custos/resultados.csv`.
+
+**Regra adotada em todo o trabalho.** A coluna `custo_usd_com_franquia` de `custos/resultados.csv` desconta **somente** as franquias que incidem sobre a operação comparada; a coluna `franquia_aplicada` registra a decisão linha por linha e `custos/franquias.csv` guarda a justificativa de cada caso. Abater o tier F0 da Azure de uma fatura do tier pago somaria duas coisas que a Microsoft cobra separadamente: o F0 é um **recurso à parte**, com cota e limites próprios, e não um desconto no recurso pago. Usá-lo exigiria dividir a carga entre dois recursos — uma hipótese de arquitetura que teria de ser definida e justificada, e que este cenário não adota.
 
 A franquia do Google **não foi localizada** para a V2 e por isso aparece como pendência, não como zero: a faixa de 60 minutos gratuitos que consta da página pertence às tabelas da API V1.
 
@@ -508,7 +771,9 @@ A franquia do Google **não foi localizada** para a V2 e por isso aparece como p
 
 **A origem do áudio impõe arquitetura.** A AWS **obriga** o arquivo a estar em um bucket S3. A Azure é a única que aceita **URI público**, dispensando armazenamento no provedor — e, no outro extremo, oferece o caminho mais elaborado de segurança, com identidade gerenciada e papel *Storage Blob Data Reader* para bloquear totalmente o acesso externo ao armazenamento.
 
-**Só o Google expõe a escolha do modelo.** `chirp_3`, `long`, `short`, `telephony` e `telephony_short` estão disponíveis para `pt-BR`, com diarização no `chirp_3`. AWS e Azure não oferecem essa decisão na transcrição padrão.
+**Google e Azure expõem a escolha do modelo; a AWS não.** No Google são perfis prontos por tipo de áudio (`chirp_3`, `long`, `short`, `telephony`, `telephony_short`, todos com `pt-BR`, e diarização no `chirp_3`). Na Azure, o campo `model` aponta para a URI de outro modelo — base, *custom speech* treinado pelo grupo ou Whisper —, o que é uma liberdade de natureza diferente: não escolher entre perfis, mas trocar o modelo. Na AWS a transcrição em lote padrão não oferece essa decisão.
+
+**Os três documentam diarização.** A AWS a lista entre os recursos do lote, o Google a oferece no `chirp_3` e a Azure a configura por `diarizationEnabled` (dois locutores) ou `diarization` com `minCount`/`maxCount` (três ou mais, máximo abaixo de 36), com duas condições explícitas: canal mono e áudio de no máximo 240 minutos por arquivo.
 
 **Os três suportam `pt-BR` formalmente** — diferente da categoria de NLP, onde só a Azure distingue a variante brasileira. E **nenhum dos três tem aviso de descontinuação**, o que faz desta a única categoria do trabalho sem risco de calendário.
 
@@ -519,7 +784,7 @@ Do mais barato ao mais caro há um fator de **5,3×** ($30,00 contra $160,00) �
 - **Menor urgência:** Azure ($30,00) e Google *dynamic batch* ($30,00) empatam exatamente.
 - **Prioridade padrão:** AWS ($60,00) contra Google padrão ($160,00).
 
-A AWS ocupa uma posição intermediária peculiar: é o dobro do preço de menor urgência, mas **não oferece um modo mais barato** para quem tolera fila — e, em contrapartida, não obriga a aceitar janela de 24 horas para chegar ao preço competitivo.
+A AWS ocupa uma posição intermediária peculiar: é o dobro do preço de menor urgência e **não oferece um modo mais barato** para quem tolera fila. Também não publica expectativa de prazo — nem a favor nem contra —, de modo que a comparação de tempo de conclusão entre os três fica em aberto nesta etapa.
 
 Um alívio comum aos três: **o arredondamento é favorável**. AWS e Google cobram em incrementos de 1 segundo, e a AWS declara não haver cobrança mínima — o risco de um áudio de 20 segundos ser cobrado como um minuto inteiro não se concretizou em nenhum deles.
 
@@ -528,11 +793,11 @@ Um alívio comum aos três: **o arredondamento é favorável**. AWS e Google cob
 | Situação | Alternativa mais adequada | Por quê |
 |---|---|---|
 | Processamento **noturno ou de acervo**, sem pressa | **Azure** ou **Google dynamic batch** | $30,00 no cenário; empate exato |
-| Necessidade de **prazo previsível** sem pagar prêmio alto | **Amazon Transcribe** | $60,00 sem depender de janela de baixa urgência; o equivalente no Google custa $160,00 |
+| Não depender de uma janela declarada de **baixa urgência** | **Amazon Transcribe** ($60,00) ou **Google padrão** ($160,00) | Nenhum dos dois pede que se aceite fila de baixa prioridade para chegar ao preço — mas nenhum dos três publica prazo garantido de conclusão |
 | Áudio já hospedado **fora da nuvem do provedor** | **Azure** | Única que aceita URI público como origem |
 | Requisito de **isolamento do armazenamento** | **Azure** | Caminho documentado com identidade gerenciada e acesso externo bloqueado |
 | **Telefonia** ou tipos específicos de áudio | **Cloud Speech-to-Text V2** | Único que expõe a escolha do modelo (`telephony`, `long`, `short`) |
-| Necessidade de **diarização** | AWS ou Google (`chirp_3`) | Ambos documentam separação de locutores |
+| Necessidade de **diarização** | Os três | AWS no lote, Google no `chirp_3` e Azure por `diarizationEnabled`/`diarization` — nesta última, com canal mono e no máximo 240 min por arquivo |
 | Fluxo **sensível a tempo** | Nenhum dos modos em lote | Usar transcrição em tempo real, que tem preço e condições próprios |
 
 **O que esta etapa não responde:** qual serviço transcreve português do Brasil com menos erros. A taxa de erro exige execução e gabarito.
@@ -548,7 +813,7 @@ Em nenhuma das três categorias um provedor domina em todos os critérios. Mais 
 
 | Categoria | O parâmetro que decide | Efeito |
 |---|---|---|
-| NLP | Comprimento típico do texto | AWS custa 1/3 dos concorrentes em textos de 100 caracteres e empata em 4.000 |
+| NLP | Comprimento típico do texto | AWS cobra 30% dos concorrentes em textos de 100 caracteres; empata em 4.000, mas volta a ser mais barata em 4.100 — o empate só vale em múltiplos exatos de 1.000 |
 | Visão | Volume mensal | AWS e Azure empatam em 100 mil imagens; os degraus de faixa diferem acima de 1 milhão |
 | Fala | Tolerância a fila de processamento | Azure e Google empatam em $30,00 no modo de menor urgência; a AWS cobra $60,00 sem exigir essa tolerância |
 
@@ -558,7 +823,7 @@ Quem escolher um provedor a partir de uma tabela de preço isolada, sem fixar es
 
 O achado mais transferível deste trabalho é que **a granularidade da unidade de cobrança pode importar mais do que o preço da unidade**.
 
-Em análise de sentimento, Azure e Google cobram uma unidade inteira de 1.000 caracteres mesmo para um comentário de 100 caracteres — pagando-se por 900 caracteres nunca enviados. A AWS, cobrando em unidades de 100 caracteres, custa um terço no mesmo cenário. Os três têm preços unitários da mesma ordem de grandeza; o que separa é como contam.
+Em análise de sentimento, Azure e Google cobram uma unidade inteira de 1.000 caracteres mesmo para um comentário de 100 caracteres — pagando-se por 900 caracteres nunca enviados. A AWS, cobrando em unidades de 100 caracteres, cobra 30% disso no mesmo cenário — uma redução de 70%. Os três têm preços unitários da mesma ordem de grandeza; o que separa é como contam.
 
 Na transcrição de áudio, a mesma lógica trabalhou a favor de todos: os três cobram em incrementos de um segundo, e a AWS declara não haver cobrança mínima.
 
@@ -581,11 +846,25 @@ Esse é um custo que não aparece em cenário de preço nenhum: para um sistema 
 
 Nenhuma das três categorias permite trocar de provedor apenas trocando o endpoint:
 
-- **Sentimento:** a saída do Google é um número contínuo, a da AWS tem quatro classes e a da Azure tem três com granularidade de sentença. Migrar exige redefinir a lógica de classificação.
+- **Sentimento:** a saída do Google é um número contínuo; a da AWS tem quatro classes, cada uma com score próprio; a da Azure tem quatro rótulos possíveis no documento mas só três scores, e `mixed` só aparece por composição das sentenças. Migrar exige redefinir a lógica de classificação, não só ler outro campo.
 - **Visão:** as escalas de confiança diferem (0–100 × 0–1) e os vocabulários de rótulos não têm tabela de equivalência oficial. Migrar exige recalibrar limiares e remapear termos.
 - **Fala:** a origem do áudio é imposta de forma diferente (S3 obrigatório na AWS; URI público aceito na Azure; Cloud Storage no Google), o que atinge a arquitetura, não só o código de chamada.
 
-### 6.5 O que a documentação não permite concluir
+### 6.5 Franquia gratuita não é desconto — e a diferença muda o número
+
+As três nuvens anunciam "camada gratuita", e as três querem dizer coisas diferentes:
+
+| Provedor | O que é | Entra no cenário? |
+|---|---|---|
+| AWS | Free Tier promocional, na mesma conta e no mesmo tier da operação | Sim, mas **só nos 12 primeiros meses** |
+| Microsoft Azure | Tier **F0**, um recurso separado do tier pago, com cota e limites próprios | **Não** — e na transcrição em lote o F0 **nem oferece a operação** |
+| Google Cloud | Primeira **faixa da própria tabela**, cobrada a 0,00 USD | Sim, permanente |
+
+A consequência prática aparece no número: descontar as 5 horas gratuitas do F0 da Azure de uma fatura de transcrição em lote produziria $29,10 em vez dos **$30,00** corretos — um desconto que a Microsoft não concede, porque a operação não existe naquele tier. Por isso `custos/franquias.csv` registra, para cada franquia, se ela é aplicável ao cenário e por quê, e `custos/resultados.csv` carrega essa decisão na coluna `franquia_aplicada`.
+
+Pela mesma razão, a comparação principal usa os preços **sem franquia**: é a única base que significa a mesma coisa nos três. Onde a franquia é permanente — Google em NLP e visão —, a cobrança habitual é a coluna com franquia, e isso está dito nos capítulos.
+
+### 6.6 O que a documentação não permite concluir
 
 A análise é **documental**. Ela não estabelece qual serviço classifica sentimento com mais acerto, qual rotula imagens de forma mais útil, ou qual transcreve português do Brasil com menos erros. Essas perguntas exigem execução, dados de teste, gabarito e medição — objeto da Etapa 2.
 
@@ -596,7 +875,9 @@ Registradas para delimitar o alcance das conclusões:
 
 **1. Nenhum exemplo de código foi executado.** A seção 3 do enunciado permite isso nesta etapa. Consequentemente, não há neste relatório qualquer medição de latência, taxa de acerto, taxa de erro ou comportamento em produção.
 
-**2. As conclusões valem para a data e a região declaradas.** Preços de nuvem mudam. Todos os valores são de **US East, em USD, consultados em 23/09/2026**, com a fonte de cada um registrada em `custos/premissas.csv`. Uma consulta futura pode divergir, e a reprodução dos cálculos exige reverificar as premissas.
+**2. As conclusões valem para a data e a região declaradas.** Preços de nuvem mudam. Todos os valores são de **23/09/2026, em USD**, com a fonte de cada um registrada em `custos/premissas.csv`. Uma consulta futura pode divergir, e a reprodução dos cálculos exige reverificar as premissas.
+
+**2a. As regiões não são idênticas nas três nuvens.** AWS em `us-east-1` e Azure em `East US`; no Google, Natural Language e Vision têm preço global, e a Cloud Speech-to-Text V2 foi consultada em **`us-central1` (Iowa)**, que é US Central. A comparação de custo de transcrição, portanto, não é entre três regiões equivalentes, e a diferença de preço entre regiões do Google não foi levantada.
 
 **3. As cargas dos cenários são hipotéticas.** 100.000 documentos, 100.000 imagens e 10.000 minutos de áudio são quantidades escolhidas pelo grupo para permitir comparação, não estimativas de uso real de nenhuma aplicação. O que garante a validade da comparação não é a quantidade em si, mas o fato de ser **idêntica entre provedores**.
 
@@ -612,6 +893,7 @@ Registradas para delimitar o alcance das conclusões:
 | Franquia gratuita da tabela Recognition da Cloud Speech-to-Text **V2** | Não localizada; a faixa de 60 minutos consta das tabelas da V1 |
 | Valor padrão de `MinConfidence` do `DetectLabels` | Não localizado; o exemplo de código fixa o parâmetro explicitamente |
 | Limite de tags por imagem no Azure Image Analysis | Não localizado nas páginas consultadas |
+| Limites de tamanho e duração do `BatchRecognize` da Cloud Speech-to-Text V2 | Não localizados nas páginas consultadas (os equivalentes da Azure foram localizados na tabela oficial de cotas) |
 
 Nenhuma dessas lacunas foi preenchida por estimativa.
 
@@ -636,6 +918,7 @@ Todas as datas são datas reais de acesso. Todas as páginas são documentação
 | NLP-AWS-02 | AWS — Amazon Comprehend | Guidelines and quotas — https://docs.aws.amazon.com/comprehend/latest/dg/guidelines-and-limits.html | 23/09/2026 | Tamanho máximo de 5 KB por documento nas operações de sentimento (síncrona e assíncrona); 5 KB e 25 documentos por requisição nas operações em lote; *throttling* dinâmico sem cota publicada no modo síncrono; 13 regiões suportadas, incluindo US East (N. Virginia) e **sem região no Brasil** | verificado |
 | NLP-AWS-03 | AWS — Amazon Comprehend | Languages supported — https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html | 23/09/2026 | 12 idiomas suportados, com `pt` (Português) entre eles e sem distinção de variante; o recurso *Sentiment* cobre todos os idiomas suportados (diferente de *Targeted sentiment*, restrito ao inglês) | verificado |
 | NLP-AZ-01 | Azure — Azure Language in Foundry Tools | What is sentiment analysis and opinion mining in Azure Language service? — https://learn.microsoft.com/en-us/azure/ai-services/language-service/sentiment-opinion-mining/overview | 23/09/2026 | Nome atual do serviço; **aviso oficial de encerramento em 31/03/2029** com recomendação de migrar para o Microsoft Foundry; rótulos `positive`/`neutral`/`negative` com confiança de 0 a 1; sentimento em nível de documento e de sentença; acesso por REST API, client library (C#, Java, JavaScript, Python) e contêiner Docker; autenticação por chave + endpoint | verificado |
+| NLP-AZ-04 | Azure — Azure Language in Foundry Tools | How to perform sentiment analysis and opinion mining — https://learn.microsoft.com/en-us/azure/ai-services/language-service/sentiment-opinion-mining/how-to/call-api | 26/09/2026 | **Regra oficial do rótulo de documento**: "The labels are *positive*, *negative*, and *neutral*. At the document level, the ***mixed*** sentiment label also can be returned", com a tabela que devolve `mixed` quando há ao menos uma sentença positiva **e** ao menos uma negativa; três scores de confiança (positivo, neutro, negativo) que somam 1 por documento e por sentença | verificado |
 | NLP-AZ-02 | Azure — Azure Language in Foundry Tools | Data limits for Language service features — https://learn.microsoft.com/en-us/azure/ai-services/language-service/concepts/data-limits | 23/09/2026 | **"A text record is measured as 1000 characters"** (unidade de cobrança); 5.120 caracteres por documento no modo síncrono; 125.000 caracteres e 25 documentos no assíncrono; 1 MB por requisição; **10 documentos por requisição na análise de sentimento**; limites de taxa por tier (S/Multi-service 1.000 req/s; S0/F0 100 req/s e 300 req/min) | verificado |
 | NLP-AZ-03 | Azure — Azure Language in Foundry Tools | Sentiment Analysis and Opinion Mining language support — https://learn.microsoft.com/en-us/azure/ai-services/language-service/sentiment-opinion-mining/language-support | 23/09/2026 | **94 códigos de idioma** na análise de sentimento, com **`pt-BR` (Português do Brasil) e `pt-PT` (Português de Portugal) como entradas distintas**; `pt` também aceito | verificado |
 | NLP-GC-01 | Google Cloud — Cloud Natural Language API | Analyzing Sentiment — https://docs.cloud.google.com/natural-language/docs/analyzing-sentiment | 23/09/2026 | Operação `analyzeSentiment`; saída com `score` e `magnitude`; **ausência de aviso de descontinuação** na página oficial da operação | verificado |
@@ -651,6 +934,7 @@ Todas as datas são datas reais de acesso. Todas as páginas são documentação
 | VIS-AWS-02 | AWS — Amazon Rekognition | Guidelines and quotas — https://docs.aws.amazon.com/rekognition/latest/dg/limits.html | 23/09/2026 | Imagem de até **15 MB** como objeto no S3 e **5 MB** como bytes na requisição; **apenas PNG e JPEG**; máximo de 10.000 px de largura e altura para `DetectLabels`; mínimo de 80 px; orientação de tratar `ProvisionedThroughputExceededException` e `ThrottlingException` com *retry*, *backoff* exponencial e *jitter*; Image Bulk Analysis com lotes de até 10.000 imagens | verificado |
 | VIS-AZ-01 | Azure — Azure Vision in Foundry Tools | What is Image Analysis? — https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview-image-analysis | 23/09/2026 | **Aviso oficial: Image Analysis 4.0 descontinuado, encerramento em 25/09/2028**; funcionalidades de preview retiradas em 31/03/2025 (Custom Image Classification, Custom Object Detection, Product Recognition, Segment/remoção de fundo); funcionalidade *Tag visual features* nas versões 4.0 e 3.2; entrada v4.0 (JPEG, PNG, GIF, BMP, WEBP, ICO, TIFF, MPO; < 20 MB; 50×50 a 16.000×16.000 px) e v3.2 (JPEG, PNG, GIF, BMP; < 4 MB); East US entre as regiões suportadas | verificado |
 | VIS-GC-01 | Google Cloud — Cloud Vision API | Detect labels — https://docs.cloud.google.com/vision/docs/labels | 23/09/2026 | Feature `LABEL_DETECTION` via `POST https://vision.googleapis.com/v1/images:annotate`; entrada por base64, URI do Cloud Storage ou URL remota; resposta com `mid`, `description`, `score` (0 a 1) e `topicality`; `maxResults` padrão de 10 | verificado |
+| VIS-GC-03 | Google Cloud — Cloud Vision API | Detect text and labels in files (PDF/TIFF) — https://docs.cloud.google.com/vision/docs/file-small-batch | 26/09/2026 | Arquivos **PDF e TIFF** são processados pelo endpoint **`files:annotate`**, e não por `images:annotate`; `LABEL_DETECTION` está entre as features aceitas nesse endpoint, ao lado de `DOCUMENT_TEXT_DETECTION`, `TEXT_DETECTION`, `FACE_DETECTION` e outras; chaves de API não são aceitas em `files:annotate` | verificado |
 | VIS-GC-02 | Google Cloud — Cloud Vision API | Supported images — https://docs.cloud.google.com/vision/docs/supported-files | 23/09/2026 | Formatos JPEG, PNG8, PNG24, GIF, GIF animado (primeiro quadro), BMP, WEBP, RAW, ICO, PDF e TIFF; até **20 MB por imagem** e **10 MB por requisição JSON**; resolução recomendada de 640×480 px para `LABEL_DETECTION` | verificado |
 
 ### Fala para texto
@@ -663,7 +947,10 @@ Todas as datas são datas reais de acesso. Todas as páginas são documentação
 | FAL-AZ-01 | Azure — Azure Speech in Foundry Tools | Batch transcription overview — https://learn.microsoft.com/en-us/azure/ai-services/speech-service/batch-transcription | 23/09/2026 | Transcrição em lote pela Speech to text REST API com `Transcription_Create`; fluxo assíncrono em três passos; agendamento *best-effort*, podendo levar **até 30 min para iniciar e até 24 h para concluir** em horário de pico; **latência de percentil 90 inferior a 6 h**, com fórmula `ProcessDuration − AudioLength/5`; recomendação de ~1.000 arquivos por requisição e polling no máximo 1×/minuto | verificado |
 | FAL-AZ-02 | Azure — Azure Speech in Foundry Tools | Locate audio files for batch transcription — https://learn.microsoft.com/en-us/azure/ai-services/speech-service/batch-transcription-audio-data | 23/09/2026 | Formatos e codecs aceitos (WAV, MP3, OPUS/OGG, FLAC, WMA, AAC, ALAW e MULAW em WAV, AMR, WebM, SPEEX); origens: URI público, URI com SAS ou contêiner do Blob Storage via identidade gerenciada com papel *Storage Blob Data Reader*; campos `contentUrls` e `contentContainerUrl` | verificado |
 | FAL-AZ-03 | Azure — Azure Speech in Foundry Tools | Language and voice support — https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support | 23/09/2026 | Locale **`pt-BR` (Portuguese, Brazil)** suportado em speech to text | verificado |
+| FAL-AZ-04 | Azure — Azure Speech in Foundry Tools | Quotas and limits for Azure Speech — https://learn.microsoft.com/en-us/azure/ai-services/speech-service/speech-services-quotas-and-limits | 26/09/2026 | Tabela de *Batch transcription*: **"Shared maximum requests per minute — Not available for F0 / 600"** (ou seja, **a transcrição em lote não existe no tier gratuito F0**, onde estão as 5 horas mensais); **1 GB** por arquivo de áudio; **10.000 blobs** por contêiner; **1.000 arquivos** por requisição; **240 minutos** por arquivo com diarização; cota de requisições compartilhada com a *fast transcription* e ajustável apenas no tier S0 | verificado |
+| FAL-AZ-05 | Azure — Azure Speech in Foundry Tools | Create a batch transcription — https://learn.microsoft.com/en-us/azure/ai-services/speech-service/batch-transcription-create | 26/09/2026 | Campo **`model`** no nível raiz do corpo, aceitando modelo base específico, modelo de *custom speech* ou **Whisper**; **`diarization`** (com `minCount`/`maxCount`, máximo abaixo de 36, só canal mono, áudio ≤ 240 min) e **`diarizationEnabled`** (dois locutores) dentro de `properties`; `languageIdentification` com 2 a 10 locales candidatos; `timeToLiveHours` obrigatório, de 6 horas a 31 dias; identificação de idioma **não** se combina com modelo customizado no lote | verificado |
 | FAL-GC-01 | Google Cloud — Cloud Speech-to-Text V2 | Transcription models — https://docs.cloud.google.com/speech-to-text/v2/docs/transcription-model | 23/09/2026 | Reconhecimento síncrono (áudio < 60 s), em lote (`BatchRecognize`, arquivos no Cloud Storage) e streaming; modelos `chirp_3`, `chirp_2` e `telephony` | verificado |
+| FAL-GC-03 | Google Cloud — Cloud Speech-to-Text V2 | `BatchRecognizeFileResult` (referência da client library Python) — https://docs.cloud.google.com/python/docs/reference/speech/latest/google.cloud.speech_v2.types.BatchRecognizeFileResult | 26/09/2026 | O campo `transcript` do resultado por arquivo está **descontinuado** ("Deprecated. Use `inline_result.transcript` instead"); com `InlineOutputConfig` a transcrição vem em `inline_result.transcript` e com `GcsOutputConfig` em `cloud_storage_result` | verificado |
 | FAL-GC-02 | Google Cloud — Cloud Speech-to-Text V2 | Supported languages — https://docs.cloud.google.com/speech-to-text/v2/docs/speech-to-text-supported-languages | 23/09/2026 | **`pt-BR` (Portuguese, Brazil)** suportado nos modelos `chirp_3`, `long`, `short`, `telephony` e `telephony_short`; diarização disponível no `chirp_3` | verificado |
 
 ### Enunciado do trabalho
@@ -707,4 +994,4 @@ Registradas por transparência: foram lidas durante a pesquisa, mas **não suste
 
 ---
 
-*Relatório montado automaticamente a partir dos arquivos do repositório em 24/09/2026 por `relatorio/montar_relatorio.py`. Para regerar: `uv run relatorio/montar_relatorio.py --html`.*
+*Relatório montado automaticamente a partir dos arquivos do repositório em 26/09/2026 por `relatorio/montar_relatorio.py`. Para regerar: `uv run relatorio/montar_relatorio.py --html`.*

@@ -63,6 +63,7 @@ def classificar(score: float) -> str:
 def main() -> None:
     cliente = language_v1.LanguageServiceClient()
 
+    # --- TRECHO CITADO NO RELATÓRIO (início) ---
     documento = language_v1.Document(
         content=TEXTO,
         type_=language_v1.Document.Type.PLAIN_TEXT,
@@ -72,6 +73,7 @@ def main() -> None:
     resposta = cliente.analyze_sentiment(
         request={"document": documento, "encoding_type": language_v1.EncodingType.UTF8}
     )
+    # --- TRECHO CITADO NO RELATÓRIO (fim) ---
 
     sentimento = resposta.document_sentiment
     print(f"score:     {sentimento.score:.4f}")

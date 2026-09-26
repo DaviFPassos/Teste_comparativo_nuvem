@@ -30,6 +30,14 @@ SAIDA_HTML = RAIZ / "relatorio" / "relatorio_etapa1.html"
 
 INTEGRANTES = ["Davi Fonseca Passos", "Rafael Fonseca Pessoa", "Lucca Melo Nunes"]
 
+# O relatório também circula como PDF, longe do repositório. Todo link para um
+# arquivo do projeto tem de apontar para a URL pública do GitHub — um caminho
+# relativo funciona no repositório e morre no PDF, e um caminho absoluto vaza o
+# diretório de quem gerou o arquivo. `verificar_links_do_pdf()` recusa gerar o
+# relatório se algum link local escapar.
+REPOSITORIO = "https://github.com/DaviFPassos/Teste_comparativo_nuvem"
+BLOB = f"{REPOSITORIO}/blob/main"
+
 CAPA = f"""# Comparação de Serviços de Inteligência Artificial em Nuvem
 
 ## Etapa 1 — Análise Comparativa
@@ -44,7 +52,11 @@ CAPA = f"""# Comparação de Serviços de Inteligência Artificial em Nuvem
 
 **Provedores analisados:** Amazon Web Services · Microsoft Azure · Google Cloud
 
-**Região de referência:** US East · **Moeda:** USD · **Preços consultados em:** 23/09/2026
+**Região dos preços:** `us-east-1` (AWS) · `East US` (Azure) · global em NLP e visão e `us-central1` em fala (Google Cloud)
+
+**Moeda:** USD · **Preços consultados em:** 23/09/2026
+
+**Repositório público (código, dados, gráficos e capítulos completos):** https://github.com/DaviFPassos/Teste_comparativo_nuvem
 
 ---
 """
@@ -57,39 +69,101 @@ def promover_titulos(texto, nivel_base):
     Cada capítulo é escrito para ser lido sozinho (começa em '# '). Dentro do
     relatório ele precisa virar uma seção numerada, então todos os níveis
     descem junto.
+
+    Blocos de código são preservados: um comentário Python começa com '#' e não
+    é título nenhum — promovê-lo transformaria `# comentário` em `## comentário`
+    dentro do trecho citado.
     """
     linhas = []
+    dentro_de_codigo = False
     for linha in texto.split("\n"):
-        m = re.match(r"^(#{1,6}) ", linha)
+        if linha.lstrip().startswith("```"):
+            dentro_de_codigo = not dentro_de_codigo
+            linhas.append(linha)
+            continue
+        m = None if dentro_de_codigo else re.match(r"^(#{1,6}) ", linha)
         if m:
             linha = "#" * min(6, len(m.group(1)) + nivel_base) + linha[m.end() - 1:]
         linhas.append(linha)
     return "\n".join(linhas)
 
 
-# Seções de cada capítulo que entram no relatório. O detalhamento técnico
-# completo (limites numéricos, cotas, formatos aceitos, autenticação) continua
-# nos arquivos etapa1/*.md, que o relatório referencia — a intenção é que o
-# relatório caiba em uma leitura, não que ele substitua os capítulos.
-# A seção 4 (exemplos de código) é exigência explícita da seção 3 do
-# enunciado: "a análise de cada categoria deverá incluir também breves
-# exemplos de código". No relatório ela entra de forma curta, apontando
-# os arquivos e declarando que não foram executados.
+# Seções de cada capítulo que entram no relatório.
+#
+# O relatório precisa ser compreensível ABERTO SOZINHO, fora do repositório —
+# é assim que ele chega a quem avalia. Por isso a comparação técnica entra
+# inteira: entradas, saídas, formas de acesso e autenticação, limites e avisos
+# oficiais de encerramento. O que fica só nos capítulos de etapa1/ é o aparato
+# de rastreabilidade (tabela de fontes por afirmação, pendências de verificação)
+# e o bloco de reprodutibilidade, idêntico nos três e já presente na introdução.
+#
+# A seção 4 (exemplos de código) é exigência explícita da seção 3 do enunciado:
+# "a análise de cada categoria deverá incluir também breves exemplos de código".
+# No relatório ela entra com o TRECHO ESSENCIAL de cada exemplo e o link para o
+# arquivo completo no GitHub — ver `exemplos_com_trecho()`.
 SECOES_MANTIDAS = ("1.", "2.", "4.", "5.", "6.", "7.")
-SUBSECOES_TECNICAS = ("Funcionalidades, entradas e saídas", "Entradas: formatos e limites",
-                      "Entradas: formatos e origem do áudio", "Situação do serviço")
+SUBSECOES_TECNICAS = ("Funcionalidades, entradas e saídas",
+                      "Entradas: formatos e limites",
+                      "Entradas: formatos e origem do áudio",
+                      "Saídas",
+                      "Suporte a português",
+                      "Suporte ao português do Brasil",
+                      "Formas de acesso, autenticação e configuração",
+                      "Limites operacionais e de taxa",
+                      "Latência de processamento e limites operacionais",
+                      "Situação do serviço")
+
+
+MARCA_INICIO = "# --- TRECHO CITADO NO RELATÓRIO (início) ---"
+MARCA_FIM = "# --- TRECHO CITADO NO RELATÓRIO (fim) ---"
+
+
+def trecho_do_exemplo(caminho_relativo):
+    """
+    Extrai de um exemplo o trecho entre as marcas TRECHO CITADO NO RELATÓRIO.
+
+    O trecho não é copiado à mão para o relatório: sai do arquivo que o
+    repositório entrega, de modo que não possa divergir dele. A indentação
+    comum é removida para o bloco caber na largura da página A4.
+    """
+    linhas = (RAIZ / caminho_relativo).read_text(encoding="utf-8").split("\n")
+    try:
+        ini = next(i for i, l in enumerate(linhas) if MARCA_INICIO in l)
+        fim = next(i for i, l in enumerate(linhas) if MARCA_FIM in l)
+    except StopIteration:
+        raise SystemExit(
+            f"{caminho_relativo}: faltam as marcas de trecho para o relatório. "
+            f"Envolva o trecho essencial com:\n  {MARCA_INICIO}\n  ...\n  {MARCA_FIM}")
+
+    corpo = [l for l in linhas[ini + 1:fim] if l.strip()]
+    recuo = min((len(l) - len(l.lstrip()) for l in corpo), default=0)
+    return "\n".join(l[recuo:] for l in linhas[ini + 1:fim]).strip("\n")
+
+
+def exemplos_com_trecho(caminho_relativo):
+    """
+    Transforma o item de lista de um exemplo no bloco que vai para o relatório:
+    título com link para o GitHub + trecho de código essencial.
+    """
+    return ["", f"**[`{caminho_relativo}`]({BLOB}/{caminho_relativo})** — trecho "
+                f"essencial. O arquivo completo, no link, traz a autenticação por "
+                f"variável de ambiente, o tratamento de erro, os limites do serviço "
+                f"e a fonte da adaptação:", "",
+            "```python", trecho_do_exemplo(caminho_relativo), "```", ""]
 
 
 def condensar_capitulo(texto, arquivo_origem):
     """
     Reduz um capítulo ao que o relatório precisa mostrar.
 
-    Mantém objetivo, serviços comparados, cobrança, custo e síntese. Da
-    comparação técnica mantém a tabela principal e os avisos oficiais de
-    encerramento, que são decisivos para a escolha. Descarta o bloco de
-    reprodutibilidade, idêntico nos três capítulos e já presente uma vez na
-    introdução do relatório. O restante fica no capítulo completo, cujo link
-    entra no lugar.
+    Mantém objetivo, serviços comparados, comparação técnica, cobrança, custo
+    e síntese — tudo o que é preciso para ler o relatório sozinho. Descarta a
+    tabela de fontes por afirmação, as pendências de verificação e o bloco de
+    reprodutibilidade (idêntico nos três capítulos e já presente na introdução),
+    que ficam no capítulo completo, cujo link no GitHub entra no lugar.
+
+    Na seção 4, cada caminho de exemplo vira link para o GitHub mais o trecho
+    essencial do código, extraído do próprio arquivo.
     """
     saida = []
     secao = None           # número da seção "##" corrente
@@ -107,10 +181,11 @@ def condensar_capitulo(texto, arquivo_origem):
             if secao == "3.":
                 saida += [
                     "## 3. Comparação técnica", "",
-                    "As tabelas abaixo trazem a comparação que mais pesa na escolha. "
-                    "O detalhamento completo — limites numéricos, cotas, formatos aceitos, "
-                    f"autenticação e configuração — está em [`{arquivo_origem}`]"
-                    f"(../{arquivo_origem}).", "",
+                    "As tabelas abaixo comparam entradas, saídas, formas de acesso, "
+                    "autenticação, limites e avisos oficiais dos três serviços. O "
+                    "capítulo completo — com a fonte oficial de cada afirmação e as "
+                    "pendências de verificação — está em "
+                    f"[`{arquivo_origem}`]({BLOB}/{arquivo_origem}).", "",
                 ]
             elif manter_secao:
                 saida.append(linha)
@@ -126,6 +201,12 @@ def condensar_capitulo(texto, arquivo_origem):
                 manter_sub = "Reprodutibilidade" not in titulo
             if manter_sub:
                 saida.append(linha)
+            continue
+
+        # Na seção de exemplos, o caminho do arquivo vira link + trecho de código.
+        exemplo = re.match(r"^- `(exemplos/[^`]+\.py)`$", linha)
+        if exemplo and manter_secao and manter_sub:
+            saida += exemplos_com_trecho(exemplo.group(1))
             continue
 
         if manter_secao and manter_sub:
@@ -382,8 +463,33 @@ def md_para_html(md):
     return "\n".join(saida)
 
 
+def verificar_links_do_pdf(md):
+    """
+    Recusa gerar o relatório se algum link não funcionar fora do repositório.
+
+    O PDF é lido longe dos arquivos: link relativo (`../etapa1/nlp.md`) quebra,
+    e `file:///home/...` — que é no que um link relativo se transforma quando o
+    navegador exporta o PDF — além de quebrar, publica o diretório de quem
+    gerou o arquivo. Os dois casos são erro, não aviso.
+
+    Imagens (`![...](...)`) ficam de fora da checagem: os gráficos entram no
+    HTML embutidos em base64, então o caminho relativo nunca chega ao PDF.
+    """
+    problemas = []
+    for imagem, alvo in re.findall(r"(!?)\[[^\]]*\]\(([^)]+)\)", md):
+        if imagem == "!" or alvo.startswith(("http://", "https://", "#", "data:")):
+            continue
+        problemas.append(alvo)
+
+    if problemas:
+        raise SystemExit(
+            "Links que não funcionam fora do repositório (use a URL do GitHub, "
+            f"{BLOB}/...):\n  " + "\n  ".join(sorted(set(problemas))))
+
+
 def main():
     md = montar()
+    verificar_links_do_pdf(md)
     SAIDA_MD.write_text(md, encoding="utf-8")
     print(f"gerado: {SAIDA_MD.relative_to(RAIZ)}  ({len(md.splitlines())} linhas)")
 

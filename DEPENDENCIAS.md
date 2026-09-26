@@ -47,7 +47,7 @@ Executar esses exemplos de verdade exige credenciais do provedor e **gera custo*
 
 ## Resumo dos pacotes
 
-Somando as dependências diretas, são **8 pacotes**:
+Somando as dependências diretas, são **10 pacotes** — 8 deles apenas nos exemplos ilustrativos, que não são executados nesta etapa, e 2 (`matplotlib` e `playwright`) nos scripts que de fato rodam:
 
 ```
 azure-ai-textanalytics==5.4.0
