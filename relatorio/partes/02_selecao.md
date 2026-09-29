@@ -22,7 +22,7 @@ Categorias consideradas e descartadas: **tradução automática** (domínio de e
 
 ### Nomenclatura atualizada
 
-Durante a pesquisa constatou-se que **a Microsoft reorganizou suas ofertas de IA sob a marca *Foundry Tools***. Os nomes usados neste relatório são os vigentes em setembro de 2026; os nomes anteriores (Azure AI Language, Text Analytics, Azure AI Vision, Azure AI Speech) aparecem entre parênteses na primeira ocorrência de cada capítulo.
+Durante a pesquisa constatou-se que **a Microsoft reorganizou suas ofertas de IA sob a marca** *Foundry Tools*. Os nomes usados neste relatório são os vigentes em setembro de 2026; os nomes anteriores (Azure AI Language, Text Analytics, Azure AI Vision, Azure AI Speech) aparecem entre parênteses na primeira ocorrência de cada capítulo.
 
 ### Equivalência e seus limites
 

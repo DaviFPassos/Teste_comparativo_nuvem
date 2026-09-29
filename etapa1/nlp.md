@@ -1,9 +1,9 @@
 # Categoria 1 — NLP / análise de texto: análise de sentimento
 
-**Operação comparada:** sentimento em nível de documento, sobre o mesmo texto em português (`O atendimento foi excelente.`)
-**Modo de chamada:** síncrono, um documento por chamada
-**Data da consulta às fontes:** 23/09/2026
-**Região de referência:** US East (`us-east-1` / `East US` / global no caso do Google)
+- **Operação comparada:** sentimento em nível de documento, sobre o mesmo texto em português (`O atendimento foi excelente.`)
+- **Modo de chamada:** síncrono, um documento por chamada
+- **Data da consulta às fontes:** 23/09/2026
+- **Região de referência:** US East (`us-east-1` / `East US` / global no caso do Google)
 
 
 ## 1. Objetivo da categoria e caso de uso
@@ -112,7 +112,7 @@ Todos os preços acima são de **US East, em USD, consultados em 23/09/2026**, e
 
 A regra de contagem do Google foi confirmada pelo exemplo da própria página de preços: 800, 1.500 e 600 caracteres são cobrados como 1 + 2 + 1 = **4 unidades**, ou seja, arredondamento para cima com mínimo de uma unidade.
 
-A diferença de unidade é o fator que mais afeta o custo comparado: **um texto curto de 100 caracteres consome 1 unidade na AWS (sujeita ao mínimo da requisição) e 1 unidade inteira de 1.000 caracteres na Azure e no Google.** O efeito disso sobre o custo real é calculado na Fase 4, com cenários de comprimento variável, e é exatamente por isso que o cenário usa textos de 100, 500, 1.200 e 4.000 caracteres.
+A diferença de unidade é o fator que mais afeta o custo comparado: **embora 100 caracteres correspondam a uma unidade, a AWS cobra o mínimo de três unidades por documento; a Azure e o Google cobram uma unidade inteira de 1.000 caracteres.** O efeito disso sobre o custo real é calculado na seção 6 deste capítulo, nos cinco comprimentos analisados.
 
 ## 6. Cenário de custo, fórmulas, premissas e resultados
 

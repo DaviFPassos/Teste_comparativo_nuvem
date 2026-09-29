@@ -45,9 +45,9 @@ Nenhuma das três categorias permite trocar de provedor apenas trocando o endpoi
 - **Visão:** as escalas de confiança diferem (0–100 × 0–1) e os vocabulários de rótulos não têm tabela de equivalência oficial. Migrar exige recalibrar limiares e remapear termos.
 - **Fala:** a origem do áudio é imposta de forma diferente (S3 obrigatório na AWS; URI público aceito na Azure; Cloud Storage no Google), o que atinge a arquitetura, não só o código de chamada.
 
-### 6.5 Franquia gratuita não é desconto — e a diferença muda o número
+### 6.5 As franquias gratuitas seguem regras diferentes de abatimento
 
-As três nuvens anunciam "camada gratuita", e as três querem dizer coisas diferentes:
+As três nuvens anunciam "camada gratuita", mas cada uma abate o valor da fatura de um jeito diferente — em uma delas, a franquia às vezes nem se aplica à operação comparada:
 
 | Provedor | O que é | Entra no cenário? |
 |---|---|---|

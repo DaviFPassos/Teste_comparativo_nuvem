@@ -31,7 +31,7 @@ A perspectiva adotada é deliberadamente a de quem **consome** o serviço, e nã
 
 ### Como este relatório foi construído
 
-Toda afirmação técnica e todo preço vêm de **documentação oficial dos provedores**, consultada em **23 e 24 de setembro de 2026**, com URL e data registradas em `referencias/fontes.md`. Onde uma informação não foi localizada, ela aparece como **pendência declarada** — nunca preenchida por estimativa.
+Toda afirmação técnica e todo preço vêm de **documentação oficial dos provedores**, consultada **entre 23 e 26 de setembro de 2026** — a data exata de cada fonte está registrada em `referencias/fontes.md`. Todos os preços foram consultados em 23/09/2026; algumas confirmações técnicas complementares foram feitas em 26/09/2026, durante a revisão do relatório. Onde uma informação não foi localizada, ela aparece como **pendência declarada** — nunca preenchida por estimativa.
 
 Duas decisões metodológicas merecem registro:
 
@@ -78,7 +78,7 @@ Categorias consideradas e descartadas: **tradução automática** (domínio de e
 
 ### Nomenclatura atualizada
 
-Durante a pesquisa constatou-se que **a Microsoft reorganizou suas ofertas de IA sob a marca *Foundry Tools***. Os nomes usados neste relatório são os vigentes em setembro de 2026; os nomes anteriores (Azure AI Language, Text Analytics, Azure AI Vision, Azure AI Speech) aparecem entre parênteses na primeira ocorrência de cada capítulo.
+Durante a pesquisa constatou-se que **a Microsoft reorganizou suas ofertas de IA sob a marca** *Foundry Tools*. Os nomes usados neste relatório são os vigentes em setembro de 2026; os nomes anteriores (Azure AI Language, Text Analytics, Azure AI Vision, Azure AI Speech) aparecem entre parênteses na primeira ocorrência de cada capítulo.
 
 ### Equivalência e seus limites
 
@@ -91,10 +91,10 @@ A comparação é entre serviços **concorrentes**, não idênticos. Três limit
 
 ## 3. NLP / análise de texto: análise de sentimento
 
-**Operação comparada:** sentimento em nível de documento, sobre o mesmo texto em português (`O atendimento foi excelente.`)
-**Modo de chamada:** síncrono, um documento por chamada
-**Data da consulta às fontes:** 23/09/2026
-**Região de referência:** US East (`us-east-1` / `East US` / global no caso do Google)
+- **Operação comparada:** sentimento em nível de documento, sobre o mesmo texto em português (`O atendimento foi excelente.`)
+- **Modo de chamada:** síncrono, um documento por chamada
+- **Data da consulta às fontes:** 23/09/2026
+- **Região de referência:** US East (`us-east-1` / `East US` / global no caso do Google)
 
 
 ### 1. Objetivo da categoria e caso de uso
@@ -236,7 +236,7 @@ Todos os preços acima são de **US East, em USD, consultados em 23/09/2026**, e
 
 A regra de contagem do Google foi confirmada pelo exemplo da própria página de preços: 800, 1.500 e 600 caracteres são cobrados como 1 + 2 + 1 = **4 unidades**, ou seja, arredondamento para cima com mínimo de uma unidade.
 
-A diferença de unidade é o fator que mais afeta o custo comparado: **um texto curto de 100 caracteres consome 1 unidade na AWS (sujeita ao mínimo da requisição) e 1 unidade inteira de 1.000 caracteres na Azure e no Google.** O efeito disso sobre o custo real é calculado na Fase 4, com cenários de comprimento variável, e é exatamente por isso que o cenário usa textos de 100, 500, 1.200 e 4.000 caracteres.
+A diferença de unidade é o fator que mais afeta o custo comparado: **embora 100 caracteres correspondam a uma unidade, a AWS cobra o mínimo de três unidades por documento; a Azure e o Google cobram uma unidade inteira de 1.000 caracteres.** O efeito disso sobre o custo real é calculado na seção 6 deste capítulo, nos cinco comprimentos analisados.
 
 ### 6. Cenário de custo, fórmulas, premissas e resultados
 
@@ -339,10 +339,10 @@ A análise de sentimento da Azure tem **encerramento anunciado para 31/03/2029**
 
 ## 4. Visão computacional: detecção de rótulos em imagem
 
-**Operação comparada:** detecção de rótulos (labels/tags) do conteúdo da mesma imagem, sem localização
-**Modo de chamada:** síncrono, uma imagem por chamada
-**Data da consulta às fontes:** 23/09/2026
-**Região de referência:** US East (`us-east-1` / `East US` / global no caso do Google)
+- **Operação comparada:** detecção de rótulos (labels/tags) do conteúdo da mesma imagem, sem localização
+- **Modo de chamada:** síncrono, uma imagem por chamada
+- **Data da consulta às fontes:** 23/09/2026
+- **Região de referência:** US East (`us-east-1` / `East US` / global no caso do Google)
 
 
 ### 1. Objetivo da categoria e caso de uso
@@ -550,10 +550,10 @@ Essa ordem não vale para qualquer volume: os degraus de faixa são diferentes, 
 
 ## 5. Fala para texto: transcrição de áudio
 
-**Operação comparada:** transcrição assíncrona (em lote) do mesmo arquivo de áudio em português do Brasil
-**Modo de chamada:** assíncrono / lote — único modo oferecido pelos três para arquivos longos
-**Data da consulta às fontes:** 23/09/2026
-**Região de referência:** `us-east-1` (N. Virginia) na AWS e `East US` na Azure; no Google, **`us-central1` (Iowa)** — a tabela da Cloud Speech-to-Text V2 é regional e `us-central1` **não** é uma região US East. A diferença está declarada como limitação em vez de ser tratada como equivalência
+- **Operação comparada:** transcrição assíncrona (em lote) do mesmo arquivo de áudio em português do Brasil
+- **Modo de chamada:** assíncrono / lote — único modo oferecido pelos três para arquivos longos
+- **Data da consulta às fontes:** 23/09/2026
+- **Região de referência:** `us-east-1` (N. Virginia) na AWS e `East US` na Azure; no Google, **`us-central1` (Iowa)** — a tabela da Cloud Speech-to-Text V2 é regional e `us-central1` **não** é uma região US East. A diferença está declarada como limitação em vez de ser tratada como equivalência
 
 
 ### 1. Objetivo da categoria e caso de uso
@@ -854,9 +854,9 @@ Nenhuma das três categorias permite trocar de provedor apenas trocando o endpoi
 - **Visão:** as escalas de confiança diferem (0–100 × 0–1) e os vocabulários de rótulos não têm tabela de equivalência oficial. Migrar exige recalibrar limiares e remapear termos.
 - **Fala:** a origem do áudio é imposta de forma diferente (S3 obrigatório na AWS; URI público aceito na Azure; Cloud Storage no Google), o que atinge a arquitetura, não só o código de chamada.
 
-### 6.5 Franquia gratuita não é desconto — e a diferença muda o número
+### 6.5 As franquias gratuitas seguem regras diferentes de abatimento
 
-As três nuvens anunciam "camada gratuita", e as três querem dizer coisas diferentes:
+As três nuvens anunciam "camada gratuita", mas cada uma abate o valor da fatura de um jeito diferente — em uma delas, a franquia às vezes nem se aplica à operação comparada:
 
 | Provedor | O que é | Entra no cenário? |
 |---|---|---|
@@ -881,15 +881,15 @@ Registradas para delimitar o alcance das conclusões:
 
 **2. As conclusões valem para a data e a região declaradas.** Preços de nuvem mudam. Todos os valores são de **23/09/2026, em USD**, com a fonte de cada um registrada em `custos/premissas.csv`. Uma consulta futura pode divergir, e a reprodução dos cálculos exige reverificar as premissas.
 
-**2a. As regiões não são idênticas nas três nuvens.** AWS em `us-east-1` e Azure em `East US`; no Google, Natural Language e Vision têm preço global, e a Cloud Speech-to-Text V2 foi consultada em **`us-central1` (Iowa)**, que é US Central. A comparação de custo de transcrição, portanto, não é entre três regiões equivalentes, e a diferença de preço entre regiões do Google não foi levantada.
+**3. As regiões não são idênticas nas três nuvens.** AWS em `us-east-1` e Azure em `East US`; no Google, Natural Language e Vision têm preço global, e a Cloud Speech-to-Text V2 foi consultada em **`us-central1` (Iowa)**, que é US Central. A comparação de custo de transcrição, portanto, não é entre três regiões equivalentes, e a diferença de preço entre regiões do Google não foi levantada.
 
-**3. As cargas dos cenários são hipotéticas.** 100.000 documentos, 100.000 imagens e 10.000 minutos de áudio são quantidades escolhidas pelo grupo para permitir comparação, não estimativas de uso real de nenhuma aplicação. O que garante a validade da comparação não é a quantidade em si, mas o fato de ser **idêntica entre provedores**.
+**4. As cargas dos cenários são hipotéticas.** 100.000 documentos, 100.000 imagens e 10.000 minutos de áudio são quantidades escolhidas pelo grupo para permitir comparação, não estimativas de uso real de nenhuma aplicação. O que garante a validade da comparação não é a quantidade em si, mas o fato de ser **idêntica entre provedores**.
 
-**4. Os resultados não se generalizam para outros volumes sem recálculo.** As faixas de preço têm degraus em pontos diferentes em cada provedor. A ordem observada em 100.000 imagens pode se inverter em 10 milhões.
+**5. Os resultados não se generalizam para outros volumes sem recálculo.** As faixas de preço têm degraus em pontos diferentes em cada provedor. A ordem observada em 100.000 imagens pode se inverter em 10 milhões.
 
-**5. Comparou-se uma operação por categoria.** Sentimento de documento, detecção de rótulos e transcrição em lote. Cada serviço oferece dezenas de outras operações, com preços e limites próprios, que não foram analisadas.
+**6. Comparou-se uma operação por categoria.** Sentimento de documento, detecção de rótulos e transcrição em lote. Cada serviço oferece dezenas de outras operações, com preços e limites próprios, que não foram analisadas.
 
-**6. Informações não localizadas ficaram como pendência.** Especificamente:
+**7. Informações não localizadas ficaram como pendência.** Especificamente:
 
 | Pendência | Onde |
 |---|---|
@@ -901,7 +901,7 @@ Registradas para delimitar o alcance das conclusões:
 
 Nenhuma dessas lacunas foi preenchida por estimativa.
 
-**7. A distinção `pt-BR` da Azure não foi testada.** A documentação registra que a Azure distingue português do Brasil de português de Portugal, e que AWS e Google não. **Ela não afirma que isso produza melhor resultado em textos brasileiros**, e este relatório não o afirma. É uma hipótese verificável na Etapa 2.
+**8. A distinção `pt-BR` da Azure não foi testada.** A documentação registra que a Azure distingue português do Brasil de português de Portugal, e que AWS e Google não. **Ela não afirma que isso produza melhor resultado em textos brasileiros**, e este relatório não o afirma. É uma hipótese verificável na Etapa 2.
 
 
 ## 8. Referências
@@ -999,4 +999,4 @@ Registradas por transparência: foram lidas durante a pesquisa, mas **não suste
 
 ---
 
-*Relatório montado automaticamente a partir dos arquivos do repositório em 26/09/2026 por `relatorio/montar_relatorio.py`. Para regerar: `uv run relatorio/montar_relatorio.py --html`.*
+*Relatório montado automaticamente a partir dos arquivos do repositório em 29/09/2026 por `relatorio/montar_relatorio.py`. Para regerar: `uv run relatorio/montar_relatorio.py --html`.*

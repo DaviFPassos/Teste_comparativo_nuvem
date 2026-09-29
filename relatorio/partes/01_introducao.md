@@ -6,7 +6,7 @@ A perspectiva adotada é deliberadamente a de quem **consome** o serviço, e nã
 
 ### Como este relatório foi construído
 
-Toda afirmação técnica e todo preço vêm de **documentação oficial dos provedores**, consultada em **23 e 24 de setembro de 2026**, com URL e data registradas em `referencias/fontes.md`. Onde uma informação não foi localizada, ela aparece como **pendência declarada** — nunca preenchida por estimativa.
+Toda afirmação técnica e todo preço vêm de **documentação oficial dos provedores**, consultada **entre 23 e 26 de setembro de 2026** — a data exata de cada fonte está registrada em `referencias/fontes.md`. Todos os preços foram consultados em 23/09/2026; algumas confirmações técnicas complementares foram feitas em 26/09/2026, durante a revisão do relatório. Onde uma informação não foi localizada, ela aparece como **pendência declarada** — nunca preenchida por estimativa.
 
 Duas decisões metodológicas merecem registro:
 

@@ -1,9 +1,9 @@
 # Categoria 2 — Visão computacional: detecção de rótulos em imagem
 
-**Operação comparada:** detecção de rótulos (labels/tags) do conteúdo da mesma imagem, sem localização
-**Modo de chamada:** síncrono, uma imagem por chamada
-**Data da consulta às fontes:** 23/09/2026
-**Região de referência:** US East (`us-east-1` / `East US` / global no caso do Google)
+- **Operação comparada:** detecção de rótulos (labels/tags) do conteúdo da mesma imagem, sem localização
+- **Modo de chamada:** síncrono, uma imagem por chamada
+- **Data da consulta às fontes:** 23/09/2026
+- **Região de referência:** US East (`us-east-1` / `East US` / global no caso do Google)
 
 
 ## 1. Objetivo da categoria e caso de uso

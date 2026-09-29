@@ -6,15 +6,15 @@ Registradas para delimitar o alcance das conclusões:
 
 **2. As conclusões valem para a data e a região declaradas.** Preços de nuvem mudam. Todos os valores são de **23/09/2026, em USD**, com a fonte de cada um registrada em `custos/premissas.csv`. Uma consulta futura pode divergir, e a reprodução dos cálculos exige reverificar as premissas.
 
-**2a. As regiões não são idênticas nas três nuvens.** AWS em `us-east-1` e Azure em `East US`; no Google, Natural Language e Vision têm preço global, e a Cloud Speech-to-Text V2 foi consultada em **`us-central1` (Iowa)**, que é US Central. A comparação de custo de transcrição, portanto, não é entre três regiões equivalentes, e a diferença de preço entre regiões do Google não foi levantada.
+**3. As regiões não são idênticas nas três nuvens.** AWS em `us-east-1` e Azure em `East US`; no Google, Natural Language e Vision têm preço global, e a Cloud Speech-to-Text V2 foi consultada em **`us-central1` (Iowa)**, que é US Central. A comparação de custo de transcrição, portanto, não é entre três regiões equivalentes, e a diferença de preço entre regiões do Google não foi levantada.
 
-**3. As cargas dos cenários são hipotéticas.** 100.000 documentos, 100.000 imagens e 10.000 minutos de áudio são quantidades escolhidas pelo grupo para permitir comparação, não estimativas de uso real de nenhuma aplicação. O que garante a validade da comparação não é a quantidade em si, mas o fato de ser **idêntica entre provedores**.
+**4. As cargas dos cenários são hipotéticas.** 100.000 documentos, 100.000 imagens e 10.000 minutos de áudio são quantidades escolhidas pelo grupo para permitir comparação, não estimativas de uso real de nenhuma aplicação. O que garante a validade da comparação não é a quantidade em si, mas o fato de ser **idêntica entre provedores**.
 
-**4. Os resultados não se generalizam para outros volumes sem recálculo.** As faixas de preço têm degraus em pontos diferentes em cada provedor. A ordem observada em 100.000 imagens pode se inverter em 10 milhões.
+**5. Os resultados não se generalizam para outros volumes sem recálculo.** As faixas de preço têm degraus em pontos diferentes em cada provedor. A ordem observada em 100.000 imagens pode se inverter em 10 milhões.
 
-**5. Comparou-se uma operação por categoria.** Sentimento de documento, detecção de rótulos e transcrição em lote. Cada serviço oferece dezenas de outras operações, com preços e limites próprios, que não foram analisadas.
+**6. Comparou-se uma operação por categoria.** Sentimento de documento, detecção de rótulos e transcrição em lote. Cada serviço oferece dezenas de outras operações, com preços e limites próprios, que não foram analisadas.
 
-**6. Informações não localizadas ficaram como pendência.** Especificamente:
+**7. Informações não localizadas ficaram como pendência.** Especificamente:
 
 | Pendência | Onde |
 |---|---|
@@ -26,4 +26,4 @@ Registradas para delimitar o alcance das conclusões:
 
 Nenhuma dessas lacunas foi preenchida por estimativa.
 
-**7. A distinção `pt-BR` da Azure não foi testada.** A documentação registra que a Azure distingue português do Brasil de português de Portugal, e que AWS e Google não. **Ela não afirma que isso produza melhor resultado em textos brasileiros**, e este relatório não o afirma. É uma hipótese verificável na Etapa 2.
+**8. A distinção `pt-BR` da Azure não foi testada.** A documentação registra que a Azure distingue português do Brasil de português de Portugal, e que AWS e Google não. **Ela não afirma que isso produza melhor resultado em textos brasileiros**, e este relatório não o afirma. É uma hipótese verificável na Etapa 2.

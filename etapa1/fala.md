@@ -1,9 +1,9 @@
 # Categoria 3 — Fala para texto: transcrição de áudio
 
-**Operação comparada:** transcrição assíncrona (em lote) do mesmo arquivo de áudio em português do Brasil
-**Modo de chamada:** assíncrono / lote — único modo oferecido pelos três para arquivos longos
-**Data da consulta às fontes:** 23/09/2026
-**Região de referência:** `us-east-1` (N. Virginia) na AWS e `East US` na Azure; no Google, **`us-central1` (Iowa)** — a tabela da Cloud Speech-to-Text V2 é regional e `us-central1` **não** é uma região US East. A diferença está declarada como limitação em vez de ser tratada como equivalência
+- **Operação comparada:** transcrição assíncrona (em lote) do mesmo arquivo de áudio em português do Brasil
+- **Modo de chamada:** assíncrono / lote — único modo oferecido pelos três para arquivos longos
+- **Data da consulta às fontes:** 23/09/2026
+- **Região de referência:** `us-east-1` (N. Virginia) na AWS e `East US` na Azure; no Google, **`us-central1` (Iowa)** — a tabela da Cloud Speech-to-Text V2 é regional e `us-central1` **não** é uma região US East. A diferença está declarada como limitação em vez de ser tratada como equivalência
 
 
 ## 1. Objetivo da categoria e caso de uso
