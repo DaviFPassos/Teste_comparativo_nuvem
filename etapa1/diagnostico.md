@@ -72,7 +72,7 @@ O `etapas/ROTEIRO_ETAPA1.md` (seções 1 e 4) pressupõe que o grupo já possui 
 
 1. `etapa1/categorias.md` — seleção e critérios (itens 2, 3, 4).
 2. `etapa1/nlp.md`, `etapa1/visao.md`, `etapa1/fala.md` — análise técnica, custos e síntese por categoria (itens 5, 14).
-3. `exemplos/{nlp,visao,fala}/{aws,azure,gcp}.py` — 9 exemplos ilustrativos com fonte declarada (itens 6, 7).
+3. `exemplos/{nlp,visao,fala}/{aws,azure,gcp}.py` — 9 exemplos com fonte declarada, testados em `testes/` sem chamar os serviços reais (itens 6, 7).
 4. `custos/premissas.csv`, `custos/calcular_custos.py`, `custos/resultados.csv`, `custos/graficos/` — análise econômica reproduzível (itens 8 a 13).
 5. `referencias/fontes.md` — rastreabilidade das afirmações (item 18).
 6. `relatorio/relatorio_etapa1.md` (+ versão para PDF) — consolidação (itens 3, 5, 14).

@@ -98,7 +98,7 @@ Os três exemplos executam a **mesma operação** sobre o **mesmo texto**, e est
 - `exemplos/nlp/azure_language.py`
 - `exemplos/nlp/google_natural_language.py`
 
-**Estado de validação:** os três exemplos são **ilustrativos e não foram executados pelo grupo**. Foram adaptados da documentação oficial de cada provedor, conforme permitido pela seção 3 do enunciado ("Nesta etapa, os exemplos não precisam ter sido desenvolvidos ou executados pelo grupo"). Cada arquivo declara sua dependência, a fonte da adaptação e o mecanismo de autenticação. Nenhuma credencial está embutida no código: todos leem variáveis de ambiente.
+**Estado de validação: testados, sem chamar o serviço real.** `testes/test_nlp.py` executa cada exemplo de ponta a ponta com a biblioteca oficial do provedor instalada; só a chamada de rede é trocada por uma resposta simulada no formato documentado. Há também um teste dos limiares que o exemplo do Google usa para derivar uma classe a partir do score, inclusive nas fronteiras exatas (±0,25). Os exemplos foram adaptados da documentação oficial de cada provedor. Nenhuma credencial está embutida no código: todos leem variáveis de ambiente. Como a resposta é simulada, o teste prova que o código usa a API corretamente — não mede a qualidade do resultado do serviço, que é objeto da Etapa 2.
 
 ## 5. Modelo de cobrança
 

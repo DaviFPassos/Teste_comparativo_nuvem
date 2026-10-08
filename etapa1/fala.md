@@ -94,7 +94,7 @@ Os três exemplos submetem o **mesmo áudio** à **mesma operação em lote**, c
 - `exemplos/fala/azure_speech.py`
 - `exemplos/fala/google_speech_to_text.py`
 
-**Estado de validação:** exemplos **ilustrativos, não executados pelo grupo**, adaptados da documentação oficial, conforme a seção 3 do enunciado. Por serem operações assíncronas, cada exemplo mostra os três momentos do fluxo: envio, acompanhamento e obtenção do resultado. Nenhuma credencial está embutida.
+**Estado de validação: testados, sem chamar o serviço real.** `testes/test_fala.py` executa cada exemplo de ponta a ponta com a biblioteca oficial do provedor instalada; só a chamada de rede é trocada por uma resposta simulada no formato documentado. Por serem operações assíncronas, o teste percorre os três momentos do fluxo — envio, acompanhamento e obtenção do resultado —, simulando um job ainda em andamento antes de concluir e conferindo o intervalo entre consultas, sem esperar de verdade. Os exemplos foram adaptados da documentação oficial de cada provedor. Nenhuma credencial está embutida no código: todos leem variáveis de ambiente. Como a resposta é simulada, o teste prova que o código usa a API corretamente — não mede a qualidade do resultado do serviço, que é objeto da Etapa 2.
 
 ## 5. Modelo de cobrança
 

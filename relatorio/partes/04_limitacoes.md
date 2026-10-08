@@ -2,7 +2,7 @@
 
 Registradas para delimitar o alcance das conclusões:
 
-**1. Nenhum exemplo de código foi executado.** A seção 3 do enunciado permite isso nesta etapa. Consequentemente, não há neste relatório qualquer medição de latência, taxa de acerto, taxa de erro ou comportamento em produção.
+**1. Os exemplos foram testados com respostas simuladas, não contra os serviços reais.** Os testes provam que cada exemplo usa a API do provedor corretamente e que o código de leitura da resposta funciona; não provam o que o serviço real responderia a um texto, imagem ou áudio específico. Consequentemente, não há neste relatório qualquer medição de latência, taxa de acerto, taxa de erro ou comportamento em produção.
 
 **2. As conclusões valem para a data e a região declaradas.** Preços de nuvem mudam. Todos os valores são de **23/09/2026, em USD**, com a fonte de cada um registrada em `custos/premissas.csv`. Uma consulta futura pode divergir, e a reprodução dos cálculos exige reverificar as premissas.
 

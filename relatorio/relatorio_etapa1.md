@@ -37,7 +37,7 @@ Duas decisões metodológicas merecem registro:
 
 **Os preços vieram das APIs públicas de preço dos provedores, não das páginas comerciais.** As páginas de preço da Azure e do Google entregam suas tabelas por JavaScript, exibindo apenas `$-` no conteúdo estático. Em vez de recorrer a fontes secundárias, os valores foram obtidos da *AWS Price List API* e da *Azure Retail Prices API* — ambas públicas e mantidas pelos próprios provedores — e das tabelas servidas pela página de preços do Google.
 
-**Os exemplos de código não foram executados.** A seção 3 do enunciado permite isso explicitamente nesta etapa, e cada arquivo declara esse estado. Nenhum resultado de execução, medição de latência ou taxa de acerto é apresentado neste relatório: tudo isso é objeto da Etapa 2.
+**Os exemplos de código foram testados sem chamar os serviços reais.** Um único comando — `uv run testes/rodar_testes.py` — executa os nove exemplos de ponta a ponta com as bibliotecas oficiais dos provedores instaladas, trocando apenas a chamada de rede por uma resposta simulada no formato documentado. São essas bibliotecas que validam o uso: na AWS, o `Stubber` do `botocore` confere cada parâmetro contra o modelo oficial do serviço; na Azure e no Google, o cliente simulado tem as mesmas assinaturas do real e as respostas são montadas com os tipos do próprio SDK. Os testes rodam em poucos segundos, sem credenciais e sem custo. Para conferir que eles detectam erros de fato, foram injetados dez defeitos realistas nos exemplos — parâmetro com nome errado, método inexistente, campo descontinuado — e os dez foram detectados. Como as respostas são simuladas, **nenhum resultado de qualidade, latência ou taxa de acerto é apresentado neste relatório**: isso é objeto da Etapa 2.
 
 ### Região, moeda e data
 
@@ -222,7 +222,7 @@ resposta = cliente.analyze_sentiment(
 ```
 
 
-**Estado de validação:** os três exemplos são **ilustrativos e não foram executados pelo grupo**. Foram adaptados da documentação oficial de cada provedor, conforme permitido pela seção 3 do enunciado ("Nesta etapa, os exemplos não precisam ter sido desenvolvidos ou executados pelo grupo"). Cada arquivo declara sua dependência, a fonte da adaptação e o mecanismo de autenticação. Nenhuma credencial está embutida no código: todos leem variáveis de ambiente.
+**Estado de validação: testados, sem chamar o serviço real.** `testes/test_nlp.py` executa cada exemplo de ponta a ponta com a biblioteca oficial do provedor instalada; só a chamada de rede é trocada por uma resposta simulada no formato documentado. Há também um teste dos limiares que o exemplo do Google usa para derivar uma classe a partir do score, inclusive nas fronteiras exatas (±0,25). Os exemplos foram adaptados da documentação oficial de cada provedor. Nenhuma credencial está embutida no código: todos leem variáveis de ambiente. Como a resposta é simulada, o teste prova que o código usa a API corretamente — não mede a qualidade do resultado do serviço, que é objeto da Etapa 2.
 
 ### 5. Modelo de cobrança
 
@@ -458,7 +458,7 @@ resposta = cliente.label_detection(image=imagem, max_results=MAX_RESULTADOS)
 ```
 
 
-**Estado de validação:** exemplos **ilustrativos, não executados pelo grupo**, adaptados da documentação oficial de cada provedor, conforme a seção 3 do enunciado. Nenhuma credencial está embutida: todos leem variáveis de ambiente.
+**Estado de validação: testados, sem chamar o serviço real.** `testes/test_visao.py` executa cada exemplo de ponta a ponta com a biblioteca oficial do provedor instalada; só a chamada de rede é trocada por uma resposta simulada no formato documentado. O teste da Azure confere que é enviada **uma única feature** (`TAGS`), condição da carga equivalente do cenário de custo; há também um teste do caminho de erro do Google, que devolve o erro dentro da resposta. Os exemplos foram adaptados da documentação oficial de cada provedor. Nenhuma credencial está embutida no código: todos leem variáveis de ambiente. Como a resposta é simulada, o teste prova que o código usa a API corretamente — não mede a qualidade do resultado do serviço, que é objeto da Etapa 2.
 
 ### 5. Modelo de cobrança
 
@@ -685,7 +685,7 @@ operacao = cliente.batch_recognize(request=requisicao)
 ```
 
 
-**Estado de validação:** exemplos **ilustrativos, não executados pelo grupo**, adaptados da documentação oficial, conforme a seção 3 do enunciado. Por serem operações assíncronas, cada exemplo mostra os três momentos do fluxo: envio, acompanhamento e obtenção do resultado. Nenhuma credencial está embutida.
+**Estado de validação: testados, sem chamar o serviço real.** `testes/test_fala.py` executa cada exemplo de ponta a ponta com a biblioteca oficial do provedor instalada; só a chamada de rede é trocada por uma resposta simulada no formato documentado. Por serem operações assíncronas, o teste percorre os três momentos do fluxo — envio, acompanhamento e obtenção do resultado —, simulando um job ainda em andamento antes de concluir e conferindo o intervalo entre consultas, sem esperar de verdade. Os exemplos foram adaptados da documentação oficial de cada provedor. Nenhuma credencial está embutida no código: todos leem variáveis de ambiente. Como a resposta é simulada, o teste prova que o código usa a API corretamente — não mede a qualidade do resultado do serviço, que é objeto da Etapa 2.
 
 ### 5. Modelo de cobrança
 
@@ -877,7 +877,7 @@ A análise é **documental**. Ela não estabelece qual serviço classifica senti
 
 Registradas para delimitar o alcance das conclusões:
 
-**1. Nenhum exemplo de código foi executado.** A seção 3 do enunciado permite isso nesta etapa. Consequentemente, não há neste relatório qualquer medição de latência, taxa de acerto, taxa de erro ou comportamento em produção.
+**1. Os exemplos foram testados com respostas simuladas, não contra os serviços reais.** Os testes provam que cada exemplo usa a API do provedor corretamente e que o código de leitura da resposta funciona; não provam o que o serviço real responderia a um texto, imagem ou áudio específico. Consequentemente, não há neste relatório qualquer medição de latência, taxa de acerto, taxa de erro ou comportamento em produção.
 
 **2. As conclusões valem para a data e a região declaradas.** Preços de nuvem mudam. Todos os valores são de **23/09/2026, em USD**, com a fonte de cada um registrada em `custos/premissas.csv`. Uma consulta futura pode divergir, e a reprodução dos cálculos exige reverificar as premissas.
 
@@ -999,4 +999,4 @@ Registradas por transparência: foram lidas durante a pesquisa, mas **não suste
 
 ---
 
-*Relatório montado automaticamente a partir dos arquivos do repositório em 29/09/2026 por `relatorio/montar_relatorio.py`. Para regerar: `uv run relatorio/montar_relatorio.py --html`.*
+*Relatório montado automaticamente a partir dos arquivos do repositório em 08/10/2026 por `relatorio/montar_relatorio.py`. Para regerar: `uv run relatorio/montar_relatorio.py --html`.*

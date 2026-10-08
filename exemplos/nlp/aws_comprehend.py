@@ -7,9 +7,13 @@ Categoria: NLP / análise de texto
 Provedor:  AWS — Amazon Comprehend
 Operação:  DetectSentiment (síncrona, um documento por chamada)
 
-ESTADO DE VALIDAÇÃO: exemplo ILUSTRATIVO, NÃO EXECUTADO pelo grupo.
-    Adaptado da documentação oficial da AWS. A seção 3 do enunciado permite
-    explicitamente que os exemplos da Etapa 1 não sejam executados.
+ESTADO DE VALIDAÇÃO: TESTADO, sem chamar o serviço real.
+    testes/test_nlp.py::test_aws_comprehend executa este arquivo de ponta a ponta,
+    com a biblioteca oficial do provedor instalada; só a chamada de rede é
+    trocada por uma resposta simulada no formato documentado. Para rodar:
+        uv run testes/rodar_testes.py
+    Executar contra a AWS de verdade exige credenciais e gera custo.
+    Adaptado da documentação oficial (ver FONTE abaixo).
 
 FONTE DA ADAPTAÇÃO:
     https://docs.aws.amazon.com/comprehend/latest/dg/how-sentiment.html

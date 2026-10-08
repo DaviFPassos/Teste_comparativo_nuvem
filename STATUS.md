@@ -30,7 +30,7 @@ O repositório está **público** em https://github.com/DaviFPassos/Teste_compar
 | Capítulo de NLP | `etapa1/nlp.md` | Concluído, com custo e síntese |
 | Capítulo de visão computacional | `etapa1/visao.md` | Concluído, com custo e síntese |
 | Capítulo de fala para texto | `etapa1/fala.md` | Concluído, com custo e síntese |
-| Exemplos de código | `exemplos/` — 9 arquivos | Ilustrativos, **não executados** (permitido pela seção 3 do enunciado) |
+| Exemplos de código | `exemplos/` — 9 arquivos | **Testados sem chamar os serviços reais**: `uv run testes/rodar_testes.py`, 18 testes, 10 de 10 defeitos injetados detectados |
 | Premissas de preço | `custos/premissas.csv` | 9 preços, todos `verificado_oficial` |
 | Franquias | `custos/franquias.csv` | 8 verificadas, 1 não localizada; cada uma com `aplicavel_ao_cenario` e justificativa |
 | Cálculo de custos | `custos/calcular_custos.py` | Determinístico, só biblioteca padrão |

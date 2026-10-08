@@ -90,7 +90,7 @@ Os três exemplos executam a **mesma operação** sobre a **mesma imagem**:
 - `exemplos/visao/azure_image_analysis.py`
 - `exemplos/visao/google_vision.py`
 
-**Estado de validação:** exemplos **ilustrativos, não executados pelo grupo**, adaptados da documentação oficial de cada provedor, conforme a seção 3 do enunciado. Nenhuma credencial está embutida: todos leem variáveis de ambiente.
+**Estado de validação: testados, sem chamar o serviço real.** `testes/test_visao.py` executa cada exemplo de ponta a ponta com a biblioteca oficial do provedor instalada; só a chamada de rede é trocada por uma resposta simulada no formato documentado. O teste da Azure confere que é enviada **uma única feature** (`TAGS`), condição da carga equivalente do cenário de custo; há também um teste do caminho de erro do Google, que devolve o erro dentro da resposta. Os exemplos foram adaptados da documentação oficial de cada provedor. Nenhuma credencial está embutida no código: todos leem variáveis de ambiente. Como a resposta é simulada, o teste prova que o código usa a API corretamente — não mede a qualidade do resultado do serviço, que é objeto da Etapa 2.
 
 ## 5. Modelo de cobrança
 

@@ -7,9 +7,13 @@ Categoria: Fala para texto
 Provedor:  Google Cloud — Cloud Speech-to-Text V2
 Operação:  BatchRecognize (transcrição em lote / assíncrona)
 
-ESTADO DE VALIDAÇÃO: exemplo ILUSTRATIVO, NÃO EXECUTADO pelo grupo.
-    Adaptado da documentação oficial do Google Cloud, conforme permitido pela
-    seção 3 do enunciado.
+ESTADO DE VALIDAÇÃO: TESTADO, sem chamar o serviço real.
+    testes/test_fala.py::test_google_speech_to_text executa este arquivo de ponta a ponta,
+    com a biblioteca oficial do provedor instalada; só a chamada de rede é
+    trocada por uma resposta simulada no formato documentado. Para rodar:
+        uv run testes/rodar_testes.py
+    Executar contra a Google Cloud de verdade exige credenciais e gera custo.
+    Adaptado da documentação oficial (ver FONTE abaixo).
 
 FONTES DA ADAPTAÇÃO (consultadas em 23/09/2026):
     https://docs.cloud.google.com/speech-to-text/v2/docs/transcription-model

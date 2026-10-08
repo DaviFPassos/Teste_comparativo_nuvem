@@ -7,9 +7,13 @@ Categoria: Visão computacional
 Provedor:  Google Cloud — Cloud Vision API
 Operação:  LABEL_DETECTION (via images:annotate)
 
-ESTADO DE VALIDAÇÃO: exemplo ILUSTRATIVO, NÃO EXECUTADO pelo grupo.
-    Adaptado da documentação oficial do Google Cloud, conforme permitido pela
-    seção 3 do enunciado.
+ESTADO DE VALIDAÇÃO: TESTADO, sem chamar o serviço real.
+    testes/test_visao.py::test_google_vision executa este arquivo de ponta a ponta,
+    com a biblioteca oficial do provedor instalada; só a chamada de rede é
+    trocada por uma resposta simulada no formato documentado. Para rodar:
+        uv run testes/rodar_testes.py
+    Executar contra a Google Cloud de verdade exige credenciais e gera custo.
+    Adaptado da documentação oficial (ver FONTE abaixo).
 
 FONTE DA ADAPTAÇÃO:
     https://docs.cloud.google.com/vision/docs/labels

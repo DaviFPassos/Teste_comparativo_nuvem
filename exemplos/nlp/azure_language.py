@@ -8,9 +8,13 @@ Provedor:  Microsoft Azure — Azure Language in Foundry Tools
            (nome anterior: Azure AI Language / Text Analytics)
 Operação:  Análise de sentimento (nível de documento e de sentença)
 
-ESTADO DE VALIDAÇÃO: exemplo ILUSTRATIVO, NÃO EXECUTADO pelo grupo.
-    Adaptado da documentação oficial da Microsoft. A seção 3 do enunciado
-    permite explicitamente que os exemplos da Etapa 1 não sejam executados.
+ESTADO DE VALIDAÇÃO: TESTADO, sem chamar o serviço real.
+    testes/test_nlp.py::test_azure_language executa este arquivo de ponta a ponta,
+    com a biblioteca oficial do provedor instalada; só a chamada de rede é
+    trocada por uma resposta simulada no formato documentado. Para rodar:
+        uv run testes/rodar_testes.py
+    Executar contra a Azure de verdade exige credenciais e gera custo.
+    Adaptado da documentação oficial (ver FONTE abaixo).
 
 FONTE DA ADAPTAÇÃO:
     https://learn.microsoft.com/en-us/azure/ai-services/language-service/sentiment-opinion-mining/overview

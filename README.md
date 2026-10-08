@@ -47,6 +47,7 @@ Três categorias, escolhidas por tratarem modalidades de entrada diferentes (tex
 | [etapa1/categorias.md](etapa1/categorias.md) | Seleção das categorias, critérios e operação comparada |
 | [etapa1/nlp.md](etapa1/nlp.md) · [etapa1/visao.md](etapa1/visao.md) · [etapa1/fala.md](etapa1/fala.md) | Capítulos por categoria |
 | [exemplos/](exemplos/) | 9 exemplos de código (3 categorias × 3 provedores) |
+| [testes/](testes/) | Testes dos 9 exemplos — `uv run testes/rodar_testes.py`, sem credenciais nem custo |
 | [custos/](custos/) | Premissas, script de cálculo, resultados e gráficos |
 | [referencias/fontes.md](referencias/fontes.md) | Todas as fontes, com URL, data de consulta e o que cada uma sustenta |
 | [DEPENDENCIAS.md](DEPENDENCIAS.md) | Bibliotecas e versões, e como instalá-las com `uv` |
@@ -60,7 +61,31 @@ O andamento detalhado está nos [Milestones](../../milestones) e [Issues](../../
 
 Os nove exemplos estão em [exemplos/](exemplos/), organizados por categoria e provedor. Dentro de cada categoria os três executam **a mesma operação sobre a mesma entrada**, para tornar as diferenças de API visíveis.
 
-> **Estado de validação:** os exemplos são **ilustrativos e não foram executados pelo grupo**. Foram adaptados da documentação oficial de cada provedor, conforme a seção 3 do enunciado permite explicitamente nesta etapa. Cada arquivo declara sua fonte, data de consulta e estado. **Nenhuma credencial está no código** — todos leem variáveis de ambiente.
+### Testar os exemplos — um comando
+
+```bash
+uv run testes/rodar_testes.py
+```
+
+Roda em poucos segundos, **sem credenciais, sem rede e sem custo** (na primeira vez o `uv` baixa as bibliotecas, cerca de 30 s). Resultado esperado: `18 passed`.
+
+Cada teste carrega o arquivo do exemplo exatamente como está em `exemplos/` e executa o `main()` de ponta a ponta. A única coisa trocada é a chamada de rede ao provedor, que devolve uma resposta simulada no formato documentado. Todo o resto é real — e são as próprias bibliotecas dos provedores que validam o uso:
+
+| Provedor | Como a chamada é validada |
+|---|---|
+| AWS | `botocore.Stubber`: confere nome, tipo e obrigatoriedade de cada parâmetro contra o modelo oficial do serviço, e o formato da resposta contra o modelo de saída |
+| Azure | Cliente com `autospec`: tem exatamente os métodos e assinaturas do cliente real; respostas montadas com as classes do SDK |
+| Google | Cliente com `autospec` e respostas montadas com os tipos protobuf do SDK, que rejeitam campo inexistente |
+
+| Arquivo de teste | O que cobre |
+|---|---|
+| [testes/test_nlp.py](testes/test_nlp.py) | Os 3 exemplos de sentimento + os limiares do Google nas fronteiras exatas (±0,25) |
+| [testes/test_visao.py](testes/test_visao.py) | Os 3 exemplos de rótulos + o caminho de erro do Google, que vem dentro da resposta |
+| [testes/test_fala.py](testes/test_fala.py) | Os 3 exemplos de transcrição percorrendo envio → espera → resultado, sem esperar de verdade, + job com falha na AWS |
+
+**Os testes detectam erro de verdade.** Para conferir, foram injetados dez defeitos realistas nos exemplos, um de cada vez — parâmetro com nome errado na AWS, método inexistente na Azure, campo inexistente no Google, tipo errado, feature a mais, erro ignorado, campo REST errado e o uso do campo **descontinuado** `transcript` do Google. Os dez fizeram o teste correspondente falhar.
+
+**O que os testes não provam:** como a resposta é simulada, eles não dizem o que o serviço real responderia a um texto, imagem ou áudio — isso é avaliação de qualidade, objeto da Etapa 2. **Nenhuma credencial está no código**: todos os exemplos leem variáveis de ambiente.
 
 Cada exemplo declara suas dependências em um bloco [PEP 723](https://peps.python.org/pep-0723/) no topo do arquivo, então o [uv](https://docs.astral.sh/uv/) resolve tudo sozinho:
 
@@ -92,7 +117,7 @@ Nenhum desses comandos chama API de nuvem nem gera custo.
 
 **Sobre travamento de versões:** `calcular_custos.py`, `verificar_calculos.py` e `montar_relatorio.py` usam **apenas a biblioteca padrão** do Python — não há o que travar, e os números do relatório são reproduzíveis sem instalar nada. O único script com dependência externa que de fato executa é `gerar_graficos.py`, e ele tem lockfile (`custos/gerar_graficos.py.lock`), para que os gráficos sejam regerados a partir da mesma resolução de pacotes.
 
-Os 9 exemplos **não têm lockfile por decisão**: eles são ilustrativos e não são executados nesta etapa, então travar versões de código que ninguém roda registraria uma precisão inexistente. Suas dependências ficam declaradas nos blocos PEP 723. Na Etapa 2, onde o código será efetivamente executado, as versões passam a ser registradas conforme o roteiro exige.
+Os testes dos exemplos também têm lockfile (`testes/rodar_testes.py.lock`), e as versões das bibliotecas dos provedores estão fixadas no próprio script — é com essas versões que os exemplos foram validados.
 
 **Parâmetros dos cenários** — quantidades hipotéticas, idênticas entre provedores:
 

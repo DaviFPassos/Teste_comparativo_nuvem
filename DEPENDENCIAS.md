@@ -28,8 +28,9 @@ powershell -c "irm https://astral.sh/uv/install.ps1 | iex"   # Windows
 | `relatorio/montar_relatorio.py` | — | — | **Só biblioteca padrão** |
 | `custos/gerar_graficos.py` | `matplotlib` | **3.11.2** | Tem lockfile (`gerar_graficos.py.lock`), então a resolução é reproduzível |
 | `relatorio/gerar_pdf.py` | `playwright` | **1.63.0** | Baixa o Chromium no cache do usuário na primeira execução |
+| `testes/rodar_testes.py` | `pytest` + as 8 bibliotecas dos exemplos | **9.1.1** + versões da tabela abaixo | Testa os 9 exemplos sem credenciais nem rede. Versões fixadas no script e lockfile (`rodar_testes.py.lock`) |
 
-### Exemplos de código (ilustrativos, não executados)
+### Exemplos de código (testados com `uv run testes/rodar_testes.py`)
 
 | Categoria | Script | Dependência | Versão |
 |---|---|---|---|
@@ -43,11 +44,11 @@ powershell -c "irm https://astral.sh/uv/install.ps1 | iex"   # Windows
 | Fala | `exemplos/fala/azure_speech.py` | `requests` | **2.34.2** |
 | Fala | `exemplos/fala/google_speech_to_text.py` | `google-cloud-speech` | **2.40.0** |
 
-Executar esses exemplos de verdade exige credenciais do provedor e **gera custo**. Nesta etapa eles são ilustrativos: nenhum foi executado pelo grupo, conforme a seção 3 do enunciado permite.
+Estas são as versões **com que os exemplos foram testados** — os testes as fixam em `testes/rodar_testes.py`. Os testes não chamam os serviços; executar os exemplos contra a nuvem de verdade exige credenciais do provedor e **gera custo**.
 
 ## Resumo dos pacotes
 
-Somando as dependências diretas, são **10 pacotes** — 8 deles apenas nos exemplos ilustrativos, que não são executados nesta etapa, e 2 (`matplotlib` e `playwright`) nos scripts que de fato rodam:
+Somando as dependências diretas, são **10 pacotes** — 8 dos exemplos (exercitados pelos testes), 2 dos scripts de gráfico e PDF (`matplotlib` e `playwright`) — mais o `pytest`, usado só pelos testes:
 
 ```
 azure-ai-textanalytics==5.4.0
@@ -83,13 +84,14 @@ uv pip install boto3==1.43.101 \
 
 O `.venv/` está no `.gitignore` e não vai para o repositório.
 
-## Por que só um lockfile
+## Lockfiles
 
-Apenas `custos/gerar_graficos.py` tem lockfile. Ele é o único script com dependência externa **que de fato executa** e produz um artefato versionado (os três gráficos) — travar a resolução garante que regerar os gráficos dê o mesmo resultado.
+Têm lockfile os scripts com dependência externa que **de fato executam** e cujo resultado precisa ser reproduzível:
 
-Os nove exemplos não têm lockfile porque não são executados nesta etapa: travar versões de código que ninguém roda registraria uma precisão que não existe. As versões acima ficam aqui como registro do que o `uv` resolveria hoje.
+- `custos/gerar_graficos.py.lock` — os três gráficos versionados são regerados a partir da mesma resolução de pacotes;
+- `testes/rodar_testes.py.lock` — os testes dos exemplos rodam sempre contra as mesmas versões das bibliotecas dos provedores.
 
-Na Etapa 2 isso muda: lá o código é executado de verdade, e o roteiro exige registrar as versões efetivamente usadas.
+Os exemplos em si não têm lockfile próprio: quem os valida são os testes, e é no lockfile dos testes que as versões ficam travadas.
 
 ## Requisito de sistema para gerar o PDF
 
