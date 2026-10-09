@@ -28,6 +28,15 @@ gcloud-key*.json
 *token*
 *.secret.*
 
+# variações em português
+*credenciais*
+*chave*.json
+!testes/modelo_de_credenciais.txt
+
+# nome que o Google Cloud dá à chave de conta de serviço ao baixá-la:
+# <id-do-projeto>-<12 hexadecimais>.json
+*-[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f].json
+
 # chaves SSH
 id_rsa
 id_dsa

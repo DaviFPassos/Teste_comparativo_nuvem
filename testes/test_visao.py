@@ -1,13 +1,18 @@
-"""Testes dos exemplos de visão computacional / detecção de rótulos."""
+"""Testes dos exemplos de visão computacional / detecção de rótulos.
+
+Todos enviam a foto real de testes/dados/cachorro.jpg.
+"""
 
 from unittest import mock
 
 import pytest
 
+from conftest import IMAGEM
 
-def test_aws_rekognition(carregar_exemplo, cliente_aws, imagem_falsa, monkeypatch, capsys):
+
+def test_aws_rekognition(carregar_exemplo, cliente_aws, monkeypatch, capsys):
     exemplo = carregar_exemplo("exemplos/visao/aws_rekognition.py",
-                               IMAGEM_EXEMPLO=str(imagem_falsa))
+                               IMAGEM_EXEMPLO=str(IMAGEM))
     cliente, stubber = cliente_aws("rekognition")
 
     # Formato documentado em VIS-AWS-01, validado pelo Stubber contra o modelo
@@ -24,7 +29,7 @@ def test_aws_rekognition(carregar_exemplo, cliente_aws, imagem_falsa, monkeypatc
             "LabelModelVersion": "3.0",
         },
         expected_params={
-            "Image": {"Bytes": imagem_falsa.read_bytes()},
+            "Image": {"Bytes": IMAGEM.read_bytes()},
             "MaxLabels": 10,
             "MinConfidence": 55.0,
             "Features": ["GENERAL_LABELS"],
@@ -43,7 +48,7 @@ def test_aws_rekognition(carregar_exemplo, cliente_aws, imagem_falsa, monkeypatc
     assert "categorias:  Animals and Pets" in saida
 
 
-def test_azure_image_analysis(carregar_exemplo, imagem_falsa, monkeypatch, capsys):
+def test_azure_image_analysis(carregar_exemplo, monkeypatch, capsys):
     from azure.ai.vision.imageanalysis import ImageAnalysisClient
     from azure.ai.vision.imageanalysis.models import (DetectedTag, ImageAnalysisResult,
                                                       ImageMetadata, TagsResult,
@@ -51,7 +56,7 @@ def test_azure_image_analysis(carregar_exemplo, imagem_falsa, monkeypatch, capsy
 
     exemplo = carregar_exemplo(
         "exemplos/visao/azure_image_analysis.py",
-        IMAGEM_EXEMPLO=str(imagem_falsa),
+        IMAGEM_EXEMPLO=str(IMAGEM),
         AZURE_VISION_ENDPOINT="https://teste.cognitiveservices.azure.com/",
         AZURE_VISION_KEY="chave-de-teste",
     )
@@ -67,7 +72,7 @@ def test_azure_image_analysis(carregar_exemplo, imagem_falsa, monkeypatch, capsy
     exemplo.main()
 
     ClienteFalso.return_value.analyze.assert_called_once_with(
-        image_data=imagem_falsa.read_bytes(),
+        image_data=IMAGEM.read_bytes(),
         visual_features=[VisualFeatures.TAGS],   # uma única feature
     )
     assert "dog: 0.9921" in capsys.readouterr().out
@@ -82,11 +87,11 @@ def _vision_falso(monkeypatch, exemplo, resposta):
     return ClienteFalso
 
 
-def test_google_vision(carregar_exemplo, imagem_falsa, monkeypatch, capsys):
+def test_google_vision(carregar_exemplo, monkeypatch, capsys):
     from google.cloud import vision
 
     exemplo = carregar_exemplo("exemplos/visao/google_vision.py",
-                               IMAGEM_EXEMPLO=str(imagem_falsa))
+                               IMAGEM_EXEMPLO=str(IMAGEM))
     ClienteFalso = _vision_falso(monkeypatch, exemplo, vision.AnnotateImageResponse(
         label_annotations=[vision.EntityAnnotation(
             mid="/m/0bt9lr", description="Dog", score=0.97, topicality=0.97)],
@@ -95,17 +100,17 @@ def test_google_vision(carregar_exemplo, imagem_falsa, monkeypatch, capsys):
     exemplo.main()
 
     chamada = ClienteFalso.return_value.label_detection.call_args
-    assert chamada.kwargs["image"].content == imagem_falsa.read_bytes()
+    assert chamada.kwargs["image"].content == IMAGEM.read_bytes()
     assert chamada.kwargs["max_results"] == 10
     assert "Dog: score 0.9700 | topicality 0.9700 | mid /m/0bt9lr" in capsys.readouterr().out
 
 
-def test_google_vision_erro_da_api_vira_excecao(carregar_exemplo, imagem_falsa, monkeypatch):
+def test_google_vision_erro_da_api_vira_excecao(carregar_exemplo, monkeypatch):
     """A Cloud Vision devolve erro DENTRO da resposta; o exemplo precisa checá-lo."""
     from google.cloud import vision
 
     exemplo = carregar_exemplo("exemplos/visao/google_vision.py",
-                               IMAGEM_EXEMPLO=str(imagem_falsa))
+                               IMAGEM_EXEMPLO=str(IMAGEM))
     _vision_falso(monkeypatch, exemplo, vision.AnnotateImageResponse(
         error={"code": 3, "message": "Bad image data."}))
 

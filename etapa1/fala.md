@@ -51,7 +51,7 @@ O detalhe de retenção da AWS é operacionalmente relevante: quem usa o bucket 
 |---|---|---|
 | Amazon Transcribe | **`pt-BR`** (Português, Brasileiro) e `pt-PT` (Português) | `pt-BR` em lote **e** streaming; suporta transcrição de números, acrônimos, *redaction* e Call Analytics pós-chamada e em tempo real |
 | Azure Speech | **`pt-BR`** (Portuguese, Brazil) | Suportado, inclusive com *fast transcription* |
-| Cloud Speech-to-Text V2 | **`pt-BR`** (Portuguese, Brazil) | Disponível nos modelos `chirp_3`, `long`, `short`, `telephony` e `telephony_short`; o `chirp_3` acrescenta diarização |
+| Cloud Speech-to-Text V2 | **`pt-BR`** (Portuguese, Brazil) | **Os modelos dependem da região:** `us-central1` oferece `chirp`, `chirp_2` e `chirp_telephony`; `us` e `eu` oferecem `chirp_3`, `long`, `short`, `telephony` e `telephony_short`; `global` não tem `chirp_3`. O `chirp_3` acrescenta diarização. O exemplo usa `chirp_2` em `us-central1` |
 
 **Diferença em relação à categoria de NLP:** aqui os três provedores distinguem formalmente o português do Brasil. Na análise de sentimento, apenas a Azure faz essa distinção. Isso mostra que o suporte a variantes regionais não é uniforme nem dentro do mesmo provedor.
 
@@ -238,7 +238,7 @@ Um alívio comum aos três: **o arredondamento é favorável**. AWS e Google cob
 | FAL-AZ-02 | Formatos e codecs aceitos no lote, origens de áudio (URI público, SAS, identidade gerenciada) e configuração de segurança do armazenamento |
 | FAL-AZ-03 | Suporte ao locale `pt-BR` |
 | FAL-GC-01 | Operações `Recognize`, `BatchRecognize` e `StreamingRecognize`; modelos `chirp_3`, `chirp_2` e `telephony` |
-| FAL-GC-02 | Suporte a `pt-BR` nos modelos `chirp_3`, `long`, `short`, `telephony` e `telephony_short`, com diarização no `chirp_3` |
+| FAL-GC-02 | Suporte a `pt-BR` por região e modelo (ex.: `us-central1`: `chirp`, `chirp_2`, `chirp_telephony`; `us`/`eu`: `chirp_3`, `long`, `short`, `telephony`, `telephony_short`), com diarização no `chirp_3` |
 
 ### Pendências
 

@@ -1,0 +1,39 @@
+# MODELO de credenciais para:  uv run testes/rodar_testes.py --real
+#
+# 1. Copie este arquivo para a RAIZ do projeto com o nome .env
+#        cp testes/modelo_de_credenciais.txt .env
+# 2. Preencha os valores no .env (NUNCA neste modelo).
+#
+# O .env é ignorado pelo git: não vai para o GitHub nem para os colegas.
+# Deixe em branco o que você não tiver — o provedor correspondente aparece
+# como SKIPPED, com o motivo.
+
+# ---------------------------------------------------------------- Azure
+# Conta recomendada: Azure for Students (sem cartão de crédito).
+# Portal Azure > o recurso > "Chaves e Ponto de Extremidade". Crie os recursos
+# na região East US. Language e Vision podem ser no tier gratuito F0; Speech
+# precisa do S0 (a transcrição em lote não existe no F0) — consome crédito.
+AZURE_LANGUAGE_ENDPOINT=
+AZURE_LANGUAGE_KEY=
+AZURE_VISION_ENDPOINT=
+AZURE_VISION_KEY=
+AZURE_SPEECH_KEY=
+AZURE_SPEECH_REGION=eastus
+
+# --------------------------------------------------------------- Google
+# Conta recomendada: teste gratuito (não cobra sem upgrade manual).
+# NÃO use arquivo de chave JSON: rode uma vez no terminal
+#     gcloud auth application-default login
+# e a credencial fica em ~/.config/gcloud, fora do projeto.
+GOOGLE_CLOUD_PROJECT=
+TESTE_GCS_BUCKET=
+
+# ------------------------------------------------------------------ AWS
+# Conta recomendada: plano gratuito (Free plan). Não coloque chaves aqui:
+# rode uma vez no terminal
+#     aws configure
+# e a credencial fica em ~/.aws, fora do projeto.
+# No plano gratuito só o Rekognition (visão) funciona. Comprehend e Transcribe
+# exigem plano pago — deixe a linha abaixo comentada para não habilitá-los.
+# PERMITIR_AWS_PLANO_PAGO=sim
+# TESTE_S3_BUCKET=

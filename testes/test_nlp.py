@@ -1,10 +1,15 @@
-"""Testes dos exemplos de NLP / análise de sentimento."""
+"""Testes dos exemplos de NLP / análise de sentimento.
+
+A frase esperada vem de testes/dados/frase.txt.
+"""
 
 from unittest import mock
 
 import pytest
 
-TEXTO = "O atendimento foi excelente."
+from conftest import FRASE
+
+TEXTO = FRASE.read_text(encoding="utf-8")
 
 
 def test_aws_comprehend(carregar_exemplo, cliente_aws, monkeypatch, capsys):

@@ -47,7 +47,7 @@ Três categorias, escolhidas por tratarem modalidades de entrada diferentes (tex
 | [etapa1/categorias.md](etapa1/categorias.md) | Seleção das categorias, critérios e operação comparada |
 | [etapa1/nlp.md](etapa1/nlp.md) · [etapa1/visao.md](etapa1/visao.md) · [etapa1/fala.md](etapa1/fala.md) | Capítulos por categoria |
 | [exemplos/](exemplos/) | 9 exemplos de código (3 categorias × 3 provedores) |
-| [testes/](testes/) | Testes dos 9 exemplos — `uv run testes/rodar_testes.py`, sem credenciais nem custo |
+| [testes/](testes/) | Testes dos 9 exemplos com frase, foto e áudio reais — offline (`uv run testes/rodar_testes.py`) ou contra os serviços reais (`--real`) |
 | [custos/](custos/) | Premissas, script de cálculo, resultados e gráficos |
 | [referencias/fontes.md](referencias/fontes.md) | Todas as fontes, com URL, data de consulta e o que cada uma sustenta |
 | [DEPENDENCIAS.md](DEPENDENCIAS.md) | Bibliotecas e versões, e como instalá-las com `uv` |
@@ -61,31 +61,109 @@ O andamento detalhado está nos [Milestones](../../milestones) e [Issues](../../
 
 Os nove exemplos estão em [exemplos/](exemplos/), organizados por categoria e provedor. Dentro de cada categoria os três executam **a mesma operação sobre a mesma entrada**, para tornar as diferenças de API visíveis.
 
-### Testar os exemplos — um comando
+### Testar os exemplos
+
+Os testes usam **dados reais com resposta conhecida**, em [testes/dados/](testes/dados/):
+
+| Entrada | Conteúdo | Resultado esperado ([gabarito](testes/dados/gabarito.json)) |
+|---|---|---|
+| `frase.txt` | "O atendimento foi excelente." | Sentimento **positivo** |
+| `cachorro.jpg` | Foto de um labrador (domínio público, Wikimedia Commons) | Rótulo **dog** |
+| `frase.flac` | A mesma frase falada em pt-BR (2,5 s) | Transcrição com **atendimento** e **excelente** |
+
+Origem, licença e SHA-256 de cada arquivo estão em [testes/dados/LEIAME.md](testes/dados/LEIAME.md). O áudio foi conferido por um reconhecedor de fala local (Whisper), sem nuvem, que transcreveu exatamente a frase.
+
+**Modo offline — sem credenciais, sem rede, sem custo:**
 
 ```bash
 uv run testes/rodar_testes.py
 ```
 
-Roda em poucos segundos, **sem credenciais, sem rede e sem custo** (na primeira vez o `uv` baixa as bibliotecas, cerca de 30 s). Resultado esperado: `18 passed`.
+Resultado esperado: `45 passed`. Confere os arquivos contra os limites documentados de cada provedor (formato, tamanho, dimensões, canais, taxa de amostragem) e executa os 9 exemplos de ponta a ponta com as bibliotecas oficiais, trocando só a chamada de rede por uma resposta simulada. Na AWS, o `botocore.Stubber` confere cada parâmetro contra o modelo oficial do serviço; na Azure e no Google, o cliente simulado tem as mesmas assinaturas do real e as respostas usam os tipos do próprio SDK.
 
-Cada teste carrega o arquivo do exemplo exatamente como está em `exemplos/` e executa o `main()` de ponta a ponta. A única coisa trocada é a chamada de rede ao provedor, que devolve uma resposta simulada no formato documentado. Todo o resto é real — e são as próprias bibliotecas dos provedores que validam o uso:
+Inclui também um **ensaio geral do modo real**: as próprias funções do modo real são executadas com a rede de cada SDK simulada, conferindo que a frase, a foto e o áudio reais são o que é enviado, que a resposta é lida corretamente e que a evidência é gravada sem identificadores da conta. Todos os testes offline passam com a rede cortada pelo sistema operacional.
 
-| Provedor | Como a chamada é validada |
+**Modo real — os mesmos arquivos vão aos serviços de verdade:**
+
+```bash
+uv run testes/rodar_testes.py --real
+```
+
+Qualquer pessoa reproduz com **as próprias contas** — passo a passo em [testes/COMO_RODAR_COM_SUAS_CREDENCIAIS.md](testes/COMO_RODAR_COM_SUAS_CREDENCIAIS.md). Mostra o plano do que será chamado e só segue com a confirmação `sim`. Cada resposta é conferida contra o gabarito e gravada em `testes/evidencias/` — **inclusive quando não bate** —, com o SHA-256 da entrada usada. Provedor sem credencial aparece como `SKIPPED`, com o motivo.
+
+| Cuidado | Como é garantido |
 |---|---|
-| AWS | `botocore.Stubber`: confere nome, tipo e obrigatoriedade de cada parâmetro contra o modelo oficial do serviço, e o formato da resposta contra o modelo de saída |
-| Azure | Cliente com `autospec`: tem exatamente os métodos e assinaturas do cliente real; respostas montadas com as classes do SDK |
-| Google | Cliente com `autospec` e respostas montadas com os tipos protobuf do SDK, que rejeitam campo inexistente |
+| Credenciais não vão para o repositório nem para os colegas | Lidas do `.env` local (ignorado pelo git) e das configurações de `aws configure` / `gcloud auth application-default login`, fora do projeto. Modelo em [testes/modelo_de_credenciais.txt](testes/modelo_de_credenciais.txt). O modo real **aborta** se achar uma chave em arquivo que o git publicaria |
+| Evidências não identificam a conta | Tokens de URLs assinadas, nomes de bucket, ID de projeto, número da conta AWS e nome de recurso Azure são removidos antes de gravar |
+| Não gerar cobrança | A proteção vem do tipo de conta: plano gratuito da AWS, Azure for Students e teste gratuito do Google não cobram sem upgrade manual. **Comprehend e Transcribe ficam desligados**, porque não existem no plano gratuito da AWS |
 
-| Arquivo de teste | O que cobre |
-|---|---|
-| [testes/test_nlp.py](testes/test_nlp.py) | Os 3 exemplos de sentimento + os limiares do Google nas fronteiras exatas (±0,25) |
-| [testes/test_visao.py](testes/test_visao.py) | Os 3 exemplos de rótulos + o caminho de erro do Google, que vem dentro da resposta |
-| [testes/test_fala.py](testes/test_fala.py) | Os 3 exemplos de transcrição percorrendo envio → espera → resultado, sem esperar de verdade, + job com falha na AWS |
+**Os testes detectam erro de verdade.** Foram injetados 10 defeitos nos exemplos (parâmetro com nome errado, método inexistente, campo descontinuado...) e 8 nos dados (imagem corrompida, PNG disfarçado de JPEG, áudio mudo, áudio a 8 kHz, 3 canais...). Todos os 18 foram detectados.
 
-**Os testes detectam erro de verdade.** Para conferir, foram injetados dez defeitos realistas nos exemplos, um de cada vez — parâmetro com nome errado na AWS, método inexistente na Azure, campo inexistente no Google, tipo errado, feature a mais, erro ignorado, campo REST errado e o uso do campo **descontinuado** `transcript` do Google. Os dez fizeram o teste correspondente falhar.
+**O que o modo offline não prova:** como a resposta é simulada, ele não diz o que o serviço real responde. Isso é o que o modo real verifica — e a avaliação de qualidade em escala é objeto da Etapa 2. **Nenhuma credencial está no código**: todos os exemplos leem variáveis de ambiente.
 
-**O que os testes não provam:** como a resposta é simulada, eles não dizem o que o serviço real responderia a um texto, imagem ou áudio — isso é avaliação de qualidade, objeto da Etapa 2. **Nenhuma credencial está no código**: todos os exemplos leem variáveis de ambiente.
+### Origem dos testes: o que é de cada empresa e o que foi extraído
+
+**As bibliotecas são as oficiais dos três provedores.** Conferido nos metadados dos pacotes instalados no ambiente dos testes:
+
+| Biblioteca | Versão | Publicada por | Repositório oficial |
+|---|---|---|---|
+| `boto3` / `botocore` | 1.43.101 / 1.43.110 | Amazon Web Services | github.com/boto/boto3 · github.com/boto/botocore |
+| `azure-ai-textanalytics` | 5.4.0 | Microsoft Corporation | github.com/Azure/azure-sdk-for-python |
+| `azure-ai-vision-imageanalysis` | 1.0.0 | Microsoft Corporation | github.com/Azure/azure-sdk-for-python |
+| `azure-core` | 1.41.0 | Microsoft Corporation | github.com/Azure/azure-sdk-for-python |
+| `google-cloud-language` | 2.21.0 | Google LLC | github.com/googleapis/google-cloud-python |
+| `google-cloud-vision` | 3.15.0 | Google LLC | github.com/googleapis/google-cloud-python |
+| `google-cloud-speech` | 2.40.0 | Google LLC | github.com/googleapis/google-cloud-python |
+
+O exemplo de fala da Azure não usa SDK: chama a API REST oficial com `requests`, como mostra a documentação da Microsoft.
+
+**Os exemplos apontam para os endereços oficiais de cada serviço.** Resolvido pelo próprio SDK, sem rede:
+
+| Provedor | Serviço | Endereço |
+|---|---|---|
+| AWS | Comprehend · Rekognition · Transcribe | `comprehend.us-east-1.amazonaws.com` · `rekognition.us-east-1.amazonaws.com` · `transcribe.us-east-1.amazonaws.com` |
+| Microsoft | Language · Vision | `<recurso>.cognitiveservices.azure.com` (endpoint do recurso criado no portal) |
+| Microsoft | Speech (lote) | `eastus.api.cognitive.microsoft.com/speechtotext/v3.2/transcriptions` |
+| Google | Natural Language · Vision · Speech-to-Text V2 | `language.googleapis.com` · `vision.googleapis.com` · `speech.googleapis.com` |
+
+**O que foi extraído de APIs dos provedores, e o que não foi:**
+
+| Informação | De onde veio | Chamou serviço de IA? |
+|---|---|---|
+| Preços da AWS | **AWS Price List API** (`pricing.us-east-1.amazonaws.com/offers/v1.0/aws/...`), pública e sem autenticação, publicação de 11/09/2026 | Não |
+| Preços da Azure | **Azure Retail Prices API** (`prices.azure.com/api/retail/prices`, serviço `Foundry Tools`, região `eastus`), pública e sem autenticação | Não |
+| Preços do Google | Tabelas da página oficial de preços (`cloud.google.com/.../pricing`). O Google não tem API pública de preços sem autenticação | Não |
+| Regras de validação da AWS nos testes | Modelos oficiais de API embutidos no `botocore` (`botocore/data/<serviço>/<versão>/service-2.json`): Comprehend 2017-11-27, Rekognition 2016-06-27, Transcribe 2017-10-26 | Não |
+| Regras de validação da Azure e do Google | Classes e tipos de dados dos próprios SDKs oficiais | Não |
+| Formato das respostas simuladas | Documentação oficial de cada serviço (ver `referencias/fontes.md`), validado pelos SDKs acima | Não |
+| Limites técnicos (tamanho, formato, idiomas) | Páginas de documentação oficial, citadas por ID em `referencias/fontes.md` | Não |
+
+**Nenhuma resposta de serviço de IA foi obtida até agora.** Sem credenciais, nenhum dos nove serviços foi chamado. As respostas usadas no modo offline são simuladas no formato documentado. O modo `--real` é o que obtém respostas de verdade e as grava em `testes/evidencias/`.
+
+**Fontes que não são dos provedores**, usadas só para produzir os dados de teste: a foto veio do Wikimedia Commons (domínio público); o áudio foi sintetizado localmente com o Piper (voz `pt_BR-faber-medium`, conjunto de dados CC0, baixada do Hugging Face); a conferência do áudio foi feita localmente com o Whisper (`faster-whisper`). Nenhuma dessas etapas envolve os serviços comparados.
+
+### O quanto os testes atendem ao enunciado
+
+| Exigência do enunciado | Situação | Por quê |
+|---|---|---|
+| **Seção 3** — "breves exemplos de código", operações equivalentes, fonte indicada; "não precisam ter sido [...] executados" | **Atendida e superada** | Os 9 exemplos existem, com fonte, e além disso são testados |
+| **Pedido do professor** — testar os exemplos | **Parcial até rodar `--real`** | Offline, o código executa de ponta a ponta com frase, foto e áudio reais e é validado pelos SDKs oficiais. Mas só o modo real mostra o que os serviços respondem, e ele ainda não foi executado |
+| **Seção 12** — documentação oficial como fonte prioritária | **Atendida** | Bibliotecas oficiais; preços de APIs oficiais; limites com fonte |
+| **Seção 7** — mesmos dados em pelo menos dois provedores | **Atendida no desenho** | O modo real envia a mesma frase, a mesma foto e o mesmo áudio a todos os provedores habilitados |
+| **Seção 8** — código "efetivamente executado" | **Pendente** | Depende de rodar `--real` com credenciais |
+| **Seção 8** — dados "de tamanho e diversidade suficientes para [...] análise minimamente representativa" | **Não atendida — e não é o objetivo** | Uma entrada por categoria verifica se o exemplo funciona, mas não mede qualidade. O conjunto representativo é trabalho da Etapa 2 |
+| **Seção 9** — métricas e critério de qualidade definidos antes | **Parcial** | Há um critério objetivo por entrada (`gabarito.json`), mas não há métricas como acurácia, latência ou taxa de sucesso |
+| **Seção 10** — tabelas, gráficos e confronto com a Etapa 1 | **Não atendida** | Também é escopo da Etapa 2 |
+
+Em resumo: os testes **validam os exemplos da Etapa 1** e já deixam pronta a infraestrutura que a Etapa 2 vai usar (dados com gabarito, chamada real, evidência). Eles **não são** a avaliação prática da Etapa 2 e não devem ser apresentados como tal.
+
+**Defeitos que só a verificação na documentação e o ensaio revelaram — todos corrigidos antes da primeira execução real:**
+
+- O exemplo do Google pedia o modelo `long` em `us-central1`, combinação que **não existe** para `pt-BR` (lá só há `chirp`, `chirp_2` e `chirp_telephony`), e usava o endereço global com um reconhecedor regional, o que a API recusa. Passou a usar `chirp_2` e o endereço `us-central1-speech.googleapis.com`. Um teste confere a combinação contra a tabela oficial.
+- O Google indexa o resultado do lote pela URI do arquivo no bucket; a limpeza da evidência só tratava valores, não chaves, e o nome do bucket vazaria. Corrigido, com teste.
+- O teste real de fala da Azure deixava o `requests.get` substituído ao terminar. Corrigido.
+
+**Sobre a versão da API de fala da Azure:** o exemplo de fala da Azure usa a versão **v3.2** da API REST. Segundo a [referência oficial](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/rest-speech-to-text) (atualizada em 05/06/2026), a v3.2 estável **continua em vigor**: foram aposentadas em 31/03/2026 apenas a v3.0 e as prévias `3.2-preview.1` e `3.2-preview.2`. A versão estável mais recente, porém, é a `2025-10-15`, que usa outro caminho (`/speechtotext/transcriptions:submit?api-version=...`). O teste offline não detecta esse tipo de defasagem, porque confere o código contra o formato que o próprio grupo documentou; só a chamada real ou a leitura da documentação revelam.
 
 Cada exemplo declara suas dependências em um bloco [PEP 723](https://peps.python.org/pep-0723/) no topo do arquivo, então o [uv](https://docs.astral.sh/uv/) resolve tudo sozinho:
 

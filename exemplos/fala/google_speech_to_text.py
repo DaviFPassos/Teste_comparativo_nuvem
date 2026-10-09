@@ -18,6 +18,8 @@ ESTADO DE VALIDAÇÃO: TESTADO, sem chamar o serviço real.
 FONTES DA ADAPTAÇÃO (consultadas em 23/09/2026):
     https://docs.cloud.google.com/speech-to-text/v2/docs/transcription-model
     https://docs.cloud.google.com/speech-to-text/v2/docs/speech-to-text-supported-languages
+    Modelos por região (consultado em 08/10/2026):
+    https://docs.cloud.google.com/speech-to-text/v2/docs/speech-to-text-supported-languages
     Campos do resultado por arquivo (consultado em 26/09/2026):
     https://docs.cloud.google.com/python/docs/reference/speech/latest/google.cloud.speech_v2.types.BatchRecognizeFileResult
 
@@ -34,10 +36,16 @@ AUTENTICAÇÃO:
         GOOGLE_APPLICATION_CREDENTIALS=/caminho/para/conta-de-servico.json
 
 PARTICULARIDADE DESTE PROVEDOR:
-    Expõe a ESCOLHA DO MODELO por perfis prontos de áudio: para pt-BR estão
-    documentados chirp_3, long, short, telephony e telephony_short. Usamos
-    'long', adequado a arquivos de áudio longos. O chirp_3 acrescenta
-    diarização (separação de locutores).
+    Expõe a ESCOLHA DO MODELO, e o modelo disponível DEPENDE DA REGIÃO. Para
+    pt-BR, a tabela oficial de idiomas (consultada em 08/10/2026) lista:
+        us-central1  chirp, chirp_2, chirp_telephony
+        us, eu       chirp_3, long, short, telephony, telephony_short
+        global       long, short, telephony, telephony_short
+    Usamos us-central1 com chirp_2. Todos os modelos chirp são cobrados como
+    "Standard", o mesmo preço usado na análise de custo.
+    Fora de 'global', o cliente precisa do endereço da própria região
+    (<regiao>-speech.googleapis.com); com o endereço padrão, a API recusa um
+    reconhecedor de outra região.
     A Azure também aceita um campo `model`, mas apontando para a URI de outro
     modelo (base, custom speech ou Whisper) — é outra liberdade, não a mesma.
     A AWS não expõe essa escolha na transcrição em lote padrão.
@@ -45,6 +53,7 @@ PARTICULARIDADE DESTE PROVEDOR:
 
 import os
 
+from google.api_core.client_options import ClientOptions
 from google.cloud.speech_v2 import SpeechClient
 from google.cloud.speech_v2.types import cloud_speech
 
@@ -55,13 +64,15 @@ REGIAO = os.environ.get("GOOGLE_CLOUD_REGION", "us-central1")
 URI_AUDIO = os.environ.get("GCS_URI_AUDIO", "gs://meu-bucket/audio_exemplo.flac")
 
 IDIOMA = "pt-BR"
-MODELO = "long"
+MODELO = "chirp_2"   # disponível para pt-BR em us-central1
 
 TEMPO_LIMITE_S = 600
 
 
 def main() -> None:
-    cliente = SpeechClient()
+    # Fora de 'global', o endereço precisa ser o da própria região.
+    endereco = "speech.googleapis.com" if REGIAO == "global" else f"{REGIAO}-speech.googleapis.com"
+    cliente = SpeechClient(client_options=ClientOptions(api_endpoint=endereco))
     reconhecedor = f"projects/{PROJETO}/locations/{REGIAO}/recognizers/_"
 
     config = cloud_speech.RecognitionConfig(

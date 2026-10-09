@@ -153,9 +153,39 @@ def test_google_speech_to_text(carregar_exemplo, monkeypatch, capsys):
     assert isinstance(pedido, cloud_speech.BatchRecognizeRequest)
     assert pedido.recognizer == "projects/projeto-teste/locations/us-central1/recognizers/_"
     assert list(pedido.config.language_codes) == ["pt-BR"]
-    assert pedido.config.model == "long"
+    assert pedido.config.model == "chirp_2"
+    # fora de "global", o cliente precisa do endereço da própria região
+    opcoes = ClienteFalso.call_args.kwargs["client_options"]
+    assert opcoes.api_endpoint == "us-central1-speech.googleapis.com"
     assert pedido.files[0].uri == URI_GCS
     assert "inline_response_config" in pedido.recognition_output_config
     operacao.result.assert_called_once_with(timeout=600)
 
     assert "bom dia, em que posso ajudar (confiança 0.9500)" in capsys.readouterr().out
+
+
+# Tabela oficial "Supported languages" da Cloud Speech-to-Text V2, linhas de
+# pt-BR, consultada em 08/10/2026:
+# https://docs.cloud.google.com/speech-to-text/v2/docs/speech-to-text-supported-languages
+MODELOS_PT_BR_POR_REGIAO = {
+    "global": {"long", "short", "telephony", "telephony_short"},
+    "us": {"chirp_3", "long", "short", "telephony", "telephony_short"},
+    "eu": {"chirp_3", "long", "short", "telephony", "telephony_short"},
+    "us-central1": {"chirp", "chirp_2", "chirp_telephony"},
+    "europe-west4": {"chirp", "chirp_2", "chirp_telephony"},
+    "asia-southeast1": {"chirp", "chirp_2", "chirp_telephony"},
+}
+
+
+def test_google_modelo_existe_para_pt_br_na_regiao(carregar_exemplo):
+    """
+    O modelo disponível muda com a região. Uma combinação inexistente só
+    falharia na chamada real — este teste a pega antes, offline.
+    """
+    exemplo = carregar_exemplo("exemplos/fala/google_speech_to_text.py",
+                               GOOGLE_CLOUD_PROJECT="projeto-teste")
+    assert exemplo.IDIOMA == "pt-BR"
+    disponiveis = MODELOS_PT_BR_POR_REGIAO[exemplo.REGIAO]
+    assert exemplo.MODELO in disponiveis, (
+        f"o modelo {exemplo.MODELO!r} não existe para pt-BR em {exemplo.REGIAO}; "
+        f"disponíveis: {sorted(disponiveis)}")

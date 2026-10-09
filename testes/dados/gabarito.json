@@ -1,0 +1,27 @@
+{
+  "_sobre": "Resultado esperado para cada entrada de teste. Os testes contra os serviços reais conferem as respostas contra este arquivo.",
+  "texto": {
+    "arquivo": "frase.txt",
+    "conteudo": "O atendimento foi excelente.",
+    "esperado": "sentimento positivo",
+    "criterio": {
+      "aws": "Sentiment == POSITIVE",
+      "azure": "sentiment == positive",
+      "google": "score > 0.25 (limiar do exemplo, que classifica como positivo)"
+    }
+  },
+  "imagem": {
+    "arquivo": "cachorro.jpg",
+    "conteudo": "fotografia de um cachorro (labrador chocolate) sentado na grama",
+    "esperado": "rótulo de cachorro entre os rótulos devolvidos",
+    "criterio": "algum rótulo contém 'dog' (AWS, Azure e Google devolvem rótulos em inglês)"
+  },
+  "audio": {
+    "arquivo": "frase.flac",
+    "conteudo": "a frase 'O atendimento foi excelente.' falada em português do Brasil",
+    "transcricao_de_referencia": "O atendimento foi excelente.",
+    "esperado": "transcrição que contém as palavras-chave",
+    "palavras_chave": ["atendimento", "excelente"],
+    "criterio": "a transcrição, sem acentos, pontuação e maiúsculas, contém todas as palavras-chave"
+  }
+}
