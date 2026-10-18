@@ -1,7 +1,7 @@
 # /// script
 # requires-python = ">=3.10"
 # dependencies = [
-#     "pytest",
+#     "pytest==9.1.1",
 #     "pillow",
 #     "soundfile",
 #     "boto3==1.43.101",

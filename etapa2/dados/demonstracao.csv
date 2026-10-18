@@ -1,0 +1,9 @@
+id,texto,rotulo_referencia,origem,subconjunto
+d01,"Produto excelente, chegou antes do prazo. Recomendo.",positivo,"frase escrita para o guia de anotação; rótulo ilustrativo do guia, NÃO é anotação do experimento",demonstracao
+d02,"Bom, mas a tampa é meio frágil.",positivo,"frase escrita para o guia de anotação; rótulo ilustrativo do guia, NÃO é anotação do experimento",demonstracao
+d03,"A cor é bonita, mas parou de funcionar em uma semana.",negativo,"frase escrita para o guia de anotação; rótulo ilustrativo do guia, NÃO é anotação do experimento",demonstracao
+d04,"Produto ótimo, porém a entrega atrasou 20 dias e ninguém respondeu.",misto,"frase escrita para o guia de anotação; rótulo ilustrativo do guia, NÃO é anotação do experimento",demonstracao
+d05,Comprei para dar de presente para minha mãe.,neutro,"frase escrita para o guia de anotação; rótulo ilustrativo do guia, NÃO é anotação do experimento",demonstracao
+d06,"O fone tem cabo de 1,2 m e vem com três tamanhos de borracha.",neutro,"frase escrita para o guia de anotação; rótulo ilustrativo do guia, NÃO é anotação do experimento",demonstracao
+d07,"Ótimo, veio faltando peça.",negativo,"frase escrita para o guia de anotação; rótulo ilustrativo do guia, NÃO é anotação do experimento",demonstracao
+d08,asdkjh qwe poiu,invalido,"frase escrita para o guia de anotação; rótulo ilustrativo do guia, NÃO é anotação do experimento",demonstracao

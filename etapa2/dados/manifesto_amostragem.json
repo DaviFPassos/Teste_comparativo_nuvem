@@ -1,0 +1,57 @@
+{
+  "lotes": [
+    {
+      "lote": "inicial",
+      "data": "2026-10-18",
+      "semente": 20261018,
+      "por_estrela": {
+        "piloto": 6,
+        "teste": 60
+      },
+      "arquivos": {
+        "candidatos_piloto.csv": {
+          "textos": 30,
+          "sha256": "2a19962be588ec92831ff0d939d7d20279d3780b59be49d56dc2d633e424f7e9"
+        },
+        "candidatos_teste.csv": {
+          "textos": 300,
+          "sha256": "758654dda6c91ac374ff7f5679318f79107def4669ef41f843bf360b1099f164"
+        }
+      }
+    }
+  ],
+  "fonte": {
+    "nome": "B2W-Reviews01",
+    "autoria": "B2W Digital",
+    "licenca": "CC BY-NC-SA 4.0",
+    "url": "https://raw.githubusercontent.com/americanas-tech/b2w-reviews01/main/B2W-Reviews01.csv",
+    "sha256": "821fb0bf9f7230b0fba4e4f9fadd75a66d1a9ff0b1657810791d33007eb2ab38"
+  },
+  "filtros": {
+    "max_caracteres": 5000,
+    "duplicatas": "todas as cópias de um texto repetido são excluídas",
+    "dados_pessoais": [
+      "codigo_de_rastreio",
+      "cpf",
+      "email",
+      "numero_longo",
+      "telefone"
+    ],
+    "campos_descartados": [
+      "reviewer_id",
+      "reviewer_birth_year",
+      "reviewer_gender",
+      "reviewer_state",
+      "product_name",
+      "product_brand",
+      "review_title"
+    ]
+  },
+  "elegiveis": 124926,
+  "excluidos_por_motivo": {
+    "possível dado pessoal (codigo_de_rastreio)": 4,
+    "possível dado pessoal (numero_longo)": 14,
+    "texto duplicado na fonte": 4154,
+    "texto vazio": 3275
+  }
+}

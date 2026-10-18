@@ -1,0 +1,35 @@
+{
+  "data_hora_utc": "2026-10-18T19:15:29+00:00",
+  "categoria": "nlp",
+  "provedor": "google",
+  "servico": "Cloud Natural Language analyzeSentiment",
+  "regiao": "global",
+  "entrada": {
+    "arquivo": "testes/dados/frase.txt",
+    "sha256": "cd0dcd39dee24e00b84be63ab7b63d7ef3401726d68d02a855ec0ed970f632db"
+  },
+  "esperado": "score > 0.25 (limiar do exemplo, que classifica como positivo)",
+  "obtido": {
+    "score": 0.8999999761581421,
+    "classe_pelo_limiar": "positivo"
+  },
+  "aprovado": true,
+  "resposta_bruta_do_servico": {
+    "documentSentiment": {
+      "magnitude": 0.9,
+      "score": 0.9
+    },
+    "language": "pt",
+    "sentences": [
+      {
+        "text": {
+          "content": "O atendimento foi excelente."
+        },
+        "sentiment": {
+          "magnitude": 0.9,
+          "score": 0.9
+        }
+      }
+    ]
+  }
+}

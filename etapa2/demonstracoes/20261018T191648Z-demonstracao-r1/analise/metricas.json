@@ -1,0 +1,115 @@
+{
+  "provedores": [
+    "google"
+  ],
+  "textos_no_dataset": 8,
+  "programados_3_classes": 6,
+  "fora_da_avaliacao_principal": {
+    "misto": 1,
+    "invalido": 1
+  },
+  "intersecao": 6,
+  "excluidos_da_intersecao": 0,
+  "por_provedor": {
+    "google": {
+      "respostas_validas": 6,
+      "falhas_por_codigo": {},
+      "tentativas": 8,
+      "sucesso_por_tentativa": 1.0,
+      "sucesso_por_texto": 1.0,
+      "qualidade_na_intersecao": {
+        "n": 6,
+        "acertos": 2,
+        "acuracia": 0.3333333333333333,
+        "macro_f1": 0.26666666666666666,
+        "por_classe": {
+          "positivo": {
+            "suporte": 2,
+            "tp": 1,
+            "fp": 2,
+            "fn": 1,
+            "precisao": 0.3333333333333333,
+            "revocacao": 0.5,
+            "f1": 0.4
+          },
+          "negativo": {
+            "suporte": 2,
+            "tp": 0,
+            "fp": 0,
+            "fn": 2,
+            "precisao": 0.0,
+            "revocacao": 0.0,
+            "f1": 0.0
+          },
+          "neutro": {
+            "suporte": 2,
+            "tp": 1,
+            "fp": 2,
+            "fn": 1,
+            "precisao": 0.3333333333333333,
+            "revocacao": 0.5,
+            "f1": 0.4
+          }
+        },
+        "indefinidos": [
+          "precisão de 'negativo': classe nunca prevista"
+        ]
+      },
+      "previsoes_misto_na_intersecao": 0,
+      "acertos_sobre_programados": 2,
+      "fracao_acertos_sobre_programados": 0.3333333333333333,
+      "latencia_ms": {
+        "n": 8,
+        "metodo_percentil": "posto mais próximo",
+        "mediana": 1073.689,
+        "p95": 1818.579,
+        "minimo": 1041.467,
+        "maximo": 1818.579
+      },
+      "timeouts": {
+        "n": 0,
+        "duracoes_ms": []
+      },
+      "matriz_confusao": {
+        "positivo": {
+          "positivo": 1,
+          "negativo": 0,
+          "neutro": 1,
+          "misto": 0
+        },
+        "negativo": {
+          "positivo": 1,
+          "negativo": 0,
+          "neutro": 1,
+          "misto": 0
+        },
+        "neutro": {
+          "positivo": 1,
+          "negativo": 0,
+          "neutro": 1,
+          "misto": 0
+        }
+      },
+      "custo": {
+        "unidades_estimadas_todas_tentativas": 8,
+        "estimado_sem_franquia_usd": 0.008,
+        "estimado_com_franquia_usd": 0.0,
+        "franquia_mensal_unidades": 5000,
+        "observado_usd": null,
+        "nota": "Estimativa pela tabela de custos/premissas.csv. O valor observado no painel do provedor é registrado à parte."
+      }
+    }
+  },
+  "exploratorio": {
+    "misto": {
+      "google": {
+        "neutro": 1
+      }
+    },
+    "invalido": {
+      "google": {
+        "positivo": 1
+      }
+    }
+  }
+}

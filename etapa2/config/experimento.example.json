@@ -1,0 +1,20 @@
+{
+  "_leia_me": "Parâmetros da coleta. NÃO contém nem deve conter credenciais (essas ficam no .env). Para mudar algo, copie para experimento.json — e registre a mudança em etapa2/metodologia.md ANTES da coleta final.",
+
+  "max_tentativas": 3,
+  "espera_entre_tentativas_s": 2.0,
+  "intervalo_minimo_s": {"azure": 0.25, "google": 0.15},
+  "limiar_google": 0.25,
+  "semente_ordem": 20261018,
+
+  "provedores": {
+    "azure":  {"idioma": "pt-BR", "timeout_s": 30, "regiao": "eastus"},
+    "google": {"idioma": "pt",    "timeout_s": 30}
+  },
+
+  "orcamento": {
+    "teto_usd": 0,
+    "azure_tier": "F0",
+    "consumo_externo_no_mes": {"azure": 0, "google": 0}
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.7,
+    "score": 0.7
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Ótimo, veio faltando peça."
+      },
+      "sentiment": {
+        "magnitude": 0.7,
+        "score": 0.7
+      }
+    }
+  ]
+}

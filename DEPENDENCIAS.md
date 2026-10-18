@@ -1,6 +1,6 @@
 # Dependências do projeto
 
-Versões resolvidas pelo `uv` em **24/09/2026**, com Python 3.12.
+Versões resolvidas pelo `uv` em **24/09/2026** (Etapa 1) e **18/10/2026** (Etapa 2), com Python 3.12. **Uma versão só de cada biblioteca no projeto inteiro**: a Etapa 2 usa as mesmas da Etapa 1.
 
 ## Em uma linha
 
@@ -30,6 +30,18 @@ powershell -c "irm https://astral.sh/uv/install.ps1 | iex"   # Windows
 | `relatorio/gerar_pdf.py` | `playwright` | **1.63.0** | Baixa o Chromium no cache do usuário na primeira execução |
 | `testes/rodar_testes.py` | `pytest` + as 8 bibliotecas dos exemplos | **9.1.1** + versões da tabela abaixo | Testa os 9 exemplos sem credenciais nem rede. Versões fixadas no script e lockfile (`rodar_testes.py.lock`) |
 
+### Etapa 2 — avaliação prática
+
+| Script | Dependência | Versão | Observação |
+|---|---|---|---|
+| `etapa2/src/amostrar.py` | — | — | **Só biblioteca padrão.** Sorteio reprodutível do dataset |
+| `etapa2/src/anotacao.py` | — | — | **Só biblioteca padrão.** Planilhas, concordância (kappa) e montagem dos conjuntos |
+| `etapa2/src/executar.py` | `azure-ai-textanalytics`<br>`azure-core`<br>`google-cloud-language` | **5.4.0**<br>**1.41.0**<br>**2.21.0** | A coleta. Lockfile `executar.py.lock`. Também usa, só com biblioteca padrão, `normalizar.py`, `custo.py`, `seguranca.py` e `provedores/` |
+| `etapa2/src/analisar.py` | `matplotlib` | **3.11.2** | Métricas, tabelas e gráficos a partir dos arquivos da coleta; não chama API. Lockfile `analisar.py.lock`. Exige Python ≥ 3.11 (exigência do matplotlib 3.11) |
+| `etapa2/rodar_testes.py` | `pytest` + as bibliotecas de `executar.py` e `analisar.py` | **9.1.1** + versões acima | 66 testes offline, com os SDKs reais e a rede substituída. Lockfile `rodar_testes.py.lock` |
+
+O roteiro da Etapa 2 sugere um `etapa2/requirements.txt`. O projeto mantém a convenção da Etapa 1 — dependências declaradas no próprio script (PEP 723) e travadas no `.lock` ao lado —, que cumpre o mesmo papel: as versões efetivamente usadas ficam registradas e são reproduzidas pelo `uv run`.
+
 ### Exemplos de código (testados com `uv run testes/rodar_testes.py`)
 
 | Categoria | Script | Dependência | Versão |
@@ -48,7 +60,7 @@ Estas são as versões **com que os exemplos foram testados** — os testes as f
 
 ## Resumo dos pacotes
 
-Somando as dependências diretas, são **10 pacotes** — 8 dos exemplos (exercitados pelos testes), 2 dos scripts de gráfico e PDF (`matplotlib` e `playwright`) — mais o `pytest`, usado só pelos testes:
+Somando as dependências diretas, são **10 pacotes** — 8 dos exemplos (exercitados pelos testes), 2 dos scripts de gráfico e PDF (`matplotlib` e `playwright`) — mais o `pytest`, usado só pelos testes. A Etapa 2 **não acrescenta pacote novo**: usa `azure-ai-textanalytics`, `azure-core`, `google-cloud-language` e `matplotlib`, nas mesmas versões:
 
 ```
 azure-ai-textanalytics==5.4.0
@@ -89,7 +101,10 @@ O `.venv/` está no `.gitignore` e não vai para o repositório.
 Têm lockfile os scripts com dependência externa que **de fato executam** e cujo resultado precisa ser reproduzível:
 
 - `custos/gerar_graficos.py.lock` — os três gráficos versionados são regerados a partir da mesma resolução de pacotes;
-- `testes/rodar_testes.py.lock` — os testes dos exemplos rodam sempre contra as mesmas versões das bibliotecas dos provedores.
+- `testes/rodar_testes.py.lock` — os testes dos exemplos rodam sempre contra as mesmas versões das bibliotecas dos provedores;
+- `etapa2/src/executar.py.lock` — a coleta da Etapa 2 chama os serviços sempre com as mesmas versões dos SDKs;
+- `etapa2/src/analisar.py.lock` — as métricas e os gráficos da Etapa 2 são regerados com a mesma resolução;
+- `etapa2/rodar_testes.py.lock` — os testes da Etapa 2 rodam contra as mesmas versões da coleta.
 
 Os exemplos em si não têm lockfile próprio: quem os valida são os testes, e é no lockfile dos testes que as versões ficam travadas.
 

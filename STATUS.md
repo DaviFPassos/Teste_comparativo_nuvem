@@ -1,10 +1,10 @@
 # STATUS do projeto
 
-**Última atualização:** 26/09/2026 (Etapa 1 publicada e **revisada**: correções técnicas aplicadas após revisão externa)
+**Última atualização:** 18/10/2026 (Etapa 2 iniciada: dados sorteados, programa implementado e testado offline; coleta real pendente). Etapa 1 publicada e revisada em 26/09/2026.
 
 ## Objetivo atual
 
-Concluir a **Etapa 1 — Análise comparativa** (milestones 1 a 6, issues #1 a #27). Prazo: **30/09/2026**.
+**Etapa 2 — Avaliação prática** (milestones 7 a 13, issues #28–#56): análise de sentimento em português na Azure e no Google. A Etapa 1 (milestones 1 a 6) foi concluída antes do prazo de 30/09/2026.
 
 ## Situação
 
@@ -99,10 +99,16 @@ Uma revisão externa apontou erros técnicos e de interpretação. Todos foram c
 
 ## Próxima ação concreta
 
-Iniciar a **Etapa 2** pela Fase 1 (milestone 7).
-
-Para a Etapa 2, as issues #28, #29, #30, #31 e #35 já receberam os insumos produzidos na Etapa 1: ofertas confirmadas, diferenças de formato de saída entre os provedores, estimativa de custo do experimento (menos de US$ 1, dentro das franquias gratuitas) e sugestão de divisão do trabalho entre os três integrantes.
+**Etapa 2:** anotar o gabarito (dois integrantes) e criar as contas Azure (Language F0) e Google, em paralelo. Detalhes e responsáveis em [`etapa2/STATUS_ETAPA2.md`](etapa2/STATUS_ETAPA2.md).
 
 ## Etapa 2
 
-Planejada em `etapas/ROTEIRO_ETAPA2.md` (milestones 7 a 13, issues #28–#56). Começa após a publicação da Etapa 1.
+**Iniciada em 18/10/2026.** Roteiro em `etapas/ROTEIRO_ETAPA2.md`; progresso em [`etapa2/STATUS_ETAPA2.md`](etapa2/STATUS_ETAPA2.md).
+
+| Item | Situação |
+|---|---|
+| Decisões do grupo | Azure + Google · dataset público B2W-Reviews01 · gabarito por dois integrantes · orçamento US$ 0 |
+| Fase 1 — viabilidade | Concluída |
+| Fase 2 — dados e protocolo | 330 candidatos sorteados; planilhas de anotação geradas; metodologia em **rascunho** |
+| Fase 3 — programa | Implementado e testado offline (66 testes); **piloto real não executado** |
+| Coleta real | **Nenhuma.** Bloqueada por gabarito e credenciais |

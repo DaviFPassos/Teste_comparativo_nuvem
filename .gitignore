@@ -94,3 +94,8 @@ desktop.ini
 # ---------------------------------------------------------------------------
 *.xlsx#
 ~$*.xlsx
+
+# Etapa 2: verificações locais com provedor SIMULADO (nunca evidência de execução)
+etapa2/simulacoes/
+# Etapa 2: configuração local da coleta (pode ter consumo declarado da conta)
+etapa2/config/experimento.json

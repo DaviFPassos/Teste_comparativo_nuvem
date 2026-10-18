@@ -52,6 +52,7 @@ Três categorias, escolhidas por tratarem modalidades de entrada diferentes (tex
 | [referencias/fontes.md](referencias/fontes.md) | Todas as fontes, com URL, data de consulta e o que cada uma sustenta |
 | [DEPENDENCIAS.md](DEPENDENCIAS.md) | Bibliotecas e versões, e como instalá-las com `uv` |
 | [STATUS.md](STATUS.md) | Progresso, decisões e pendências |
+| [etapa2/](etapa2/) | **Etapa 2** — metodologia, dados, programa de coleta e análise ([estado](etapa2/STATUS_ETAPA2.md)) |
 | [etapas/](etapas/) | Roteiros de trabalho das duas etapas |
 | [pdfs/](pdfs/) | Enunciado do professor |
 
@@ -235,6 +236,21 @@ Isso baixa e extrai a biblioteca em `~/.local/lib/chromium-deps`, sem `sudo` e s
 
 Alternativa sem instalar nada: abrir `relatorio/relatorio_etapa1.html` no navegador e usar **Ctrl+P → Salvar como PDF**.
 
-## Etapa 2
+## Etapa 2 — avaliação prática (em andamento)
 
-Planejada em [etapas/ROTEIRO_ETAPA2.md](etapas/ROTEIRO_ETAPA2.md): avaliação prática de análise de sentimento em português, com execução real em pelo menos dois provedores. Os artefatos serão adicionados a este mesmo repositório.
+Análise de sentimento em português com execução real na **Microsoft Azure** e no **Google Cloud**, sobre os mesmos textos: avaliações de produtos do corpus público [B2W-Reviews01](https://github.com/americanas-tech/b2w-reviews01) (CC BY-NC-SA 4.0), com gabarito anotado por dois integrantes.
+
+> **Ainda não há resultado experimental.** O programa está implementado e testado offline; a coleta real depende do gabarito e das credenciais. Estado e próximos passos em [etapa2/STATUS_ETAPA2.md](etapa2/STATUS_ETAPA2.md).
+
+| Caminho | Conteúdo |
+|---|---|
+| [etapa2/metodologia.md](etapa2/metodologia.md) | Protocolo: decisões, normalização, métricas e denominadores (rascunho para aprovação) |
+| [etapa2/dados/](etapa2/dados/) | Origem, licença e limitações dos dados; guia de anotação; candidatos e planilhas |
+| [etapa2/src/](etapa2/src/) | Amostragem, anotação, adaptadores, executor, normalização, trava de orçamento e análise |
+| [etapa2/COMO_EXECUTAR.md](etapa2/COMO_EXECUTAR.md) | Credenciais, piloto, teste, retomada e o que vai ou não para o repositório |
+
+```bash
+uv run etapa2/rodar_testes.py                          # 66 testes offline: sem rede, credencial ou custo
+uv run etapa2/src/analisar.py --execucao <id>          # recalcula métricas de uma coleta, sem chamar API
+uv run etapa2/src/executar.py --dados etapa2/dados/piloto.csv --provedores azure google   # coleta real
+```
