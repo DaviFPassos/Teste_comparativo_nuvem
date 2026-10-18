@@ -1,0 +1,6 @@
+id,texto,rotulo_referencia
+ex001,O atendimento foi excelente.,positivo
+ex002,O pedido chegou danificado e estou insatisfeito.,negativo
+ex003,O estabelecimento abre às nove horas.,neutro
+ex004,A comida estava fria e o garçom foi grosseiro.,negativo
+ex005,Adorei o produto! Superou minhas expectativas.,positivo

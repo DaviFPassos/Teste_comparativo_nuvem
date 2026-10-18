@@ -1,0 +1,87 @@
+[
+    {
+        "id": "ex001",
+        "texto": "O atendimento foi excelente.",
+        "rotulo_referencia": "positivo",
+        "provedor": "Azure",
+        "resposta_original": {
+            "sucesso": true,
+            "sentimento": "positive",
+            "scores": {
+                "positivo": 1.0,
+                "neutro": 0.0,
+                "negativo": 0.0
+            }
+        },
+        "latencia_ms": 1580.18,
+        "timestamp": "2026-10-18T15:16:28.679465"
+    },
+    {
+        "id": "ex002",
+        "texto": "O pedido chegou danificado e estou insatisfeito.",
+        "rotulo_referencia": "negativo",
+        "provedor": "Azure",
+        "resposta_original": {
+            "sucesso": true,
+            "sentimento": "negative",
+            "scores": {
+                "positivo": 0.0,
+                "neutro": 0.0,
+                "negativo": 1.0
+            }
+        },
+        "latencia_ms": 842.88,
+        "timestamp": "2026-10-18T15:16:30.522597"
+    },
+    {
+        "id": "ex003",
+        "texto": "O estabelecimento abre às nove horas.",
+        "rotulo_referencia": "neutro",
+        "provedor": "Azure",
+        "resposta_original": {
+            "sucesso": true,
+            "sentimento": "neutral",
+            "scores": {
+                "positivo": 0.0,
+                "neutro": 1.0,
+                "negativo": 0.0
+            }
+        },
+        "latencia_ms": 843.06,
+        "timestamp": "2026-10-18T15:16:32.365880"
+    },
+    {
+        "id": "ex004",
+        "texto": "A comida estava fria e o garçom foi grosseiro.",
+        "rotulo_referencia": "negativo",
+        "provedor": "Azure",
+        "resposta_original": {
+            "sucesso": true,
+            "sentimento": "neutral",
+            "scores": {
+                "positivo": 0.06,
+                "neutro": 0.48,
+                "negativo": 0.46
+            }
+        },
+        "latencia_ms": 842.65,
+        "timestamp": "2026-10-18T15:16:34.208769"
+    },
+    {
+        "id": "ex005",
+        "texto": "Adorei o produto! Superou minhas expectativas.",
+        "rotulo_referencia": "positivo",
+        "provedor": "Azure",
+        "resposta_original": {
+            "sucesso": true,
+            "sentimento": "positive",
+            "scores": {
+                "positivo": 0.98,
+                "neutro": 0.02,
+                "negativo": 0.0
+            }
+        },
+        "latencia_ms": 843.2,
+        "timestamp": "2026-10-18T15:16:36.052200"
+    }
+]
