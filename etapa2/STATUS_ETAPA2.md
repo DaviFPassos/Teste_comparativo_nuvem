@@ -36,7 +36,7 @@ As demais decisões do protocolo estão **propostas** em [`metodologia.md`](meto
 | Limites de taxa | Azure F0: 300 req/min (conferido em 18/10/2026); Google: 600 req/min |
 | Custo previsto | ~330 unidades por rodada completa (piloto + candidatos) em cada provedor; pior caso com 3 tentativas: ~1.000. Franquia: 5.000/mês em cada. **US$ 0,00 estimado** |
 | SDKs | `azure-ai-textanalytics` 5.4.0 e `google-cloud-language` **2.21.0** — as mesmas versões da Etapa 1, para o projeto ter uma versão só de cada biblioteca. A demonstração de 18/10/2026 rodou com 2.22.0 (registrado no `ambiente.json` dela); a coleta usará 2.21.0 |
-| Credenciais nesta máquina | **Google: configurado** (18/10/2026). **Azure: ainda não** |
+| Credenciais | **Google:** configurado na máquina do Davi (18/10/2026). **Azure:** recurso e chave funcionando na máquina do Rafael (verificação com 5 frases, 18/10/2026) |
 
 ## Artefatos
 
@@ -64,7 +64,8 @@ As demais decisões do protocolo estão **propostas** em [`metodologia.md`](meto
 |---|---|---|---|
 | 1 | Gabarito | **Dois integrantes** | Preencher `planilha_A.csv` e `planilha_B.csv` seguindo o guia; nomes em `anotacao/anotadores.json`; depois `anotacao.py consolidar` → discutir divergências → `montar` |
 | 2 | Protocolo | Grupo | Revisar `metodologia.md`, alterar o que for preciso, registrar a aprovação |
-| 3 | Credenciais Azure | Quem tiver a conta | Recurso **Language F0** em East US → endpoint e chave no `.env` (passo 2 de `COMO_EXECUTAR.md`) |
+| 3 | ~~Credenciais Azure~~ | Rafael | **Funcionando na máquina do Rafael.** Confirmar no portal que o recurso é **F0** (exigência do orçamento US$ 0) |
+| 3a | **Os dois provedores na mesma máquina** | Grupo | A metodologia intercala Azure e Google no mesmo texto, na mesma máquina. Opções: (a) **recomendada** — o Davi adiciona o Rafael ao projeto Google com o papel *Service Usage Consumer*, e o Rafael roda tudo na máquina dele com a própria conta Google, sem compartilhar chave; (b) o Rafael passa a chave da Azure ao Davi; (c) cada um roda o seu provedor, e a metodologia declara que a latência não é comparável |
 | 4 | ~~Credenciais Google~~ | — | **Resolvido em 18/10/2026** na máquina do Davi: projeto com faturamento, `language.googleapis.com` ativada, login ADC com projeto de cota, `GOOGLE_CLOUD_PROJECT` no `.env`. Uma chamada de verificação respondeu (1 unidade). Falta só o alerta de orçamento de US$ 1, recomendado |
 
 Os itens 1–2 e 3–4 podem andar em paralelo. O piloto só depende de 3–4 e de `piloto.csv` (item 1).
@@ -73,6 +74,7 @@ Os itens 1–2 e 3–4 podem andar em paralelo. O piloto só depende de 3–4 e 
 
 | ID | Conjunto | Provedores | Tipo | Resultado |
 |---|---|---|---|---|
+| `20261018T151637-azure-rafael` | `dados/fumaca_azure.csv` — 5 frases (3 do roteiro, 2 do autor) | Azure | **Verificação real** pelo Rafael, com o pipeline do ramo `feat/azure-nlp-sentimento`; em `etapa2/demonstracoes/` | 5/5 respostas; 1ª chamada 1.580 ms, demais ~843 ms. **Não é resultado do experimento** |
 | `20261018T191648Z-demonstracao-r1` | `dados/demonstracao.csv` — 8 frases **do guia de anotação**, fora do experimento | Google | **Demonstração real** (`--demonstracao`), em `etapa2/demonstracoes/` | 8/8 respostas, mediana 1.074 ms. **Não é resultado do experimento**: rótulos ilustrativos, n = 8, frases difíceis de propósito |
 | — | — | — | — | Nenhuma execução do experimento. Também em 18/10/2026: uma chamada de verificação de credencial (não gravada) e o teste real do exemplo da Etapa 1 (`testes/evidencias/nlp_google.json`) |
 
@@ -82,7 +84,7 @@ Os itens 1–2 e 3–4 podem andar em paralelo. O piloto só depende de 3–4 e 
 - **A fonte contém códigos de rastreio dos Correios e números de protocolo/nota fiscal** (18 textos). Foram tratados como dado pessoal e excluídos.
 - **`neutro` deve ficar escasso.** Avaliações de 3 estrelas tendem a ser mistas, não neutras. Se a classe ficar abaixo de 50, a decisão (aceitar ou sortear lote extra) tem de ser tomada antes das chamadas.
 - **A Azure e o guia de anotação definem "misto" de jeitos diferentes.** A Azure é mecânica (qualquer sentença positiva + qualquer negativa → `mixed`); o guia é por predominância. Previsões `mixed` da Azure em textos que o gabarito considera `positivo` ou `negativo` são esperadas — e são uma pergunta da Fase 6.
-- **A primeira chamada é mais lenta (aquecimento).** Na demonstração real, a 1ª chamada levou 1.819 ms e as outras sete entre 1.041 e 1.099 ms: é a abertura da conexão e a obtenção do token. Com n pequeno ela vira o p95. **Decisão a tomar antes do teste**: descartar uma chamada de aquecimento por provedor ou reportá-la à parte (proposta em `metodologia.md`).
+- **A primeira chamada é mais lenta (aquecimento) — nos dois provedores.** Na Azure (verificação do Rafael), 1.580 ms contra ~843 ms. No Google, na demonstração real, a 1ª chamada levou 1.819 ms e as outras sete entre 1.041 e 1.099 ms: é a abertura da conexão e a obtenção do token. Com n pequeno ela vira o p95. **Decisão a tomar antes do teste**: descartar uma chamada de aquecimento por provedor ou reportá-la à parte (proposta em `metodologia.md`).
 - **O Google tende a pôr frases de sinais opostos perto de zero.** Na demonstração, "Bom, mas a tampa é meio frágil.", "A cor é bonita, mas parou de funcionar..." e "Produto ótimo, porém a entrega atrasou..." receberam score ±0,1 → `neutro`, e a ironia "Ótimo, veio faltando peça." recebeu +0,7. São 8 frases escolhidas por serem difíceis — **uma pista para a Fase 6, não uma conclusão**.
 - **Os dois SDKs repetem chamadas sozinhos por padrão** (o do Google por até 600 s). Os adaptadores desligam isso para que cada tentativa seja medida e registrada; os testes provam que só uma requisição sai.
 

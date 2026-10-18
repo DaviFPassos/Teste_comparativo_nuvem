@@ -59,6 +59,8 @@ Hashes, contagens e parâmetros de cada lote ficam em `manifesto_amostragem.json
 | `exploratorio_misto.csv` | Os textos rotulados `misto`, analisados à parte |
 | `manifesto_conjuntos.json` | Contagens, concordância entre anotadores e SHA-256 de cada arquivo. O executor **recusa** coletar com um arquivo cujo hash não confere |
 
+Fora do experimento ficam `demonstracao.csv` (8 frases escritas para o guia de anotação) e `fumaca_azure.csv` (5 frases da verificação da Azure feita pelo Rafael: as três primeiras são os exemplos ilustrativos do roteiro). Nenhuma delas vem do B2W-Reviews01, e nenhuma entra nas métricas.
+
 ## Estado atual
 
 | Arquivo | Estado em 18/10/2026 |
