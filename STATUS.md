@@ -110,5 +110,5 @@ Uma revisão externa apontou erros técnicos e de interpretação. Todos foram c
 | Decisões do grupo | Azure + Google · dataset público B2W-Reviews01 · gabarito por dois integrantes · orçamento US$ 0 |
 | Fase 1 — viabilidade | Concluída |
 | Fase 2 — dados e protocolo | 330 candidatos sorteados; planilhas de anotação geradas; metodologia em **rascunho** |
-| Fase 3 — programa | Implementado e testado offline (92 testes); **piloto real não executado** |
+| Fase 3 — programa | Implementado e testado offline (93 testes); **piloto real não executado** |
 | Coleta real | **Nenhuma.** Bloqueada por gabarito e credenciais |

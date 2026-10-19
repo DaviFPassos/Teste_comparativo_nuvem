@@ -8,7 +8,7 @@
 
 **Repositório público:** https://github.com/DaviFPassos/Teste_comparativo_nuvem
 
-> **Estado deste documento (18/10/2026): ESQUELETO.**
+> **Estado deste documento (19/10/2026): ESQUELETO.**
 > As seções 1 a 5 e 8 descrevem o que já está definido e implementado.
 > As seções marcadas **PENDENTE** dependem da coleta — que ainda não ocorreu — ou de conclusões que cabem ao grupo.
 > Nenhum número de resultado aparece aqui antes de existir: as tabelas da seção 6 são geradas por `etapa2/src/analisar.py` a partir dos arquivos da coleta e **copiadas sem edição**.
@@ -39,12 +39,26 @@ A AWS ficou de fora porque o Comprehend exige conta em plano pago, o que conflit
 *(seção 8 do enunciado — detalhes em `etapa2/dados/README.md`)*
 
 - **Fonte:** B2W-Reviews01 — 132.373 avaliações reais da Americanas.com, de janeiro a maio de 2018, publicadas pela B2W Digital sob CC BY-NC-SA 4.0 (fontes ET2-DADOS-01 e 02).
-- **Filtros:** foram retirados textos vazios, todas as cópias de textos duplicados e textos com indício de dado pessoal — código de rastreio dos Correios, números de protocolo ou de nota fiscal. Restaram **124.926** elegíveis. Nenhum campo pessoal do dataset foi copiado.
+- **Filtros:** foram retirados textos vazios, todas as cópias de textos duplicados e textos com indício de dado pessoal — código de rastreio dos Correios, números de protocolo ou de nota fiscal. Restaram **124.926** elegíveis. Nenhum campo pessoal do dataset foi copiado. Na leitura, mais **3 textos com o nome do autor** foram excluídos por decisão registrada (`etapa2/dados/exclusoes.csv`).
 - **Sorteio:** estratificado por estrelas, com semente fixa — 30 textos de piloto e 300 candidatos ao teste, 60 por estrela. Reprodutível byte a byte.
-- **Gabarito:** anotação **humana, por dois integrantes**, independentes, sem ver as estrelas nem as respostas das APIs. As divergências são resolvidas por discussão registrada, e a concordância é medida por kappa de Cohen. As estrelas **não** são o gabarito: o próprio artigo do dataset mostra que reduzir a escala de 5 pontos a 3 classes "pode levar a conclusões erradas".
+- **Gabarito:** **dois anotadores** independentes, sem ver as estrelas nem as respostas das APIs. O anotador A é Davi Fonseca Passos, com rótulos **gerados por IA** e adotados por ele; o anotador B é um integrante humano, que não consultou a sugestão. A concordância entre os dois mostra quanto o rótulo da IA se aproxima de uma leitura humana. As divergências são resolvidas por discussão registrada, e a concordância é medida por kappa de Cohen. As estrelas **não** são o gabarito: o próprio artigo do dataset mostra que reduzir a escala de 5 pontos a 3 classes "pode levar a conclusões erradas".
 - **Conjunto final:** até 50 textos por classe (positivo, negativo, neutro). Os textos rotulados *misto* formam um conjunto exploratório separado, **antes** de qualquer chamada.
 
-> **PENDENTE — anotação.** Quantos textos ficaram em cada classe, o kappa de Cohen e quantas divergências houve. Fonte: `etapa2/dados/manifesto_conjuntos.json`, gerado por `anotacao.py montar`.
+**Resultado da anotação** (fonte: `etapa2/dados/manifesto_conjuntos.json`, gerado por `anotacao.py montar`):
+
+| | Valor |
+|---|---|
+| Textos anotados pelos dois anotadores | 330 |
+| Concordância bruta | 87,0% |
+| Kappa de Cohen (A × B) | **0,791** |
+| Divergências | 43 — decididas pela regra "prevalece o anotador humano (B)" |
+| Excluídos | 2 inválidos e 3 com nome do autor |
+| Disponíveis entre os candidatos ao teste | 134 positivos · 107 negativos · **15 neutros** |
+| **Conjunto de teste** | **115 textos: 50 positivos, 50 negativos, 15 neutros** |
+| Piloto | 30 textos |
+| Conjunto exploratório (mistos) | 39 textos |
+
+Das 43 divergências, 27 foram entre positivo/negativo (IA) e misto (Rafael): a IA tendeu a escolher o lado predominante, e o anotador humano marcou misto com mais facilidade. A classe neutra ficou com **15** textos, abaixo da meta de 50; por isso a análise traz também a avaliação sem a classe neutra (seção 4).
 
 ## 4. Metodologia e métricas
 
@@ -56,6 +70,8 @@ A AWS ficou de fora porque o Comprehend exige conta em plano pago, o que conflit
 - **Google:** o serviço devolve só um número. `score > +0,25` → positivo; `score < −0,25` → negativo; caso contrário, neutro. O limiar é uma escolha do grupo e pode ser ajustado **apenas com o piloto**.
 
 Uma previsão `misto` conta como erro no plano de três classes.
+
+**Avaliação sem a classe neutra.** Avaliação de produto quase sempre opina, e a classe neutra ficou escassa entre os candidatos. Por isso, **antes da coleta**, o grupo decidiu reportar ao lado da principal a mesma comparação só com os textos de gabarito positivo e negativo: acurácia, macro-F1 das duas classes e McNemar. Uma previsão neutro ou misto continua contando como erro.
 
 **Métricas:**
 
@@ -72,7 +88,7 @@ Uma previsão `misto` conta como erro no plano de três classes.
 
 *(seções 8 e 10 do enunciado)*
 
-O programa (`etapa2/src/`) envia **um texto por chamada**. Cada tentativa tem timeout de 30 s, e só os erros transitórios são repetidos, até 3 vezes. As **novas tentativas automáticas dos SDKs ficam desligadas** (fontes ET2-SDK-02 e 03). Cada tentativa é registrada, com a resposta original sem identificadores da conta. Uma trava recusa a coleta se o pior caso passar de 90% da franquia gratuita. Há 92 testes offline, que usam os SDKs oficiais com a rede substituída.
+O programa (`etapa2/src/`) envia **um texto por chamada**. Cada tentativa tem timeout de 30 s, e só os erros transitórios são repetidos, até 3 vezes. As **novas tentativas automáticas dos SDKs ficam desligadas** (fontes ET2-SDK-02 e 03). Cada tentativa é registrada, com a resposta original sem identificadores da conta. Uma trava recusa a coleta se o pior caso passar de 90% da franquia gratuita. Há 93 testes offline, que usam os SDKs oficiais com a rede substituída.
 
 **Arranjo de execução:** cada provedor roda no laptop de quem tem a credencial. O Google fica com o Davi e a Azure com o Rafael, sobre o **mesmo** `teste.csv` congelado. A análise junta as duas execuções e só aceita a junção se o dataset for idêntico byte a byte e a regra de normalização for a mesma.
 
@@ -120,7 +136,8 @@ As expectativas foram registradas **antes** da coleta, em `etapa2/expectativas_e
 
 - **Um domínio:** avaliações de produtos de um varejista, de 2018. Os resultados não valem para redes sociais, notícias ou atendimento.
 - **Textos de 50 caracteres ou mais:** a fonte quase não tem textos menores. Comentários muito curtos não estão representados.
-- **A classe neutra pode ficar curta:** avaliação de produto quase sempre opina. O número real por classe será informado.
+- **A classe neutra é curta:** avaliação de produto quase sempre opina. O número real por classe é informado, e a avaliação sem a classe neutra (seção 4) mostra o resultado sem depender dela.
+- **Rótulos do anotador A gerados por IA:** usar IA de linguagem para rotular o gabarito de serviços de IA de linguagem pode aproximar o gabarito do "jeito de máquina" de ler sentimento. O anotador B humano, o kappa e a discussão das divergências existem para medir e corrigir isso.
 - **Latência não comparável entre provedores:** máquinas e redes diferentes (seção 5).
 - **Uma rodada:** as duas demonstrações do Google deram scores idênticos para as mesmas frases, o que sugere resposta determinística. A variação entre rodadas não foi medida.
 - **`misto` tem definições diferentes:** no gabarito, é decidido por predominância; na Azure, é composto mecanicamente pelas sentenças. Parte dos "erros" da Azure nessa coluna é diferença de definição, e será analisada à parte.
@@ -133,7 +150,7 @@ As expectativas foram registradas **antes** da coleta, em `etapa2/expectativas_e
 ## 10. Reprodução
 
 ```bash
-uv run etapa2/rodar_testes.py                                  # 92 testes offline, sem custo
+uv run etapa2/rodar_testes.py                                  # 93 testes offline, sem custo
 uv run etapa2/src/analisar.py --execucao <id_google> <id_azure> # recalcula tudo a partir dos arquivos, sem chamar API
 ```
 

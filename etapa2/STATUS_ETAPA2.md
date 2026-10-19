@@ -1,6 +1,6 @@
 # STATUS da Etapa 2 — avaliação prática
 
-**Última atualização:** 18/10/2026
+**Última atualização:** 19/10/2026
 
 > **Nenhuma chamada real a serviço de IA foi feita na Etapa 2.** Não há resultado experimental neste repositório ainda. Tudo o que existe foi verificado offline, e os dados simulados usados nas verificações ficam em `etapa2/simulacoes/`, fora do git.
 
@@ -9,8 +9,8 @@
 | Fase do roteiro | Estado | O que falta |
 |---|---|---|
 | 1 — Conferir a Etapa 1 e a viabilidade | **Concluída** | — |
-| 2 — Preparar dados e protocolo | **Em andamento** | Anotação pelos dois integrantes; aprovação da metodologia |
-| 3 — Implementar e fazer o piloto | **Implementado localmente** · piloto real **não executado** | Credenciais Azure e Google; rodar o piloto |
+| 2 — Preparar dados e protocolo | **Concluída** (19/10/2026) | — Gabarito: kappa 0,791; teste com 115 textos (50/50/15); metodologia aprovada |
+| 3 — Implementar e fazer o piloto | **Implementado** · credenciais **funcionando** (Google no Davi, Azure no Rafael) · piloto **não executado** | `piloto.csv` (depende da montagem) |
 | 4 — Avaliação final | Planejado | Depende das fases 2 e 3 |
 | 5 — Processar e interpretar | **Implementado localmente** (`analisar.py`) | Depende da coleta |
 | 6 — Confrontar com a Etapa 1 | Planejado | Depende da coleta |
@@ -22,10 +22,10 @@
 |---|---|
 | Provedores | **Azure + Google** |
 | Fonte dos textos | **Dataset público**: B2W-Reviews01 (CC BY-NC-SA 4.0) |
-| Gabarito | **Dois integrantes**, independentes, com discussão das divergências |
+| Gabarito | **Dois anotadores**, independentes, com discussão das divergências. A: Davi, com rótulos gerados por IA (19/10/2026); B: Rafael |
 | Orçamento | **US$ 0 — só franquia** (Azure F0; Google na faixa gratuita) |
 
-As demais decisões do protocolo estão **propostas** em [`metodologia.md`](metodologia.md) e aguardam aprovação.
+As demais decisões do protocolo foram **aprovadas em 19/10/2026** em [`metodologia.md`](metodologia.md), por Davi em nome do grupo. Entre elas: avaliação complementar sem a classe neutra e exclusão de 3 textos com nome do autor (`dados/exclusoes.csv`).
 
 ## Viabilidade (Fase 1)
 
@@ -55,7 +55,7 @@ As demais decisões do protocolo estão **propostas** em [`metodologia.md`](meto
 | Normalização | `etapa2/src/normalizar.py` (regra v1) | Implementado |
 | Trava de orçamento | `etapa2/src/custo.py` | Implementado |
 | Análise | `etapa2/src/analisar.py` | Implementado; executado só com dados simulados |
-| Testes offline | `etapa2/rodar_testes.py` — **92 testes** | Passando |
+| Testes offline | `etapa2/rodar_testes.py` — **93 testes** | Passando |
 | Instruções | `etapa2/COMO_EXECUTAR.md` | Concluído |
 | **Expectativas da Etapa 1** (para o confronto da seção 10) | `etapa2/expectativas_etapa1.md` | **Registradas antes da coleta** (13 itens); evidência de configuração e de demonstração já anotada, marcada como fora do experimento |
 | **Relatório da Etapa 2** | `relatorio/relatorio_etapa2.md` | **Esqueleto**: seções definidas preenchidas; resultados e conclusões marcados PENDENTE |
@@ -67,8 +67,8 @@ As demais decisões do protocolo estão **propostas** em [`metodologia.md`](meto
 
 | # | Bloqueio | Quem | Ação |
 |---|---|---|---|
-| 1 | Gabarito | **Dois integrantes** | Preencher `planilha_A.csv` e `planilha_B.csv` seguindo o guia; nomes em `anotacao/anotadores.json`; depois `anotacao.py consolidar` → discutir divergências → `montar` |
-| 2 | Protocolo | Grupo | Revisar `metodologia.md` (atualizada em 18/10/2026: uma máquina por provedor, aquecimento implementado), alterar o que for preciso e registrar a aprovação na tabela do fim |
+| 1 | ~~Gabarito~~ | — | **Concluído em 19/10/2026**: kappa 0,791; 43 divergências decididas (prevalece o anotador humano); `piloto.csv` (30), `teste.csv` (115: 50 positivos, 50 negativos, 15 neutros) e `exploratorio_misto.csv` (39) congelados |
+| 2 | ~~Protocolo~~ | — | **Aprovado em 19/10/2026** |
 | 3 | ~~Credenciais Azure~~ | Rafael | **Funcionando na máquina do Rafael.** Confirmar no portal que o recurso é **F0** (exigência do orçamento US$ 0) |
 | 3a | **Os dois provedores na mesma máquina** — *na apresentação, cada um mostra o seu no próprio laptop (decidido em 18/10/2026); para a coleta do experimento, ainda a decidir* | Grupo | A metodologia intercala Azure e Google no mesmo texto, na mesma máquina. Opções: (a) **recomendada** — o Davi adiciona o Rafael ao projeto Google com o papel *Service Usage Consumer*, e o Rafael roda tudo na máquina dele com a própria conta Google, sem compartilhar chave; (b) o Rafael passa a chave da Azure ao Davi; (c) cada um roda o seu provedor, e a metodologia declara que a latência não é comparável |
 | 4 | ~~Credenciais Google~~ | — | **Resolvido em 18/10/2026** na máquina do Davi: projeto com faturamento, `language.googleapis.com` ativada, login ADC com projeto de cota, `GOOGLE_CLOUD_PROJECT` no `.env`. Uma chamada de verificação respondeu (1 unidade). Falta só o alerta de orçamento de US$ 1, recomendado |
@@ -81,6 +81,7 @@ Os itens 1–2 e 3–4 podem andar em paralelo. O piloto só depende de 3–4 e 
 |---|---|---|---|---|
 | `20261018T151637-azure-rafael` | `dados/fumaca_azure.csv` — 5 frases (3 do roteiro, 2 do autor) | Azure | **Verificação real** pelo Rafael, com o pipeline do ramo `feat/azure-nlp-sentimento`; em `etapa2/demonstracoes/` | 5/5 respostas; 1ª chamada 1.580 ms, demais ~843 ms. **Não é resultado do experimento** |
 | `20261018T191648Z-demonstracao-r1` | `dados/demonstracao.csv` — 8 frases **do guia de anotação**, fora do experimento | Google | **Demonstração real** (`--demonstracao`), em `etapa2/demonstracoes/` | 8/8 respostas, mediana 1.074 ms. **Não é resultado do experimento**: rótulos ilustrativos, n = 8, frases difíceis de propósito |
+| `20261019T132214Z-demonstracao-r1` | `dados/demonstracao.csv` — as mesmas 8 frases | Azure | **Demonstração real** pelo Rafael, no laptop dele, com o programa do `main` (`f83feff`); relato em `etapa2/RELATORIO_AZURE_RAFAEL.md` | 8/8 respostas, 4 de 6 válidas certas, mediana 224 ms (p95 262 ms), nenhuma previsão `misto`. **Não é resultado do experimento** |
 | — | — | — | — | Nenhuma execução do experimento. Também em 18/10/2026: uma chamada de verificação de credencial (não gravada) e o teste real do exemplo da Etapa 1 (`testes/evidencias/nlp_google.json`) |
 
 ## Observações registradas
@@ -91,15 +92,16 @@ Os itens 1–2 e 3–4 podem andar em paralelo. O piloto só depende de 3–4 e 
 - **A Azure e o guia de anotação definem "misto" de jeitos diferentes.** A Azure é mecânica (qualquer sentença positiva + qualquer negativa → `mixed`); o guia é por predominância. Previsões `mixed` da Azure em textos que o gabarito considera `positivo` ou `negativo` são esperadas — e são uma pergunta da Fase 6.
 - **A primeira chamada é mais lenta (aquecimento) — nos dois provedores.** Na Azure (verificação do Rafael), 1.580 ms contra ~843 ms. No Google, na demonstração real, a 1ª chamada levou 1.819 ms e as outras sete entre 1.041 e 1.099 ms: é a abertura da conexão e a obtenção do token. Com n pequeno ela vira o p95. **Decisão a tomar antes do teste**: descartar uma chamada de aquecimento por provedor ou reportá-la à parte (proposta em `metodologia.md`).
 - **O Google tende a pôr frases de sinais opostos perto de zero.** Na demonstração, "Bom, mas a tampa é meio frágil.", "A cor é bonita, mas parou de funcionar..." e "Produto ótimo, porém a entrega atrasou..." receberam score ±0,1 → `neutro`, e a ironia "Ótimo, veio faltando peça." recebeu +0,7. São 8 frases escolhidas por serem difíceis — **uma pista para a Fase 6, não uma conclusão**.
+- **A Azure não marcou `misto` em frases de sinais opostos escritas como uma sentença só** (demonstração de 19/10/2026). "Bom, mas a tampa é meio frágil." → `positive` (0,86); "A cor é bonita, mas parou de funcionar..." → `negative` (0,62); "Produto ótimo, porém a entrega atrasou..." → `positive` (0,98). Nas três, a Azure encontrou **uma** sentença, e o `mixed` só nasce de sentenças diferentes com sinais opostos. A ironia "Ótimo, veio faltando peça." também enganou a Azure (`positive`, 1,00), como o Google. **Pista para E4 e E5, não conclusão.**
 - **Os dois SDKs repetem chamadas sozinhos por padrão** (o do Google por até 600 s). Os adaptadores desligam isso para que cada tentativa seja medida e registrada; os testes provam que só uma requisição sai.
 
 ## Lista final de conferência (roteiro, seção 11)
 
 - [x] O recorte de sentimento foi justificado a partir da Etapa 1.
-- [ ] Pelo menos dois provedores foram realmente testados. — *bloqueado: credenciais*
-- [ ] Dados, origem, limitações e gabarito foram documentados. — *origem e limitações: sim; gabarito: aguardando anotação*
-- [ ] Piloto e teste final estão separados. — *candidatos separados; conjuntos montados após a anotação*
-- [ ] Metodologia, limiares, classes e política de falhas foram definidos antes da avaliação final. — *rascunho aguardando aprovação*
+- [ ] Pelo menos dois provedores foram realmente testados. — *credenciais e demonstrações reais nos dois; falta a coleta*
+- [x] Dados, origem, limitações e gabarito foram documentados. — *kappa 0,791; manifesto em `dados/manifesto_conjuntos.json`*
+- [x] Piloto e teste final estão separados. — *`piloto.csv` (30) e `teste.csv` (115), congelados em 19/10/2026*
+- [x] Metodologia, limiares, classes e política de falhas foram definidos antes da avaliação final. — *aprovada em 19/10/2026*
 - [ ] Os mesmos textos foram usados nas comparações, com exclusões explicadas. — *garantido pelo executor; falta a coleta*
 - [ ] Respostas brutas, tentativas, configurações e versões foram preservadas sem segredos. — *implementado e testado; falta a coleta*
 - [x] Métricas e gráficos são calculados por código a partir dos registros.
@@ -112,4 +114,4 @@ Os itens 1–2 e 3–4 podem andar em paralelo. O piloto só depende de 3–4 e 
 
 ## Próxima ação
 
-**Anotar** (bloqueio 1) e **criar as contas** (bloqueios 3–4), em paralelo. Assim que existirem `piloto.csv` e o `.env`, rodar o piloto.
+Enviar os conjuntos congelados ao GitHub → rodar o **piloto** nos dois laptops (Google no Davi, Azure no Rafael) → **teste** → análise conjunta.

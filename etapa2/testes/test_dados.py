@@ -122,6 +122,10 @@ def test_fluxo_completo_de_anotacao(tmp_path):
     anotacao.gravar_csv(dados / "anotacao" / "divergencias.csv", anotacao.CAMPOS_DIVERGENCIA, div,
                         para_humanos=True)
     anotacao.main(["--dados", str(dados), "consolidar"])
+    (dados / "exclusoes.csv").write_text("id,motivo\nt099,nome\n", encoding="utf-8")
+    with pytest.raises(SystemExit, match="não é um candidato"):
+        anotacao.main(["--dados", str(dados), "montar"])
+    (dados / "exclusoes.csv").write_text("id,motivo\nt011,dado pessoal: nome do autor\n", encoding="utf-8")
     anotacao.main(["--dados", str(dados), "montar", "--max-por-classe", "3"])
 
     teste = anotacao.ler_csv(dados / "teste.csv")
@@ -129,7 +133,9 @@ def test_fluxo_completo_de_anotacao(tmp_path):
     assert contagem == {"positivo": 3, "negativo": 3, "neutro": 2}  # teto 3; só 2 neutros
     assert {l["subconjunto"] for l in teste} == {"teste"}
     misto = anotacao.ler_csv(dados / "exploratorio_misto.csv")
-    assert [l["id"] for l in misto] == ["t011", "t012"]            # mistos separados ANTES das APIs
+    assert [l["id"] for l in misto] == ["t012"]                    # mistos separados ANTES das APIs; t011 excluído
+    manifesto = json.loads((dados / "manifesto_conjuntos.json").read_text(encoding="utf-8"))
+    assert manifesto["excluidos_por_decisao"] == [{"id": "t011", "motivo": "dado pessoal: nome do autor"}]
     assert len(anotacao.ler_csv(dados / "piloto.csv")) == 1
     t001 = next(l for l in anotacao.ler_csv(dados / "anotacoes.csv") if l["id"] == "t001")
     assert t001["decisao"] == "discussao" and t001["rotulo_final"] == "positivo"

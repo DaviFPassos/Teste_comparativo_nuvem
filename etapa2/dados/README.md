@@ -35,6 +35,8 @@ Tudo é reproduzível pelos scripts; nada foi selecionado à mão.
 
 Textos com dado pessoal são **excluídos, não editados**: editar seria uma transformação a aplicar igualmente a todos os provedores; excluir não altera o que os serviços recebem.
 
+**Exclusões por decisão** (`exclusoes.csv`). Na leitura dos 330 candidatos apareceram **3 textos com o nome do autor** (t196, t219, t300) — dado pessoal que nenhum filtro automático simples detecta. Eles continuam em `candidatos_teste.csv`, porque o sorteio é reproduzível byte a byte a partir da fonte pública, mas `anotacao.py montar` os deixa **fora** do piloto, do teste e do conjunto exploratório, e o manifesto lista cada um com o motivo. Nenhum deles é enviado a provedor algum.
+
 **2. Campos descartados.** O dataset traz gênero, ano de nascimento, estado e um identificador do avaliador. **Nenhum desses campos é copiado** para este repositório, nem o nome e a marca do produto e o título da avaliação. Ficam só: o texto, as estrelas (usadas apenas para estratificar o sorteio), a categoria do produto e o número da linha na fonte (para rastreabilidade).
 
 **3. Sorteio estratificado por estrelas**, semente `20261018`:
@@ -48,7 +50,7 @@ Estratificar por estrela serve só para que o conjunto tenha **variedade de opin
 
 Hashes, contagens e parâmetros de cada lote ficam em `manifesto_amostragem.json`.
 
-**4. Anotação humana** (`etapa2/src/anotacao.py`, regras em [`guia_de_anotacao.md`](guia_de_anotacao.md)). Dois integrantes rotulam os 330 textos de forma independente, sem ver as estrelas nem as respostas das APIs. As divergências são resolvidas por discussão registrada.
+**4. Anotação** (`etapa2/src/anotacao.py`, regras em [`guia_de_anotacao.md`](guia_de_anotacao.md)). Dois anotadores rotulam os 330 textos de forma independente, sem ver as estrelas nem as respostas das APIs. O anotador A é Davi Fonseca Passos, com rótulos **gerados por IA** e adotados por ele ([`anotacao/LEIAME_sugestao_ia.md`](anotacao/LEIAME_sugestao_ia.md)); o anotador B é um integrante humano. As divergências são resolvidas por discussão registrada.
 
 **5. Montagem dos conjuntos** (`anotacao.py montar`), **antes de qualquer chamada real**:
 
@@ -63,16 +65,18 @@ Fora do experimento ficam `demonstracao.csv` (8 frases escritas para o guia de a
 
 ## Estado atual
 
-| Arquivo | Estado em 18/10/2026 |
+| Arquivo | Estado em 19/10/2026 |
 |---|---|
 | `candidatos_piloto.csv`, `candidatos_teste.csv` | **Sorteados** |
-| `anotacao/planilha_A.csv`, `planilha_B.csv` | **Geradas, aguardando os anotadores** |
-| `piloto.csv`, `teste.csv`, `exploratorio_misto.csv` | Ainda não existem: dependem da anotação |
+| `anotacao/planilha_A.csv` | **Preenchida** (330/330) |
+| `anotacao/planilha_B.csv` | **Preenchida** (330/330) por Rafael Fonseca Pessoa |
+| `exclusoes.csv` | 3 textos com nome do autor |
+| `piloto.csv`, `teste.csv`, `exploratorio_misto.csv` | **Congelados em 19/10/2026**: 30, 115 (50 positivos, 50 negativos, 15 neutros) e 39 textos. Kappa 0,791 |
 
 ## Limitações a declarar no relatório
 
 - **Domínio único:** avaliações de produtos de um único varejista. Os resultados não se estendem a redes sociais, notícias, atendimento ou outros tipos de texto.
 - **Época:** textos de 2018. A linguagem e os produtos mudaram.
 - **Comprimento:** a fonte praticamente não tem textos com menos de 50 caracteres (1 em 124.926) — comentários muito curtos, como "Ótimo!", não estão representados.
-- **`neutro` deve ser escasso:** avaliação de produto quase sempre avalia. Se a classe ficar abaixo da meta de 50, o relatório informa o número real e o efeito sobre o macro-F1, ou um lote extra é sorteado **antes** das chamadas.
+- **`neutro` é escasso:** avaliação de produto quase sempre avalia — a sugestão de rótulos achou ~10 entre 300 candidatos. O teste fica com o **número real**, declarado, e a análise traz também a avaliação **sem a classe neutra** (positivo × negativo), decidida antes da coleta (`metodologia.md`).
 - **Duplicatas removidas:** os textos mais comuns e mais curtos ("Muito bom", "Recomendo") saem do sorteio por serem repetidos — o conjunto sub-representa avaliações genéricas.

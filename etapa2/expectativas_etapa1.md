@@ -10,7 +10,8 @@ Para esse confronto ser honesto, as expectativas precisam ser escritas **antes**
 - A coluna *Evidência até 18/10/2026* traz só o que já foi observado e marca a origem de cada observação:
   - **[configuração]** — criação das contas;
   - **[demonstração]** — 8 frases do guia, fora do experimento;
-  - **[verificação Azure]** — 5 frases do Rafael, fora do experimento.
+  - **[verificação Azure]** — 5 frases do Rafael, fora do experimento;
+  - **[demonstração Azure]** — as mesmas 8 frases do guia, na Azure, em 19/10/2026.
 
   Nenhuma dessas observações substitui a coleta: são pistas.
 - A coluna *Conclusão* fica em branco até a análise do teste.
@@ -27,8 +28,8 @@ Para esse confronto ser honesto, as expectativas precisam ser escritas **antes**
 | # | Expectativa (Etapa 1) | Como será verificado | Evidência até 18/10/2026 | Conclusão |
 |---|---|---|---|---|
 | E3 | A Azure devolve **classe pronta** — `positive`, `negative`, `neutral` ou `mixed` — com três confianças que somam 1; o Google devolve **só um número** (`score` de −1 a +1) e a classe depende de um limiar escolhido pela aplicação (`nlp.md`, 3.1) | `rotulo_original`, `confiancas` e `score` em `predicoes.jsonl` | **[demonstração]** O Google devolveu apenas `score` e `magnitude`. As duas demonstrações, feitas com 4 minutos de intervalo, deram **scores idênticos** nas 8 frases — indício de resposta determinística para a mesma entrada, o que sustenta fazer **uma rodada só** (`metodologia.md`, "Repetições"). **[verificação Azure]** A Azure devolveu rótulo + três confianças | |
-| E4 | `mixed` da Azure é **composto a partir das sentenças** (≥ 1 positiva e ≥ 1 negativa); por isso a Azure deve rotular como misto textos que o gabarito humano — que decide por predominância — considera positivos ou negativos (`nlp.md`, 3.1; `dados/guia_de_anotacao.md`) | Frequência de previsões `misto` por classe do gabarito (`matriz_confusao`, coluna `misto`) e no conjunto exploratório | Ainda não observado: nenhuma das 5 frases da verificação Azure tinha sinais opostos | |
-| E5 | O Google **não tem classe para texto ambíguo**; textos com elogio e crítica tendem a ficar perto de zero e cair em `neutro` pela regra de ±0,25 | Previsões do Google para textos do gabarito positivo/negativo que contêm ressalva; conjunto exploratório `misto` | **[demonstração]** As três frases de sinais opostos do guia receberam score ±0,10 → `neutro`. A ironia "Ótimo, veio faltando peça." recebeu +0,70 → `positivo`. São 8 frases difíceis de propósito, não uma medida | |
+| E4 | `mixed` da Azure é **composto a partir das sentenças** (≥ 1 positiva e ≥ 1 negativa); por isso a Azure deve rotular como misto textos que o gabarito humano — que decide por predominância — considera positivos ou negativos (`nlp.md`, 3.1; `dados/guia_de_anotacao.md`) | Frequência de previsões `misto` por classe do gabarito (`matriz_confusao`, coluna `misto`) e no conjunto exploratório | **[demonstração Azure]** As três frases de sinais opostos do guia, todas escritas como **uma sentença só**, **não** viraram `mixed`: a Azure achou uma sentença em cada e decidiu por um lado (`positive`, `negative`, `positive`). Coerente com o mecanismo descrito: sem sentenças diferentes, não há `mixed`. Os textos do teste, com várias frases, ainda podem mostrar o efeito esperado | |
+| E5 | O Google **não tem classe para texto ambíguo**; textos com elogio e crítica tendem a ficar perto de zero e cair em `neutro` pela regra de ±0,25 | Previsões do Google para textos do gabarito positivo/negativo que contêm ressalva; conjunto exploratório `misto` | **[demonstração]** As três frases de sinais opostos do guia receberam score ±0,10 → `neutro`. A ironia "Ótimo, veio faltando peça." recebeu +0,70 → `positivo`. São 8 frases difíceis de propósito, não uma medida. **[demonstração Azure]** A mesma ironia também enganou a Azure (`positive`, confiança 1,00) — não é limitação só do Google | |
 | E6 | O limiar ±0,25 é uma **escolha do grupo**, não uma regra do Google (`nlp.md`, 7) | Se o piloto indicar ajuste, ele é registrado em `metodologia.md` antes do teste | — | |
 
 ## Idioma
@@ -56,7 +57,7 @@ Para esse confronto ser honesto, as expectativas precisam ser escritas **antes**
 
 | # | Expectativa (Etapa 1) | Como será verificado | Evidência até 18/10/2026 | Conclusão |
 |---|---|---|---|---|
-| E13 | A Etapa 1 **não fez afirmação sobre latência** — a documentação não publica esse número para a análise de sentimento síncrona | Mediana e p95 por provedor. **Não comparáveis entre si**: cada provedor roda numa máquina (ver `metodologia.md`, "Mesmas condições") | **[demonstração]** Google: mediana ~1.070 ms. **[verificação Azure]** ~843 ms. Máquinas e redes diferentes, então não se comparam. Nos dois, a 1ª chamada foi ~70% mais lenta, o que motivou o aquecimento | |
+| E13 | A Etapa 1 **não fez afirmação sobre latência** — a documentação não publica esse número para a análise de sentimento síncrona | Mediana e p95 por provedor. **Não comparáveis entre si**: cada provedor roda numa máquina (ver `metodologia.md`, "Mesmas condições") | **[demonstração]** Google: mediana ~1.070 ms. **[verificação Azure]** ~843 ms; **[demonstração Azure]** mediana 224 ms (p95 262 ms). Máquinas e redes diferentes, então não se comparam. Nos dois, a 1ª chamada foi ~70% mais lenta, o que motivou o aquecimento | |
 
 ## O que esta etapa **não** pode responder
 

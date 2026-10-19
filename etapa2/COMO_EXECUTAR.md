@@ -13,7 +13,7 @@ Há dois tipos de comando, e eles não se misturam:
 uv run etapa2/rodar_testes.py
 ```
 
-Resultado esperado: `92 passed`. Sem rede, sem credencial, sem custo. Inclui os dois SDKs oficiais rodando com a rede substituída.
+Resultado esperado: `93 passed`. Sem rede, sem credencial, sem custo. Inclui os dois SDKs oficiais rodando com a rede substituída.
 
 ## Painel para apresentar (Google e Azure)
 
@@ -37,7 +37,7 @@ git pull                                          # traz o painel
 cp testes/modelo_de_credenciais.txt .env          # se ainda não tiver o .env na raiz
 #   no .env, preencher AZURE_LANGUAGE_ENDPOINT e AZURE_LANGUAGE_KEY (Portal → recurso → Chaves e Ponto de Extremidade)
 chmod 600 .env                                    # só o dono lê
-uv run etapa2/rodar_testes.py                     # 92 testes offline, sem custo
+uv run etapa2/rodar_testes.py                     # 93 testes offline, sem custo
 uv run etapa2/painel/servidor.py                  # deve imprimir: Microsoft Azure Language: ATIVO
 ```
 
@@ -78,7 +78,7 @@ uv run etapa2/src/anotacao.py consolidar    # de novo, até 'pendentes: 0'
 uv run etapa2/src/anotacao.py montar        # congela piloto.csv, teste.csv, exploratorio_misto.csv
 ```
 
-Se `montar` avisar que uma classe ficou abaixo de 50 textos, decidam **agora**, antes de chamar as APIs: aceitar o número real (e declarar) ou sortear mais candidatos com `uv run etapa2/src/amostrar.py --lote extra --teste-por-estrela 20` e anotá-los.
+O `montar` deixa de fora os textos listados em `etapa2/dados/exclusoes.csv` (hoje, 3 textos com o nome do autor). Se ele avisar que uma classe ficou abaixo de 50 textos, a decisão já está tomada na metodologia (19/10/2026): vale o **número real**, declarado, e a análise traz também a avaliação sem a classe neutra.
 
 ## 2. Configurar as credenciais (uma vez)
 
