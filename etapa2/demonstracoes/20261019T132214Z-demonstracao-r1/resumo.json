@@ -1,0 +1,9 @@
+{
+  "execucao": "20261019T132214Z-demonstracao-r1",
+  "fim_utc": "2026-10-19T13:22:25.312+00:00",
+  "por_provedor": {
+    "azure": {
+      "ok": 8
+    }
+  }
+}

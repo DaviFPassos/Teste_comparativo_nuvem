@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.98,
+          "neutral": 0.0,
+          "negative": 0.02
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.98,
+              "neutral": 0.0,
+              "negative": 0.02
+            },
+            "offset": 0,
+            "length": 67,
+            "text": "Produto ótimo, porém a entrega atrasou 20 dias e ninguém respondeu."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

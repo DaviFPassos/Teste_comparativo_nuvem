@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.86,
+          "neutral": 0.0,
+          "negative": 0.14
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.86,
+              "neutral": 0.0,
+              "negative": 0.14
+            },
+            "offset": 0,
+            "length": 31,
+            "text": "Bom, mas a tampa é meio frágil."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}
