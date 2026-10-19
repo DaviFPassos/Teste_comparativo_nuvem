@@ -38,7 +38,8 @@ powershell -c "irm https://astral.sh/uv/install.ps1 | iex"   # Windows
 | `etapa2/src/anotacao.py` | — | — | **Só biblioteca padrão.** Planilhas, concordância (kappa) e montagem dos conjuntos |
 | `etapa2/src/executar.py` | `azure-ai-textanalytics`<br>`azure-core`<br>`google-cloud-language` | **5.4.0**<br>**1.41.0**<br>**2.21.0** | A coleta. Lockfile `executar.py.lock`. Também usa, só com biblioteca padrão, `normalizar.py`, `custo.py`, `seguranca.py` e `provedores/` |
 | `etapa2/src/analisar.py` | `matplotlib` | **3.11.2** | Métricas, tabelas e gráficos a partir dos arquivos da coleta; não chama API. Lockfile `analisar.py.lock`. Exige Python ≥ 3.11 (exigência do matplotlib 3.11) |
-| `etapa2/rodar_testes.py` | `pytest` + as bibliotecas de `executar.py` e `analisar.py` | **9.1.1** + versões acima | 66 testes offline, com os SDKs reais e a rede substituída. Lockfile `rodar_testes.py.lock` |
+| `etapa2/painel/servidor.py` | `google-cloud-language`<br>`azure-ai-textanalytics`<br>`azure-core` | **2.21.0**<br>**5.4.0**<br>**1.41.0** | Painel local de apresentação (servidor só da biblioteca padrão + página HTML sem dependências externas). Lockfile `servidor.py.lock` |
+| `etapa2/rodar_testes.py` | `pytest` + as bibliotecas de `executar.py` e `analisar.py` | **9.1.1** + versões acima | 92 testes offline, com os SDKs reais e a rede substituída. Lockfile `rodar_testes.py.lock` |
 
 O roteiro da Etapa 2 sugere um `etapa2/requirements.txt`. O projeto mantém a convenção da Etapa 1 — dependências declaradas no próprio script (PEP 723) e travadas no `.lock` ao lado —, que cumpre o mesmo papel: as versões efetivamente usadas ficam registradas e são reproduzidas pelo `uv run`.
 
@@ -104,7 +105,8 @@ Têm lockfile os scripts com dependência externa que **de fato executam** e cuj
 - `testes/rodar_testes.py.lock` — os testes dos exemplos rodam sempre contra as mesmas versões das bibliotecas dos provedores;
 - `etapa2/src/executar.py.lock` — a coleta da Etapa 2 chama os serviços sempre com as mesmas versões dos SDKs;
 - `etapa2/src/analisar.py.lock` — as métricas e os gráficos da Etapa 2 são regerados com a mesma resolução;
-- `etapa2/rodar_testes.py.lock` — os testes da Etapa 2 rodam contra as mesmas versões da coleta.
+- `etapa2/rodar_testes.py.lock` — os testes da Etapa 2 rodam contra as mesmas versões da coleta;
+- `etapa2/painel/servidor.py.lock` — o painel chama Google e Azure com as mesmas versões de SDK da coleta.
 
 Os exemplos em si não têm lockfile próprio: quem os valida são os testes, e é no lockfile dos testes que as versões ficam travadas.
 

@@ -13,7 +13,44 @@ Há dois tipos de comando, e eles não se misturam:
 uv run etapa2/rodar_testes.py
 ```
 
-Resultado esperado: `66 passed`. Sem rede, sem credencial, sem custo. Inclui os dois SDKs oficiais rodando com a rede substituída.
+Resultado esperado: `92 passed`. Sem rede, sem credencial, sem custo. Inclui os dois SDKs oficiais rodando com a rede substituída.
+
+## Painel para apresentar (Google e Azure)
+
+```bash
+uv run etapa2/painel/servidor.py
+```
+
+Abre `http://127.0.0.1:8765` no navegador do Windows (no WSL também; o endereço fica impresso no terminal).
+
+**O mesmo painel serve às duas máquinas.** Ao iniciar, ele ativa só os provedores com credencial naquele computador e mostra os outros desabilitados, com o motivo à vista. No seletor do topo se escolhe Google Cloud ou Microsoft Azure.
+
+| Máquina | Credencial | No painel |
+|---|---|---|
+| Davi | login do Google (`gcloud auth application-default login`) + `GOOGLE_CLOUD_PROJECT` no `.env` | Google ativo · Azure desabilitada |
+| Rafael | `AZURE_LANGUAGE_ENDPOINT` e `AZURE_LANGUAGE_KEY` no `.env` | Azure ativa · Google desabilitado |
+
+**Para o Rafael ativar a Azure no laptop dele:**
+
+```bash
+git pull                                          # traz o painel
+cp testes/modelo_de_credenciais.txt .env          # se ainda não tiver o .env na raiz
+#   no .env, preencher AZURE_LANGUAGE_ENDPOINT e AZURE_LANGUAGE_KEY (Portal → recurso → Chaves e Ponto de Extremidade)
+chmod 600 .env                                    # só o dono lê
+uv run etapa2/rodar_testes.py                     # 92 testes offline, sem custo
+uv run etapa2/painel/servidor.py                  # deve imprimir: Microsoft Azure Language: ATIVO
+```
+
+O recurso precisa ser **F0** (gratuito): a configuração declara `azure_tier: F0`, e o painel não aceita outro tier com o teto de US$ 0. O painel não consegue ler o tier da conta — **essa conferência é no portal**. Se a Azure aparecer desabilitada, o motivo exibido no topo diz o que falta.
+
+Duas abas:
+
+- **Ao vivo** — digite uma frase, ou clique num dos 8 exemplos do guia. **Google:** o score na régua de −1 a +1, com a faixa neutra (±0,25) e a classe pela regra do experimento. **Azure:** a classe que o próprio serviço devolve (inclusive `mixed` → misto) e a barra das três confianças, que somam 1. Nos dois, latência e resposta original. Cada frase custa 1 unidade/registro da franquia (no máximo 1.000 caracteres).
+- **Execuções gravadas** — as coletas de `etapa2/demonstracoes/` e, quando existirem, as de `etapa2/resultados/`, com métricas, posição de cada texto na régua, matriz de confusão e latência — calculadas pelo mesmo `analisar.py` da linha de comando.
+
+Ao iniciar, o painel faz **uma chamada de aquecimento por provedor ativo** (1 unidade cada), para que a primeira frase mostrada ao professor não tenha a latência inflada da primeira conexão. `--sem-aquecimento` desliga isso.
+
+Proteções: escuta só em `127.0.0.1`; recusa requisições de outros sites e de outros nomes de host; não serve arquivo além da própria página; passa cada chamada pela mesma trava de orçamento do executor; limita a 200 chamadas por sessão; **não grava o texto digitado** — só a contagem de unidades, em `etapa2/painel/sessoes/` (fora do git).
 
 ## Demonstração ao vivo (ex.: para o professor)
 
@@ -100,7 +137,22 @@ O piloto serve para encontrar problemas (permissão, idioma, formato) e, se o gr
 
 ## 4. Rodar o teste final
 
-Com a metodologia aprovada e o conjunto congelado:
+Com a metodologia aprovada e o conjunto congelado, **cada um no seu laptop**, sobre o mesmo `teste.csv`:
+
+```bash
+uv run etapa2/src/executar.py --dados etapa2/dados/teste.csv --provedores google   # laptop do Davi
+uv run etapa2/src/executar.py --dados etapa2/dados/teste.csv --provedores azure    # laptop do Rafael
+```
+
+Cada um faz commit da **sua** pasta em `etapa2/resultados/` e envia ao GitHub. Depois, com as duas pastas no repositório, a análise conjunta — que não chama API e roda em qualquer máquina:
+
+```bash
+uv run etapa2/src/analisar.py --execucao <id_google> <id_azure>
+```
+
+A análise só aceita juntar execuções com o **mesmo dataset byte a byte** e a **mesma regra de normalização**, e marca a latência como não comparável entre provedores (máquinas diferentes). O resultado vai para `etapa2/resultados/comparacoes/` e `etapa2/graficos/`, sem alterar as pastas originais.
+
+Com os dois provedores na mesma máquina, uma execução só os intercala por texto:
 
 ```bash
 uv run etapa2/src/executar.py --dados etapa2/dados/teste.csv --provedores azure google

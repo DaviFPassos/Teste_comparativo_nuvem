@@ -76,6 +76,7 @@ DEMONSTRACOES = RAIZ / "etapa2" / "demonstracoes"
 CONFIG_PADRAO = RAIZ / "etapa2" / "config" / "experimento.json"
 CONFIG_EXEMPLO = RAIZ / "etapa2" / "config" / "experimento.example.json"
 MAX_CARACTERES = 5000
+FRASE_DE_AQUECIMENTO = "O atendimento foi excelente."
 
 
 def _rel(caminho):
@@ -154,6 +155,28 @@ def _git(*args):
         return None
 
 
+ARQUIVO_MAQUINA = Path.home() / ".cache" / "teste_comparativo_nuvem" / "maquina_id"
+
+
+def identificador_da_maquina():
+    """
+    Identificador ALEATÓRIO desta máquina, criado na primeira coleta e guardado
+    fora do repositório. Serve só para a análise saber se duas coletas vieram do
+    mesmo computador (a latência de máquinas diferentes não é comparável). Não é
+    derivado do nome do computador nem do usuário, então não revela nenhum dos dois.
+    """
+    import uuid
+    try:
+        if ARQUIVO_MAQUINA.exists():
+            return ARQUIVO_MAQUINA.read_text(encoding="utf-8").strip()
+        ARQUIVO_MAQUINA.parent.mkdir(parents=True, exist_ok=True)
+        novo = uuid.uuid4().hex[:12]
+        ARQUIVO_MAQUINA.write_text(novo + "\n", encoding="utf-8")
+        return novo
+    except OSError:
+        return None
+
+
 def descrever_ambiente(caminho_dados):
     codigo = hashlib.sha256()
     for arq in sorted(AQUI.rglob("*.py")):
@@ -169,6 +192,7 @@ def descrever_ambiente(caminho_dados):
         "git_alteracoes_nao_commitadas": bool(_git("status", "--porcelain", "--", "etapa2/src")),
         "dataset": {"arquivo": Path(caminho_dados).name, "sha256": sha256_arquivo(caminho_dados)},
         "codigo_sha256": codigo.hexdigest(),
+        "maquina": identificador_da_maquina(),
     }
 
 
@@ -291,6 +315,35 @@ def executar_item(prov, item, cfg, registro, execucao, ordem, ultima_chamada, do
     return ultimo_erro.codigo
 
 
+def aquecer(provedores, registro, execucao, saida=print):
+    """
+    Uma chamada por provedor antes do primeiro texto (metodologia: "Aquecimento").
+    A 1ª chamada carrega a abertura da conexão e a autenticação (~1,6–1,9 s
+    contra ~0,85–1,1 s depois, nas verificações de 18/10/2026). Ela é registrada
+    em tentativas.jsonl com `aquecimento: true`, conta no consumo, e a análise a
+    exclui da latência e do sucesso. Uma falha aqui não interrompe nada: o erro
+    real, se persistir, aparece no primeiro texto.
+    """
+    for prov in provedores:
+        quando = agora_utc()
+        t0 = time.perf_counter()
+        try:
+            prov.analisar(FRASE_DE_AQUECIMENTO)
+            erro = None
+        except ErroProvedor as e:
+            erro = e
+        dt_ms = (time.perf_counter() - t0) * 1000
+        registro.tentativa(
+            execucao=execucao, id="aquecimento", provedor=prov.nome, tentativa=1,
+            data_hora_utc=quando, duracao_ms=round(dt_ms, 3), aquecimento=True,
+            status="ok" if erro is None else "erro",
+            codigo=None if erro is None else erro.codigo,
+            status_http=None if erro is None else erro.status_http,
+            mensagem=None if erro is None else erro.mensagem,
+            unidades_estimadas=0 if prov.simulado else custo.unidades(prov.nome, FRASE_DE_AQUECIMENTO))
+        saida(f"  aquecimento {prov.nome}: {dt_ms:.0f} ms" + (f" (falhou: {erro.codigo})" if erro else ""))
+
+
 def coletar(itens, provedores, cfg, registro, execucao, semente, pular=frozenset(),
             dormir=time.sleep, saida=print):
     """Laço principal. Devolve {provedor: Counter de status}."""
@@ -374,8 +427,9 @@ def main(argv=None):
             print(f"Variáveis lidas do .env: {', '.join(sorted(lidas))}")
         identificadores = seguranca.identificadores_da_conta()
 
-    plano = custo.planejar([i["texto"] for i in itens], nomes, cfg["max_tentativas"],
-                           cfg["orcamento"])
+    # o aquecimento também gasta franquia: entra no plano como mais um texto
+    textos_do_plano = [i["texto"] for i in itens] + ([FRASE_DE_AQUECIMENTO] if cfg.get("aquecimento") else [])
+    plano = custo.planejar(textos_do_plano, nomes, cfg["max_tentativas"], cfg["orcamento"])
 
     if a.retomar:
         execucao = a.retomar
@@ -428,6 +482,8 @@ def main(argv=None):
                                                         ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     registro = Registro(pasta, a.simulado, identificadores)
+    if cfg.get("aquecimento"):
+        aquecer(instancias, registro, execucao)
     try:
         contagem = coletar(itens, instancias, cfg, registro, execucao, cfg["semente_ordem"], pular)
     except KeyboardInterrupt:

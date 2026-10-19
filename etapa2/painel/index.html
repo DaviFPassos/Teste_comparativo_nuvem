@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel de Sentimento</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232a6fb5'/%3E%3Cpath d='M8 20c3 4 13 4 16 0' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='11' cy='12' r='2.2' fill='white'/%3E%3Ccircle cx='21' cy='12' r='2.2' fill='white'/%3E%3C/svg%3E">
+<style>
+:root {
+  --fundo: #f4f3ef; --superficie: #fcfcfb; --borda: #e2e1dc; --grade: #e5e4e0;
+  --tinta: #0b0b0b; --tinta-2: #52514e; --tinta-3: #7a7974;
+  --neg: #c4472b; --pos: #2a6fb5; --neutro: #9a9993; --faixa: #ebeae5; --misto: #6b5bb5;
+  --google: #1baf7a; --azure: #eb6834;
+  --aviso-fundo: #fff4d6; --aviso-borda: #e8c45a; --erro: #a8321c;
+  --sombra: 0 1px 2px rgba(0,0,0,.05), 0 4px 16px rgba(0,0,0,.04);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --fundo: #121211; --superficie: #1a1a19; --borda: #2e2e2c; --grade: #2a2a28;
+    --tinta: #ffffff; --tinta-2: #c3c2b7; --tinta-3: #8f8e86;
+    --neg: #e0694d; --pos: #4a8ad8; --neutro: #8f8e86; --faixa: #262624; --misto: #9085e9;
+    --google: #199e70; --azure: #d95926;
+    --aviso-fundo: #2e2814; --aviso-borda: #8a6d1f; --erro: #ef8a72; --sombra: none;
+  }
+}
+:root[data-theme="dark"] {
+  --fundo: #121211; --superficie: #1a1a19; --borda: #2e2e2c; --grade: #2a2a28;
+  --tinta: #ffffff; --tinta-2: #c3c2b7; --tinta-3: #8f8e86;
+  --neg: #e0694d; --pos: #4a8ad8; --neutro: #8f8e86; --faixa: #262624; --misto: #9085e9;
+  --google: #199e70; --azure: #d95926;
+  --aviso-fundo: #2e2814; --aviso-borda: #8a6d1f; --erro: #ef8a72; --sombra: none;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fundo); color: var(--tinta);
+       font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+header { background: var(--superficie); border-bottom: 1px solid var(--borda); }
+.topo { max-width: 1180px; margin: 0 auto; padding: 18px 20px 0; display: flex;
+        gap: 16px; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; }
+h1 { font-size: 21px; margin: 0; letter-spacing: -.01em; }
+h1 small { display: block; font-size: 13px; font-weight: 400; color: var(--tinta-2); margin-top: 2px; }
+.controles { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.seletor { display: inline-flex; border: 1px solid var(--borda); border-radius: 10px; padding: 3px; background: var(--fundo); }
+.seletor button { font: inherit; font-size: 14px; font-weight: 600; border: 0; background: none; color: var(--tinta-2);
+                  padding: 6px 14px; border-radius: 7px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+.seletor button i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.seletor button[aria-pressed="true"] { background: var(--superficie); color: var(--tinta); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.seletor button:disabled { cursor: not-allowed; opacity: .45; }
+.pilula { font-size: 13px; color: var(--tinta-2); border: 1px solid var(--borda); border-radius: 999px;
+          padding: 4px 12px; white-space: nowrap; }
+.pilula b { color: var(--tinta); font-variant-numeric: tabular-nums; }
+nav { max-width: 1180px; margin: 12px auto 0; padding: 0 20px; display: flex; gap: 4px; }
+nav button { font: inherit; background: none; border: 0; padding: 10px 14px; color: var(--tinta-2);
+             border-bottom: 2px solid transparent; cursor: pointer; }
+nav button[aria-selected="true"] { color: var(--tinta); border-bottom-color: var(--pos); font-weight: 600; }
+main { max-width: 1180px; margin: 0 auto; padding: 20px; }
+.cartao { background: var(--superficie); border: 1px solid var(--borda); border-radius: 12px;
+          padding: 18px 20px; box-shadow: var(--sombra); }
+.grade-2 { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 18px; }
+@media (max-width: 860px) { .grade-2 { grid-template-columns: 1fr; } .controles { align-items: flex-start; } }
+h2 { font-size: 15px; margin: 0 0 12px; }
+h3 { font-size: 13px; margin: 18px 0 8px; color: var(--tinta-2); font-weight: 600;
+     text-transform: uppercase; letter-spacing: .04em; }
+textarea { width: 100%; min-height: 120px; resize: vertical; font: inherit; color: var(--tinta);
+           background: var(--fundo); border: 1px solid var(--borda); border-radius: 8px; padding: 10px 12px; }
+textarea:focus, select:focus, button:focus-visible { outline: 2px solid var(--pos); outline-offset: 1px; }
+.linha { display: flex; align-items: center; gap: 10px; justify-content: space-between; margin-top: 8px; }
+.contador { font-size: 12px; color: var(--tinta-3); font-variant-numeric: tabular-nums; }
+.botao { font: inherit; font-weight: 600; background: var(--pos); color: #fff; border: 0;
+         border-radius: 8px; padding: 9px 18px; cursor: pointer; }
+.botao:disabled { opacity: .5; cursor: not-allowed; }
+.exemplos { display: flex; flex-direction: column; gap: 6px; }
+.exemplo { text-align: left; font: inherit; font-size: 14px; color: var(--tinta); background: var(--fundo);
+           border: 1px solid var(--borda); border-radius: 8px; padding: 7px 10px; cursor: pointer;
+           display: flex; justify-content: space-between; gap: 10px; }
+.exemplo:hover:not(:disabled) { border-color: var(--tinta-3); }
+.exemplo:disabled { cursor: not-allowed; opacity: .55; }
+.exemplo span { color: var(--tinta-3); font-size: 12px; white-space: nowrap; }
+.classe { display: inline-flex; align-items: center; gap: 8px; font-size: 26px; font-weight: 700; }
+.classe i { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
+.classe small { font-size: 14px; font-weight: 400; color: var(--tinta-2); }
+.etiqueta { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px;
+            border: 1px solid currentColor; white-space: nowrap; }
+.kpi b.curto { font-size: 15px; white-space: nowrap; }
+.indisponivel { font-size: 12px; color: var(--tinta-3); text-align: right; max-width: 420px; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 14px; }
+.kpi { border: 1px solid var(--borda); border-radius: 10px; padding: 10px 12px; min-width: 0; }
+.kpi small { display: block; color: var(--tinta-2); font-size: 12px; }
+.kpi b { font-size: 20px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.kpi em { display: block; font-style: normal; color: var(--tinta-3); font-size: 11.5px; }
+.explicacao { font-size: 14px; color: var(--tinta-2); margin-top: 10px; }
+.explicacao code, td code { font-size: 13px; }
+details { margin-top: 12px; }
+summary { cursor: pointer; color: var(--tinta-2); font-size: 13px; }
+pre { background: var(--fundo); border: 1px solid var(--borda); border-radius: 8px; padding: 10px;
+      overflow: auto; max-height: 240px; font-size: 12.5px; }
+.aviso { background: var(--aviso-fundo); border: 1px solid var(--aviso-borda); border-radius: 10px;
+         padding: 10px 14px; font-size: 14px; margin-bottom: 16px; }
+.erro { color: var(--erro); font-weight: 600; }
+.vazio { color: var(--tinta-3); font-size: 14px; padding: 24px 0; text-align: center; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { text-align: left; font-weight: 600; color: var(--tinta-2); font-size: 12.5px; padding: 6px 8px;
+     border-bottom: 1px solid var(--borda); }
+td { padding: 7px 8px; border-bottom: 1px solid var(--grade); vertical-align: top; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.matriz td { text-align: center; font-variant-numeric: tabular-nums; font-weight: 600; min-width: 64px; }
+.matriz th { text-align: center; }
+.matriz th:first-child { text-align: right; }
+select { font: inherit; color: var(--tinta); background: var(--fundo); border: 1px solid var(--borda);
+         border-radius: 8px; padding: 8px 10px; min-width: 320px; max-width: 100%; }
+.chips { display: inline-flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; align-items: center; }
+.chips button { font: inherit; font-size: 13px; border: 1px solid var(--borda); background: var(--fundo); color: var(--tinta-2);
+                border-radius: 999px; padding: 3px 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.chips button i { width: 9px; height: 9px; border-radius: 50%; }
+.chips button[aria-pressed="true"] { border-color: var(--tinta-2); color: var(--tinta); font-weight: 600; }
+svg text { fill: var(--tinta-2); font-size: 12px; font-family: inherit; }
+svg .forte { fill: var(--tinta); font-weight: 600; }
+svg .branco { fill: #fff; font-weight: 600; }
+.dica { position: fixed; pointer-events: none; background: var(--superficie); color: var(--tinta);
+        border: 1px solid var(--borda); border-radius: 8px; padding: 8px 10px; font-size: 13px;
+        max-width: 340px; box-shadow: 0 6px 24px rgba(0,0,0,.15); display: none; z-index: 10; }
+.legenda { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12.5px; color: var(--tinta-2); margin: 4px 0 8px; }
+.legenda span { display: inline-flex; align-items: center; gap: 6px; }
+.oculto { display: none !important; }
+footer { max-width: 1180px; margin: 0 auto; padding: 0 20px 28px; font-size: 12.5px; color: var(--tinta-3); }
+</style>
+</head>
+<body>
+<header>
+  <div class="topo">
+    <h1>Análise de sentimento em português<small id="subtitulo">Etapa 2 — Computação em Nuvem · UNIFOR</small></h1>
+    <div class="controles">
+      <div class="seletor" id="seletor-provedor" role="group" aria-label="Provedor"></div>
+      <span class="pilula" id="franquia">carregando…</span>
+      <span class="indisponivel" id="indisponivel"></span>
+    </div>
+  </div>
+  <nav role="tablist">
+    <button role="tab" aria-selected="true" data-aba="ao-vivo">Ao vivo</button>
+    <button role="tab" aria-selected="false" data-aba="execucoes">Execuções gravadas</button>
+  </nav>
+</header>
+
+<main>
+  <div class="aviso oculto" id="aviso-simulado"><b>SIMULADO</b> — este painel está sem conexão com os provedores; as respostas não são reais.</div>
+
+  <!-- ============================== AO VIVO ============================== -->
+  <section id="ao-vivo" class="grade-2">
+    <div class="cartao">
+      <h2>Frase</h2>
+      <textarea id="texto" maxlength="1000" placeholder="Digite uma avaliação em português…"></textarea>
+      <div class="linha">
+        <span class="contador" id="contador">0 / 1000 caracteres · 1 unidade da franquia</span>
+        <button class="botao" id="analisar">Analisar</button>
+      </div>
+      <h3>Exemplos do guia de anotação</h3>
+      <div class="exemplos" id="exemplos"></div>
+      <p class="explicacao">Frases escritas para o guia — <b>fora</b> do conjunto de teste. O rótulo ao lado é o do guia, não do provedor. O texto digitado não é gravado.</p>
+    </div>
+
+    <div class="cartao">
+      <h2 id="titulo-resposta">Resposta</h2>
+      <div class="vazio" id="resultado-vazio">Escolha um exemplo ou digite uma frase.</div>
+      <div id="resultado-corpo" class="oculto">
+        <div class="classe" id="classe"></div>
+        <svg id="visual" viewBox="0 0 640 112" width="100%" role="img"></svg>
+        <p class="explicacao" id="regra"></p>
+        <div class="kpis" id="kpis-vivo"></div>
+        <details><summary>Resposta original (JSON)</summary><pre id="bruta"></pre></details>
+      </div>
+      <h3>Nesta sessão</h3>
+      <table><thead><tr><th>Provedor</th><th>Frase</th><th>classe</th><th class="num">ms</th></tr></thead>
+        <tbody id="historico"><tr><td colspan="4" class="vazio">Nenhuma chamada ainda.</td></tr></tbody></table>
+    </div>
+  </section>
+
+  <!-- ============================= EXECUÇÕES ============================= -->
+  <section id="execucoes" class="oculto">
+    <div class="cartao">
+      <div class="linha" style="margin-top:0; flex-wrap:wrap">
+        <h2 style="margin:0">Execução</h2>
+        <select id="seletor"></select>
+      </div>
+      <div class="chips oculto" id="chips-exec"></div>
+      <div class="aviso oculto" id="aviso-demo" style="margin:14px 0 0"><b>DEMONSTRAÇÃO — fora do experimento.</b> Frases do guia de anotação, rótulos ilustrativos. Serve para mostrar o programa funcionando, não para concluir nada sobre o serviço.</div>
+      <div class="vazio" id="exec-vazio">Nenhuma execução gravada.</div>
+      <div id="exec-corpo" class="oculto">
+        <div class="kpis" id="exec-kpis"></div>
+
+        <h3 id="titulo-dispersao">Onde cada texto caiu na régua</h3>
+        <div class="legenda" id="legenda-dispersao"></div>
+        <svg id="dispersao" width="100%" role="img" aria-label="Posição de cada texto, agrupado pelo gabarito"></svg>
+        <p class="explicacao" id="nota-dispersao"></p>
+
+        <div class="grade-2" style="margin-top:6px">
+          <div>
+            <h3>Matriz de confusão</h3>
+            <table class="matriz" id="matriz"></table>
+            <p class="explicacao">Linhas: gabarito. Colunas: classe pela regra do experimento. Só textos com gabarito positivo, negativo ou neutro.</p>
+          </div>
+          <div>
+            <h3>Latência por chamada</h3>
+            <svg id="latencia" width="100%" role="img" aria-label="Latência de cada chamada bem-sucedida"></svg>
+          </div>
+        </div>
+
+        <h3>Texto a texto</h3>
+        <table><thead><tr><th>id</th><th>Texto</th><th>gabarito</th><th class="num" id="col-valor">score</th><th>previsto</th><th></th><th class="num">ms</th></tr></thead>
+          <tbody id="exec-textos"></tbody></table>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>Painel local: o navegador fala só com <code>127.0.0.1</code>; as credenciais ficam no computador de quem apresenta. Métricas calculadas por <code>etapa2/src/analisar.py</code>, o mesmo da linha de comando.</footer>
+<div class="dica" id="dica"></div>
+
+<script>
+"use strict";
+const $ = (s) => document.querySelector(s);
+const NS = "http://www.w3.org/2000/svg";
+const COR = { positivo: "var(--pos)", negativo: "var(--neg)", neutro: "var(--neutro)", misto: "var(--misto)" };
+const COR_PROV = { google: "var(--google)", azure: "var(--azure)" };
+const NOME_CURTO = { google: "Google Cloud", azure: "Microsoft Azure" };
+const fmt = (x, c = 2) => (x === null || x === undefined) ? "—"
+  : (x > 0 ? "+" : x < 0 ? "−" : "") + Math.abs(x).toFixed(c).replace(".", ",");
+const num = (x, c = 2) => (x === null || x === undefined) ? "—" : x.toFixed(c).replace(".", ",");
+const ms = (x) => (x === null || x === undefined) ? "—" : Math.round(x).toLocaleString("pt-BR");
+const pct = (x) => (x === null || x === undefined) ? "—" : (x * 100).toFixed(1).replace(".", ",") + "%";
+const seguro = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+let estado = { provedores: [], limiar: 0.25 };
+let provedor = null;           // provedor selecionado no topo
+
+function lembrar(chave, valor) { try { localStorage.setItem(chave, valor); } catch (e) { /* sem armazenamento */ } }
+function lembrado(chave) { try { return localStorage.getItem(chave); } catch (e) { return null; } }
+
+function el(tag, attrs = {}, pai) {
+  const n = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
+  if (pai) pai.appendChild(n);
+  return n;
+}
+function texto(pai, x, y, conteudo, extra = {}) {
+  const t = el("text", { x, y, ...extra }, pai); t.textContent = conteudo; return t;
+}
+async function api(caminho, opcoes) {
+  const r = await fetch(caminho, opcoes);
+  const corpo = await r.json().catch(() => ({ erro: "Resposta inválida do servidor." }));
+  if (!r.ok) throw Object.assign(new Error(corpo.erro || r.statusText), { corpo });
+  return corpo;
+}
+const chipClasse = (c) => `<span class="etiqueta" style="color:${COR[c] || "var(--tinta-2)"}">${seguro(c)}</span>`;
+const kpi = (rotulo, valor, nota, classe = "") =>
+  `<div class="kpi"><small>${rotulo}</small><b class="${classe}">${valor}</b>${nota ? `<em>${nota}</em>` : ""}</div>`;
+
+/* ---------------------------------------------------------------- dica */
+const dica = $("#dica");
+function mostrarDica(ev, html) {
+  dica.innerHTML = html; dica.style.display = "block";
+  const x = Math.min(ev.clientX + 14, window.innerWidth - dica.offsetWidth - 8);
+  dica.style.left = x + "px"; dica.style.top = (ev.clientY + 14) + "px";
+}
+const esconderDica = () => { dica.style.display = "none"; };
+
+/* ------------------------------------------------- seletor de provedor */
+function infoProvedor(id) { return estado.provedores.find((p) => p.id === id); }
+function montarSeletor() {
+  const caixa = $("#seletor-provedor"); caixa.replaceChildren();
+  for (const p of estado.provedores) {
+    const b = document.createElement("button");
+    b.type = "button"; b.dataset.prov = p.id; b.disabled = !p.ativo;
+    b.innerHTML = `<i style="background:${COR_PROV[p.id]}"></i>${NOME_CURTO[p.id]}`;
+    b.title = p.ativo ? p.nome : `Indisponível nesta máquina: ${p.motivo}`;
+    b.addEventListener("click", () => selecionar(p.id));
+    caixa.appendChild(b);
+  }
+  $("#indisponivel").innerHTML = estado.provedores.filter((p) => !p.ativo)
+    .map((p) => `${NOME_CURTO[p.id]} indisponível nesta máquina — ${seguro(p.motivo)}`).join("<br>");
+  const preferido = lembrado("painel.provedor");
+  const ativos = estado.provedores.filter((p) => p.ativo).map((p) => p.id);
+  selecionar(ativos.includes(provedor) ? provedor : ativos.includes(preferido) ? preferido : (ativos[0] || estado.provedores[0]?.id), false);
+}
+function selecionar(id, guardar = true) {
+  provedor = id;
+  if (guardar) lembrar("painel.provedor", id);
+  document.querySelectorAll("#seletor-provedor button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.prov === id));
+  const p = infoProvedor(id) || {};
+  $("#subtitulo").textContent = `${p.nome || ""} · Etapa 2 — Computação em Nuvem · UNIFOR`;
+  $("#titulo-resposta").textContent = `Resposta — ${NOME_CURTO[id] || ""}`;
+  atualizarFranquia();
+  const ativo = !!p.ativo;
+  $("#analisar").disabled = !ativo;
+  document.querySelectorAll(".exemplo").forEach((b) => { b.disabled = !ativo; });
+  if (!ativo) {
+    $("#resultado-corpo").classList.add("oculto"); $("#resultado-vazio").classList.remove("oculto");
+    $("#resultado-vazio").innerHTML = `<b>${seguro(NOME_CURTO[id])}</b> não está disponível nesta máquina.<br>${seguro(p.motivo || "")}<br><br>As execuções gravadas continuam visíveis na outra aba.`;
+  } else if ($("#resultado-corpo").classList.contains("oculto")) {
+    $("#resultado-vazio").textContent = "Escolha um exemplo ou digite uma frase.";
+  }
+  if (!$("#execucoes").classList.contains("oculto") && execAtual) abrirExecucao(execAtual.id);
+}
+function atualizarFranquia() {
+  const p = infoProvedor(provedor);
+  if (estado.simulado) { $("#franquia").innerHTML = "<b>SIMULADO</b> — sem custo"; return; }
+  if (!p || !p.ativo) { $("#franquia").textContent = "provedor indisponível nesta máquina"; return; }
+  const unidade = provedor === "azure" ? "registros" : "unidades";
+  $("#franquia").innerHTML = `Franquia do mês: <b>${p.consumo_no_mes.toLocaleString("pt-BR")}</b> de ${p.franquia.toLocaleString("pt-BR")} ${unidade} · trava em ${p.limite.toLocaleString("pt-BR")}`;
+}
+async function carregarEstado() {
+  try {
+    estado = await api("/api/estado");
+    $("#aviso-simulado").classList.toggle("oculto", !estado.simulado);
+    if (!$("#seletor-provedor").children.length) montarSeletor(); else atualizarFranquia();
+  } catch (e) { $("#franquia").textContent = "servidor indisponível"; }
+}
+
+/* ------------------------------------------- Google: régua de −1 a +1 */
+function desenharRegua(svg, score, limiar) {
+  svg.replaceChildren(); svg.setAttribute("viewBox", "0 0 640 112");
+  svg.setAttribute("aria-label", "Score do Google na régua de −1 a +1");
+  const W = 640, e = 30, d = 30, y = 62, larg = W - e - d;
+  const X = (s) => e + (s + 1) / 2 * larg;
+  const defs = el("defs", {}, svg), g = el("linearGradient", { id: "grad", x1: "0", x2: "1" }, defs);
+  el("stop", { offset: "0", "stop-color": "var(--neg)" }, g);
+  el("stop", { offset: "0.5", "stop-color": "var(--neutro)" }, g);
+  el("stop", { offset: "1", "stop-color": "var(--pos)" }, g);
+  el("rect", { x: X(-limiar), y: y - 22, width: X(limiar) - X(-limiar), height: 44, fill: "var(--faixa)", rx: 4 }, svg);
+  el("rect", { x: e, y: y - 4, width: larg, height: 8, rx: 4, fill: "url(#grad)" }, svg);
+  for (const s of [-1, -0.5, 0, 0.5, 1]) {
+    el("line", { x1: X(s), x2: X(s), y1: y + 8, y2: y + 13, stroke: "var(--tinta-3)" }, svg);
+    texto(svg, X(s), y + 27, fmt(s, s % 1 ? 1 : 0), { "text-anchor": "middle" });
+  }
+  texto(svg, X(0), y - 28, `faixa neutra: ${fmt(-limiar)} a ${fmt(limiar)}`, { "text-anchor": "middle" });
+  texto(svg, e, y - 28, "negativo", { "text-anchor": "start" });
+  texto(svg, W - d, y - 28, "positivo", { "text-anchor": "end" });
+  if (score !== null && score !== undefined) {
+    const cx = X(Math.max(-1, Math.min(1, score)));
+    el("line", { x1: cx, x2: cx, y1: y - 16, y2: y + 6, stroke: "var(--tinta)", "stroke-width": 2 }, svg);
+    el("circle", { cx, cy: y, r: 9, fill: "var(--superficie)", stroke: "var(--tinta)", "stroke-width": 2.5 }, svg);
+    texto(svg, cx, y + 48, fmt(score), { "text-anchor": "middle", class: "forte" });
+  }
+}
+
+/* ------------------------------------ Azure: barra das três confianças */
+function desenharConfiancas(svg, conf) {
+  svg.replaceChildren(); svg.setAttribute("viewBox", "0 0 640 104");
+  svg.setAttribute("aria-label", "Confianças da Azure: positivo, neutro e negativo, somando 1");
+  const e = 10, larg = 620, y = 30, h = 32;
+  const partes = [["negativo", conf.negative, "var(--neg)"], ["neutro", conf.neutral, "var(--neutro)"], ["positivo", conf.positive, "var(--pos)"]];
+  let x = e;
+  for (const [nome, v, cor] of partes) {
+    const w = Math.max(0, v) * larg;
+    if (w > 0.5) {
+      el("rect", { x: x + 1, y, width: Math.max(0, w - 2), height: h, rx: 4, fill: cor }, svg);
+      if (w > 64) texto(svg, x + w / 2, y + h / 2 + 4, `${nome} ${num(v)}`, { "text-anchor": "middle", class: "branco" });
+    }
+    x += w;
+  }
+  texto(svg, e, y - 10, "confianças da Azure (somam 1)", { "text-anchor": "start" });
+  // valores pequenos não cabem dentro da barra: vão escritos embaixo, sempre
+  texto(svg, e, y + h + 24, partes.map(([n, v]) => `${n} ${num(v)}`).join("   ·   "), { "text-anchor": "start" });
+}
+
+/* ------------------------------------------------------------- ao vivo */
+function explicarGoogle(r) {
+  const L = fmt(r.limiar), mL = fmt(-r.limiar), s = fmt(r.score);
+  if (r.classe === "positivo") return `score ${s} &gt; ${L} → <b>positivo</b>. O Google devolve só o número; o limiar é do experimento (<code>normalizar.py</code>, v1).`;
+  if (r.classe === "negativo") return `score ${s} &lt; ${mL} → <b>negativo</b>. O Google devolve só o número; o limiar é do experimento (<code>normalizar.py</code>, v1).`;
+  return `${mL} ≤ score ${s} ≤ ${L} → <b>neutro</b>. O Google devolve só o número; o limiar é do experimento (<code>normalizar.py</code>, v1).`;
+}
+function explicarAzure(r) {
+  const base = `A Azure devolve a classe pronta: <code>${seguro(r.rotulo_original)}</code> → <b>${seguro(r.classe)}</b>. As confianças não decidem nada no experimento — a classe é a do serviço.`;
+  return r.rotulo_original === "mixed"
+    ? base + " <code>mixed</code> sai quando o texto tem ao menos uma sentença positiva <b>e</b> uma negativa; por isso não tem confiança própria."
+    : base;
+}
+async function analisarFrase(frase) {
+  const botao = $("#analisar"); const prov = provedor;
+  botao.disabled = true; botao.textContent = "Analisando…";
+  try {
+    const r = await api("/api/analisar", {
+      method: "POST", headers: { "Content-Type": "application/json", "X-Painel": "1" },
+      body: JSON.stringify({ texto: frase, provedor: prov }) });
+    $("#resultado-vazio").classList.add("oculto");
+    $("#resultado-corpo").classList.remove("oculto");
+    const orig = r.provedor === "azure" ? ` <small>(${seguro(r.rotulo_original)})</small>` : "";
+    $("#classe").innerHTML = `<i style="background:${COR[r.classe]}"></i>${seguro(r.classe)}${orig}`;
+    if (r.provedor === "azure") {
+      desenharConfiancas($("#visual"), r.confiancas);
+      $("#regra").innerHTML = explicarAzure(r);
+      $("#kpis-vivo").innerHTML =
+        kpi("rótulo original", seguro(r.rotulo_original), "decidido pela Azure") +
+        kpi("polaridade", fmt(r.confiancas.positive - r.confiancas.negative), "positivo − negativo (derivada)") +
+        kpi("latência", ms(r.latencia_ms) + " ms", "esta chamada") +
+        kpi("modelo", seguro(r.versao_modelo || "—"), "versão informada", "curto");
+    } else {
+      desenharRegua($("#visual"), r.score, r.limiar);
+      $("#regra").innerHTML = explicarGoogle(r);
+      $("#kpis-vivo").innerHTML =
+        kpi("score", fmt(r.score), "de −1 a +1") +
+        kpi("magnitude", num(r.magnitude), "intensidade, ≥ 0") +
+        kpi("latência", ms(r.latencia_ms) + " ms", "esta chamada") +
+        kpi("idioma", seguro(r.idioma || "—"), "detectado");
+    }
+    $("#bruta").textContent = JSON.stringify(r.resposta_original, null, 2);
+    const hist = $("#historico");
+    if (hist.querySelector(".vazio")) hist.replaceChildren();
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td><span class="etiqueta" style="color:${COR_PROV[r.provedor]}">${r.provedor === "azure" ? "Azure" : "Google"}</span></td><td>${seguro(r.texto)}</td><td>${chipClasse(r.classe)}</td><td class="num">${ms(r.latencia_ms)}</td>`;
+    hist.prepend(tr);
+    carregarEstado();
+  } catch (e) {
+    $("#resultado-vazio").classList.remove("oculto");
+    $("#resultado-corpo").classList.add("oculto");
+    $("#resultado-vazio").innerHTML = `<span class="erro">${seguro(e.message)}</span>${e.corpo?.detalhe ? "<br>" + seguro(e.corpo.detalhe) : ""}`;
+  } finally {
+    botao.textContent = "Analisar"; botao.disabled = !infoProvedor(provedor)?.ativo;
+  }
+}
+$("#analisar").addEventListener("click", () => analisarFrase($("#texto").value));
+$("#texto").addEventListener("keydown", (ev) => { if (ev.key === "Enter" && (ev.ctrlKey || ev.metaKey) && !$("#analisar").disabled) analisarFrase($("#texto").value); });
+$("#texto").addEventListener("input", () => {
+  $("#contador").textContent = `${$("#texto").value.length} / 1000 caracteres · 1 unidade da franquia`;
+});
+async function carregarExemplos() {
+  const lista = await api("/api/exemplos").catch(() => []);
+  const caixa = $("#exemplos");
+  for (const ex of lista) {
+    const b = document.createElement("button");
+    b.className = "exemplo"; b.type = "button"; b.disabled = !infoProvedor(provedor)?.ativo;
+    b.innerHTML = `${seguro(ex.texto)}<span>guia: ${seguro(ex.rotulo)}</span>`;
+    b.addEventListener("click", () => { $("#texto").value = ex.texto; $("#texto").dispatchEvent(new Event("input")); analisarFrase(ex.texto); });
+    caixa.appendChild(b);
+  }
+}
+
+/* ----------------------------------------------------------- execuções */
+function desenharDispersao(svg, linhas, limiar, prov) {
+  svg.replaceChildren();
+  const grupos = ["positivo", "negativo", "neutro"];
+  const fora = [...new Set(linhas.filter((l) => !l.avaliado).map((l) => l.referencia))];
+  const todos = grupos.concat(fora);
+  const W = 1100, e = 200, d = 30, alturaLinha = 46, topo = 26, H = topo + todos.length * alturaLinha + 34;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  const X = (s) => e + (s + 1) / 2 * (W - e - d);
+  if (prov === "google") {
+    el("rect", { x: X(-limiar), y: topo - 6, width: X(limiar) - X(-limiar), height: todos.length * alturaLinha + 6, fill: "var(--faixa)" }, svg);
+    texto(svg, X(0), topo - 12, "faixa neutra", { "text-anchor": "middle" });
+  }
+  for (const s of [-1, -0.5, 0, 0.5, 1]) {
+    el("line", { x1: X(s), x2: X(s), y1: topo - 6, y2: topo + todos.length * alturaLinha, stroke: "var(--grade)" }, svg);
+    texto(svg, X(s), H - 10, fmt(s, s % 1 ? 1 : 0), { "text-anchor": "middle" });
+  }
+  todos.forEach((g, i) => {
+    const y = topo + i * alturaLinha + alturaLinha / 2;
+    const rot = grupos.includes(g) ? `gabarito: ${g}` : `${g} · fora da avaliação`;
+    texto(svg, e - 14, y + 4, rot, { "text-anchor": "end", class: grupos.includes(g) ? "forte" : "" });
+    linhas.filter((l) => l.referencia === g && l.polaridade !== null && l.polaridade !== undefined).forEach((l, k) => {
+      const dy = ((k * 7919) % 100) / 100 * 22 - 11;      // dispersão vertical determinística
+      const cor = COR[l.previsto] || "var(--tinta-2)";
+      // cheio = acertou · vazado = errou · tracejado = fora da avaliação (sem acerto definido)
+      const c = el("circle", { cx: X(l.polaridade), cy: y + dy, r: 6.5,
+        fill: l.acertou === true ? cor : "var(--superficie)", stroke: cor,
+        "stroke-width": l.acertou === true ? 1.5 : 2.2, "stroke-dasharray": l.acertou === null ? "2.5 2" : "" }, svg);
+      const valor = prov === "azure"
+        ? `<code>${seguro(l.rotulo_original)}</code> · pos ${num(l.confiancas?.positive)} · neu ${num(l.confiancas?.neutral)} · neg ${num(l.confiancas?.negative)}`
+        : `score ${fmt(l.score)}`;
+      const html = `<b>${seguro(l.id)}</b> · gabarito <b>${seguro(l.referencia)}</b><br>${seguro(l.texto)}<br>${valor} → ${chipClasse(l.previsto)} ${l.acertou === null ? "" : l.acertou ? "✓ acertou" : "✗ errou"}`;
+      c.addEventListener("mousemove", (ev) => mostrarDica(ev, html));
+      c.addEventListener("mouseleave", esconderDica);
+    });
+  });
+}
+function desenharLatencia(svg, valores, prov) {
+  svg.replaceChildren();
+  if (!valores.length) { svg.setAttribute("viewBox", "0 0 520 40"); texto(svg, 10, 24, "sem chamadas bem-sucedidas"); return; }
+  const W = 520, H = 150, e = 16, d = 16, y = 70;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  const ord = [...valores].sort((a, b) => a - b);
+  const med = ord.length % 2 ? ord[(ord.length - 1) / 2] : (ord[ord.length / 2 - 1] + ord[ord.length / 2]) / 2;
+  const p95 = ord[Math.max(1, Math.ceil(0.95 * ord.length)) - 1];
+  const min = Math.min(...ord) * 0.95, max = Math.max(...ord) * 1.05;
+  const X = (v) => e + (v - min) / (max - min || 1) * (W - e - d);
+  el("line", { x1: e, x2: W - d, y1: y + 30, y2: y + 30, stroke: "var(--borda)" }, svg);
+  valores.forEach((v, k) => {
+    const c = el("circle", { cx: X(v), cy: y + (((k * 7919) % 100) / 100 * 26 - 13), r: 5, fill: COR_PROV[prov] || "var(--tinta-2)", "fill-opacity": 0.8 }, svg);
+    c.addEventListener("mousemove", (ev) => mostrarDica(ev, `${ms(v)} ms${k === 0 ? " · 1ª chamada" : ""}`));
+    c.addEventListener("mouseleave", esconderDica);
+  });
+  for (const [v, rot, y0, cl] of [[med, "mediana", 22, "forte"], [p95, "p95", 132, ""]]) {
+    el("line", { x1: X(v), x2: X(v), y1: y - 26, y2: y + 26, stroke: cl ? "var(--tinta)" : "var(--tinta-2)", "stroke-width": 2, "stroke-dasharray": cl ? "" : "4 3" }, svg);
+    texto(svg, X(v), y0, `${rot} ${ms(v)} ms`, { "text-anchor": X(v) > W - 90 ? "end" : X(v) < 90 ? "start" : "middle", class: cl });
+  }
+  const longe = (v) => Math.abs(X(v) - X(med)) > 90 && Math.abs(X(v) - X(p95)) > 90;
+  if (longe(ord[0])) texto(svg, X(ord[0]), 106, `mín. ${ms(ord[0])} ms`, { "text-anchor": "start" });
+  const maxv = ord[ord.length - 1];
+  if (longe(maxv)) texto(svg, X(maxv), 106, `máx. ${ms(maxv)} ms`, { "text-anchor": "end" });
+}
+function desenharMatriz(tabela, mc) {
+  const cols = ["positivo", "negativo", "neutro", "misto"], linhas = ["positivo", "negativo", "neutro"];
+  const max = Math.max(1, ...linhas.flatMap((r) => cols.map((c) => mc[r][c])));
+  let html = `<tr><th>gabarito \\ previsto</th>${cols.map((c) => `<th>${c}</th>`).join("")}</tr>`;
+  for (const r of linhas) {
+    html += `<tr><th>${r}</th>` + cols.map((c) => {
+      const v = mc[r][c], a = v / max;
+      const fundo = v ? `color-mix(in srgb, var(--pos) ${Math.round(12 + a * 70)}%, var(--superficie))` : "transparent";
+      return `<td style="background:${fundo};color:${a > 0.55 ? "#fff" : "var(--tinta)"}${r === c ? ";outline:2px solid var(--tinta-3);outline-offset:-2px" : ""}">${v}</td>`;
+    }).join("") + "</tr>";
+  }
+  tabela.innerHTML = html;
+}
+let execAtual = null, provExec = null;
+function legendaDispersao(prov) {
+  const faixa = prov === "google" ? `<span><svg width="22" height="12"><rect width="22" height="12" fill="var(--faixa)"/></svg>faixa neutra</span>` : "";
+  $("#legenda-dispersao").innerHTML =
+    `<span><svg width="12" height="12"><circle cx="6" cy="6" r="5" fill="var(--tinta)"/></svg>acertou</span>
+     <span><svg width="12" height="12"><circle cx="6" cy="6" r="4.2" fill="none" stroke="var(--tinta)" stroke-width="1.6"/></svg>errou</span>
+     <span><svg width="12" height="12"><circle cx="6" cy="6" r="4.2" fill="none" stroke="var(--tinta)" stroke-width="1.6" stroke-dasharray="2.5 2"/></svg>fora da avaliação</span>
+     ${faixa}<span>cor = classe prevista</span>`;
+  $("#titulo-dispersao").textContent = prov === "azure" ? "Onde cada texto caiu — polaridade derivada" : "Onde cada texto caiu na régua";
+  $("#nota-dispersao").innerHTML = prov === "azure"
+    ? "A Azure não devolve score: a posição horizontal é a <b>polaridade derivada</b> (confiança positiva − confiança negativa), só para visualizar. A classe — e portanto o acerto — é a que a Azure decidiu, não esta posição; por isso não há faixa neutra."
+    : "Posição horizontal = score do Google. A classe sai da faixa neutra (±0,25), regra do experimento.";
+  $("#col-valor").textContent = prov === "azure" ? "polaridade" : "score";
+}
+function desenharExecucao() {
+  const r = execAtual, prov = provExec;
+  const m = r.metricas.por_provedor[prov], q = m.qualidade_na_intersecao;
+  $("#exec-kpis").innerHTML =
+    kpi("textos avaliados", `${r.metricas.intersecao} / ${r.metricas.programados_3_classes}`, "interseção / programados") +
+    kpi("acurácia", pct(q.acuracia), `${q.acertos} acertos`) +
+    kpi("macro-F1", pct(q.macro_f1), "média das 3 classes") +
+    kpi("latência mediana", ms(m.latencia_ms.mediana) + " ms", `p95 ${ms(m.latencia_ms.p95)} ms · n=${m.latencia_ms.n}`) +
+    kpi("sucesso", pct(m.sucesso_por_tentativa), `${m.tentativas} tentativas`) +
+    kpi("custo estimado", "US$ " + m.custo.estimado_com_franquia_usd.toFixed(2).replace(".", ","), `${m.custo.unidades_estimadas_todas_tentativas} unidades`);
+  const linhas = r.textos.filter((t) => t.provedor === prov);
+  legendaDispersao(prov);
+  desenharDispersao($("#dispersao"), linhas, r.limiar, prov);
+  desenharMatriz($("#matriz"), m.matriz_confusao);
+  desenharLatencia($("#latencia"), r.latencias[prov] || [], prov);
+  $("#exec-textos").innerHTML = linhas.map((t) => `<tr><td><code>${seguro(t.id)}</code></td><td>${seguro(t.texto)}</td>
+    <td>${chipClasse(t.referencia)}</td><td class="num">${fmt(t.polaridade)}</td><td>${t.previsto ? chipClasse(t.previsto) : seguro(t.status)}${prov === "azure" && t.rotulo_original ? ` <small style="color:var(--tinta-3)">${seguro(t.rotulo_original)}</small>` : ""}</td>
+    <td>${t.acertou === null ? "<span style='color:var(--tinta-3)'>fora</span>" : t.acertou ? "✓" : "<b class='erro'>✗</b>"}</td><td class="num">${ms(t.latencia_ms)}</td></tr>`).join("");
+}
+async function abrirExecucao(ident) {
+  try {
+    execAtual = await api(`/api/execucao?id=${encodeURIComponent(ident)}`);
+    $("#exec-vazio").classList.add("oculto"); $("#exec-corpo").classList.remove("oculto");
+    $("#aviso-demo").classList.toggle("oculto", execAtual.meta.tipo !== "demonstracao");
+    const provs = execAtual.metricas.provedores;
+    provExec = provs.includes(provedor) ? provedor : provs[0];
+    const chips = $("#chips-exec");
+    chips.classList.toggle("oculto", provs.length < 2 && provs[0] === provedor);
+    chips.innerHTML = (provs.length < 2 ? `<span class="explicacao" style="margin:0">Esta execução só tem ${NOME_CURTO[provs[0]]}.</span>` : "") +
+      provs.map((p) => `<button type="button" data-prov="${p}" aria-pressed="${p === provExec}"><i style="background:${COR_PROV[p]}"></i>${NOME_CURTO[p]}</button>`).join("");
+    chips.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => {
+      provExec = b.dataset.prov;
+      chips.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", x === b));
+      desenharExecucao();
+    }));
+    desenharExecucao();
+  } catch (e) {
+    $("#exec-corpo").classList.add("oculto"); $("#exec-vazio").classList.remove("oculto");
+    $("#exec-vazio").innerHTML = `<span class="erro">${seguro(e.message)}</span>`;
+  }
+}
+async function carregarExecucoes() {
+  const lista = await api("/api/execucoes").catch(() => []);
+  const sel = $("#seletor"); sel.replaceChildren();
+  if (!lista.length) { $("#exec-vazio").classList.remove("oculto"); return; }
+  for (const x of lista) {
+    const o = document.createElement("option");
+    o.value = x.id;
+    o.textContent = `${x.tipo === "demonstracao" ? "DEMONSTRAÇÃO" : "EXPERIMENTO"} · ${x.provedores.map((p) => NOME_CURTO[p] || p).join(" + ")} · ${x.dataset} · ${x.id}`;
+    sel.appendChild(o);
+  }
+  sel.onchange = () => abrirExecucao(sel.value);
+  // começa por uma execução do provedor selecionado, se houver
+  abrirExecucao((lista.find((x) => x.provedores.includes(provedor)) || lista[0]).id);
+  sel.value = (lista.find((x) => x.provedores.includes(provedor)) || lista[0]).id;
+}
+
+/* --------------------------------------------------------------- abas */
+document.querySelectorAll("nav button").forEach((b) => b.addEventListener("click", () => {
+  document.querySelectorAll("nav button").forEach((x) => x.setAttribute("aria-selected", x === b));
+  $("#ao-vivo").classList.toggle("oculto", b.dataset.aba !== "ao-vivo");
+  $("#execucoes").classList.toggle("oculto", b.dataset.aba !== "execucoes");
+  if (b.dataset.aba === "execucoes" && !$("#seletor").options.length) carregarExecucoes();
+}));
+
+(async () => { await carregarEstado(); carregarExemplos(); })();
+</script>
+</body>
+</html>

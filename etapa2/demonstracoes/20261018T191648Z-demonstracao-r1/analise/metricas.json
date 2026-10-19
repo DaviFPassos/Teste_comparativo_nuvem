@@ -70,6 +70,7 @@
         "n": 0,
         "duracoes_ms": []
       },
+      "aquecimento_ms": [],
       "matriz_confusao": {
         "positivo": {
           "positivo": 1,
@@ -111,5 +112,19 @@
         "positivo": 1
       }
     }
+  },
+  "execucoes": {
+    "execucoes": [
+      {
+        "id": "20261018T191648Z-demonstracao-r1",
+        "provedores": [
+          "google"
+        ],
+        "maquina": null
+      }
+    ],
+    "mesma_maquina": true,
+    "latencia_comparavel": true,
+    "nota_latencia": "um provedor só"
   }
 }

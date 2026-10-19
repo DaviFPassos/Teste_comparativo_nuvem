@@ -37,7 +37,7 @@ O repositório está **público** em https://github.com/DaviFPassos/Teste_compar
 | Conferência das contas | `custos/verificar_calculos.py` | 31 conferências, todas passando |
 | Resultados | `custos/resultados.csv` | 22 linhas (5 comprimentos de texto × 3 provedores + visão + fala) |
 | Gráficos | `custos/graficos/` — 3 PNG | Gerados por código a partir do CSV |
-| Fontes | `referencias/fontes.md` | 43 fontes com URL, data e afirmação sustentada (38 de 23–24/09 e 5 acrescentadas na revisão de 26/09) |
+| Fontes | `referencias/fontes.md` | 52 fontes com URL, data e afirmação sustentada, incluindo a seção da Etapa 2 (ET2-*, 18/10/2026) |
 | Relatório | `relatorio/relatorio_etapa1.md` + `.html` | Montado por script a partir dos capítulos |
 | PDF do relatório | `pdfs/relatorio_etapa1.pdf` | **43 páginas**, A4, gerado por `relatorio/gerar_pdf.py`. Passou de 28 para 43 na revisão de 26/09: a comparação técnica inteira e os trechos de código entraram no relatório, para que ele seja legível fora do repositório. Todos os links são URLs do GitHub |
 | README | `README.md` | Com integrantes, achados, links e reprodução |
@@ -110,5 +110,5 @@ Uma revisão externa apontou erros técnicos e de interpretação. Todos foram c
 | Decisões do grupo | Azure + Google · dataset público B2W-Reviews01 · gabarito por dois integrantes · orçamento US$ 0 |
 | Fase 1 — viabilidade | Concluída |
 | Fase 2 — dados e protocolo | 330 candidatos sorteados; planilhas de anotação geradas; metodologia em **rascunho** |
-| Fase 3 — programa | Implementado e testado offline (66 testes); **piloto real não executado** |
+| Fase 3 — programa | Implementado e testado offline (92 testes); **piloto real não executado** |
 | Coleta real | **Nenhuma.** Bloqueada por gabarito e credenciais |

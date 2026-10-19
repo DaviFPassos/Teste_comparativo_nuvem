@@ -8,6 +8,9 @@ Calcula as métricas de uma execução a partir dos arquivos brutos. Não chama 
     uv run etapa2/src/analisar.py --execucao <id_execucao>
     uv run etapa2/src/analisar.py --execucao <id_execucao> --simulado   # verificação local
 
+    # coletas de máquinas diferentes (ex.: Google num laptop, Azure no outro)
+    uv run etapa2/src/analisar.py --execucao <id_google> <id_azure>
+
 Tudo sai dos arquivos da execução (predicoes.jsonl, tentativas.jsonl) e do
 dataset com o gabarito; nada é digitado à mão. Saídas:
     <execucao>/analise/metricas.json, tabela_principal.md/.csv, por_texto.csv,
@@ -168,6 +171,64 @@ def carregar_execucao(pasta):
     return predicoes, tentativas, config, ambiente
 
 
+def carregar_execucoes(pastas):
+    """
+    Junta uma ou mais execuções para analisar como se fossem uma só.
+
+    Caso de uso: o Google roda num laptop e a Azure em outro, cada um gerando a
+    sua execução. Juntar só é válido se as execuções forem comparáveis — e cada
+    condição abaixo é conferida, não presumida:
+    - mesmo dataset, byte a byte (SHA-256 gravado em cada ambiente.json);
+    - mesma regra de normalização (versão e limiar);
+    - mesmo tipo (real, demonstração ou simulada);
+    - cada provedor em UMA execução só (senão haveria duas respostas por texto).
+
+    A latência de execuções separadas NÃO é comparável entre provedores: outra
+    máquina, outra rede, outro horário. Isso fica registrado no resultado e nas
+    tabelas, e não é corrigido nem escondido.
+    """
+    cargas = [(Path(p).name, *carregar_execucao(Path(p))) for p in pastas]
+    if len(cargas) == 1:
+        ident, predicoes, tentativas, config, ambiente = cargas[0]
+        provs = sorted({p["provedor"] for p in predicoes})
+        meta = {"execucoes": [{"id": ident, "provedores": provs, "maquina": ambiente.get("maquina")}],
+                "mesma_maquina": True,
+                "latencia_comparavel": True,
+                "nota_latencia": ("provedores intercalados na mesma execução" if len(provs) > 1
+                                  else "um provedor só")}
+        return predicoes, tentativas, config, ambiente, meta
+
+    shas = {c[4]["dataset"]["sha256"] for c in cargas}
+    if len(shas) > 1:
+        raise SystemExit("As execuções usaram datasets diferentes (SHA-256 não confere): "
+                         "não é possível compará-las texto a texto.")
+    regras = {json.dumps(c[3]["normalizacao"], sort_keys=True) for c in cargas}
+    if len(regras) > 1:
+        raise SystemExit("As execuções usaram regras de normalização diferentes (versão ou limiar).")
+    tipos = {(bool(c[3].get("simulado")), bool(c[3].get("demonstracao"))) for c in cargas}
+    if len(tipos) > 1:
+        raise SystemExit("Não se juntam execuções de tipos diferentes (real, demonstração, simulada).")
+    dono = {}
+    for ident, predicoes, *_ in cargas:
+        for prov in {p["provedor"] for p in predicoes}:
+            if prov in dono:
+                raise SystemExit(f"O provedor '{prov}' aparece em duas execuções ({dono[prov]} e {ident}).")
+            dono[prov] = ident
+
+    maquinas = [c[4].get("maquina") for c in cargas]
+    mesma = None if None in maquinas else len(set(maquinas)) == 1
+    meta = {"execucoes": [{"id": c[0], "provedores": sorted({p["provedor"] for p in c[1]}),
+                           "maquina": c[4].get("maquina")} for c in cargas],
+            "mesma_maquina": mesma,
+            "latencia_comparavel": False,
+            "nota_latencia": ("execuções separadas em máquinas diferentes" if mesma is False else
+                              "execuções separadas (horários diferentes)" if mesma else
+                              "execuções separadas; máquina não registrada")
+                             + ": a latência de cada provedor é válida, mas a comparação entre eles não é"}
+    return ([p for c in cargas for p in c[1]], [t for c in cargas for t in c[2]],
+            cargas[0][3], cargas[0][4], meta)
+
+
 def carregar_gabarito(caminho, sha256_esperado):
     obtido = hashlib.sha256(Path(caminho).read_bytes()).hexdigest()
     if obtido != sha256_esperado:
@@ -215,7 +276,11 @@ def analisar(predicoes, tentativas, config, gabarito):
         preds = [por.get((i, prov)) for i in programados]
         falhas = Counter(p["codigo_erro_final"] if p else "sem_registro"
                          for p in preds if not p or p["status_final"] != "ok")
-        tent = [t for t in tentativas if t["provedor"] == prov]
+        todas = [t for t in tentativas if t["provedor"] == prov]
+        # o aquecimento (1ª chamada, conexão + autenticação) não é medida do serviço:
+        # fica fora da latência e do sucesso, mas conta no custo
+        tent = [t for t in todas if not t.get("aquecimento")]
+        aquec = [t["duracao_ms"] for t in todas if t.get("aquecimento")]
         ok_t = [t for t in tent if t["status"] == "ok"]
         prev = [por[(i, prov)]["rotulo_normalizado"] for i in intersecao]
         previsoes_inter[prov] = prev
@@ -225,8 +290,9 @@ def analisar(predicoes, tentativas, config, gabarito):
                            and por[(i, prov)]["rotulo_normalizado"] == gabarito[i]["rotulo_referencia"])
         lat = [t["duracao_ms"] for t in ok_t]
         timeouts = [t["duracao_ms"] for t in tent if t.get("codigo") == "timeout"]
-        unidades = sum(int(t.get("unidades_estimadas") or 0) for t in tent)
-        simulado = prov == "simulado"
+        unidades = sum(int(t.get("unidades_estimadas") or 0) for t in todas)
+        # simulado pela MARCAÇÃO gravada em cada registro, não pelo nome do provedor
+        simulado = all(p.get("simulado") for p in predicoes if p["provedor"] == prov)
         franquia = 0 if simulado else custo.franquia_mensal(prov)
         preco = 0 if simulado else custo.preco_por_unidade(prov)
         resultado["por_provedor"][prov] = {
@@ -244,6 +310,7 @@ def analisar(predicoes, tentativas, config, gabarito):
                             "mediana": mediana(lat), "p95": percentil_posto_mais_proximo(lat, 95),
                             "minimo": min(lat) if lat else None, "maximo": max(lat) if lat else None},
             "timeouts": {"n": len(timeouts), "duracoes_ms": timeouts},
+            "aquecimento_ms": aquec,
             "matriz_confusao": matriz_de_confusao(ref_inter, prev),
             "custo": {"unidades_estimadas_todas_tentativas": unidades,
                       "estimado_sem_franquia_usd": round(unidades * preco, 4),
@@ -323,6 +390,11 @@ def gravar_tabelas(res, gabarito, predicoes, destino, execucao):
                   f"{l['previsoes_misto']} | {_ms(l['latencia_mediana_ms'])} | {_ms(l['latencia_p95_ms'])} "
                   f"(n={l['latencia_n']}) | {_pct(l['sucesso_por_tentativa'])} | "
                   f"{l['custo_estimado_com_franquia_usd']:.2f} |")
+    ex = res.get("execucoes")
+    if ex and not ex["latencia_comparavel"]:
+        md += ["", f"**Latência não comparável entre provedores** — {ex['nota_latencia']}. "
+                   "Execuções: " + ", ".join(f"`{e['id']}` ({', '.join(e['provedores'])})"
+                                             for e in ex["execucoes"]) + "."]
     if "comparacao_pareada" in res:
         c = res["comparacao_pareada"]
         k = c["kappa_entre_provedores"]
@@ -461,7 +533,8 @@ def gerar_graficos(res, tentativas, destino, execucao, modo="real"):
     # 3. latência — distribuição por provedor, mediana e p95 escritos
     fig, ax = plt.subplots(figsize=(8.5, 1.4 + 1.1 * len(provs)), facecolor=SUPERFICIE)
     for j, prov in enumerate(provs):
-        lat = sorted(t["duracao_ms"] for t in tentativas if t["provedor"] == prov and t["status"] == "ok")
+        lat = sorted(t["duracao_ms"] for t in tentativas
+                     if t["provedor"] == prov and t["status"] == "ok" and not t.get("aquecimento"))
         if not lat:
             continue
         ys = [j + (((k * 7919) % 100) / 100 - 0.5) * 0.35 for k in range(len(lat))]  # dispersão determinística
@@ -477,7 +550,9 @@ def gerar_graficos(res, tentativas, destino, execucao, modo="real"):
     ax.set_xlabel("latência por tentativa bem-sucedida (ms)", fontsize=9, color=TINTA_FRACA)
     ax.grid(axis="x", color=GRADE, linewidth=0.8)
     ax.set_axisbelow(True)
-    _eixo(ax, "Latência das chamadas", rodape)
+    ex = res.get("execucoes")
+    aviso_lat = "" if not ex or ex["latencia_comparavel"] else " · NÃO COMPARÁVEL entre provedores (execuções separadas)"
+    _eixo(ax, "Latência das chamadas", rodape + aviso_lat)
     fig.tight_layout()
     fig.savefig(destino / "latencia.png", dpi=170, facecolor=SUPERFICIE)
     plt.close(fig)
@@ -489,7 +564,8 @@ def gerar_graficos(res, tentativas, destino, execucao, modo="real"):
 
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
-    p.add_argument("--execucao", required=True)
+    p.add_argument("--execucao", required=True, nargs="+",
+                   help="uma execução, ou várias do MESMO dataset para comparar (ex.: um provedor por máquina)")
     p.add_argument("--dados", type=Path, help="dataset com gabarito (padrão: o usado na execução)")
     modo = p.add_mutually_exclusive_group()
     modo.add_argument("--simulado", action="store_true")
@@ -499,23 +575,31 @@ def main(argv=None):
 
     modo = "simulado" if a.simulado else "demonstracao" if a.demonstracao else "real"
     base = {"simulado": SIMULACOES, "demonstracao": DEMONSTRACOES, "real": RESULTADOS}[modo]
-    pasta = base / a.execucao
-    if not pasta.exists():
-        raise SystemExit(f"Execução não encontrada: {pasta}")
-    predicoes, tentativas, config, ambiente = carregar_execucao(pasta)
+    pastas = [base / e for e in a.execucao]
+    for pasta in pastas:
+        if not pasta.exists():
+            raise SystemExit(f"Execução não encontrada: {pasta}")
+    predicoes, tentativas, config, ambiente, meta = carregar_execucoes(pastas)
     if bool(config.get("simulado")) != a.simulado or bool(config.get("demonstracao")) != a.demonstracao:
         raise SystemExit("O tipo da execução (real, simulada ou demonstração) não confere com a opção usada.")
     dados = a.dados or DADOS / ambiente["dataset"]["arquivo"]
     gabarito = carregar_gabarito(dados, ambiente["dataset"]["sha256"])
 
     res = analisar(predicoes, tentativas, config, gabarito)
-    destino = pasta / "analise"
-    gravar_tabelas(res, gabarito, predicoes, destino, a.execucao)
+    res["execucoes"] = meta
+    if len(pastas) == 1:
+        nome, pasta_saida = a.execucao[0], pastas[0]
+    else:
+        # comparação de várias execuções: pasta própria, sem tocar nas originais
+        nome = "comparacao__" + "__".join(sorted(a.execucao))
+        pasta_saida = base / "comparacoes" / nome
+    destino = pasta_saida / "analise"
+    gravar_tabelas(res, gabarito, predicoes, destino, nome)
     print((destino / "tabela_principal.md").read_text(encoding="utf-8"))
     if not a.sem_graficos:
         # só a coleta do experimento vai para etapa2/graficos/; o resto fica na própria pasta
-        dest_graf = GRAFICOS / a.execucao if modo == "real" else pasta / "graficos"
-        for g in gerar_graficos(res, tentativas, dest_graf, a.execucao, modo):
+        dest_graf = GRAFICOS / nome if modo == "real" else pasta_saida / "graficos"
+        for g in gerar_graficos(res, tentativas, dest_graf, nome, modo):
             print(f"gráfico: {_rel(dest_graf / g)}")
     print(f"tabelas e métricas: {_rel(destino)}")
 

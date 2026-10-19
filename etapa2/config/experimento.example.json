@@ -6,6 +6,7 @@
   "intervalo_minimo_s": {"azure": 0.25, "google": 0.15},
   "limiar_google": 0.25,
   "semente_ordem": 20261018,
+  "aquecimento": true,
 
   "provedores": {
     "azure":  {"idioma": "pt-BR", "timeout_s": 30, "regiao": "eastus"},

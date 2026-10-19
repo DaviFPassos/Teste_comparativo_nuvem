@@ -99,3 +99,5 @@ desktop.ini
 etapa2/simulacoes/
 # Etapa 2: configuração local da coleta (pode ter consumo declarado da conta)
 etapa2/config/experimento.json
+# Etapa 2: contagem de unidades do painel ao vivo (sem texto digitado; local)
+etapa2/painel/sessoes/

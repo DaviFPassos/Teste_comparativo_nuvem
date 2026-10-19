@@ -247,10 +247,14 @@ Análise de sentimento em português com execução real na **Microsoft Azure** 
 | [etapa2/metodologia.md](etapa2/metodologia.md) | Protocolo: decisões, normalização, métricas e denominadores (rascunho para aprovação) |
 | [etapa2/dados/](etapa2/dados/) | Origem, licença e limitações dos dados; guia de anotação; candidatos e planilhas |
 | [etapa2/src/](etapa2/src/) | Amostragem, anotação, adaptadores, executor, normalização, trava de orçamento e análise |
-| [etapa2/COMO_EXECUTAR.md](etapa2/COMO_EXECUTAR.md) | Credenciais, piloto, teste, retomada e o que vai ou não para o repositório |
+| [etapa2/COMO_EXECUTAR.md](etapa2/COMO_EXECUTAR.md) | Credenciais, piloto, teste em dois laptops, análise conjunta, retomada e o que vai ou não para o repositório |
+| [etapa2/expectativas_etapa1.md](etapa2/expectativas_etapa1.md) | O que a Etapa 1 levou a esperar — registrado **antes** da coleta, para o confronto exigido pela seção 10 |
+| [relatorio/relatorio_etapa2.md](relatorio/relatorio_etapa2.md) | Relatório da Etapa 2 — **esqueleto**: resultados e conclusões pendentes da coleta |
 
 ```bash
-uv run etapa2/rodar_testes.py                          # 66 testes offline: sem rede, credencial ou custo
+uv run etapa2/rodar_testes.py                          # 92 testes offline: sem rede, credencial ou custo
 uv run etapa2/src/analisar.py --execucao <id>          # recalcula métricas de uma coleta, sem chamar API
+uv run etapa2/src/analisar.py --execucao <id1> <id2>   # junta coletas de máquinas diferentes (Google + Azure)
 uv run etapa2/src/executar.py --dados etapa2/dados/piloto.csv --provedores azure google   # coleta real
+uv run etapa2/painel/servidor.py                       # painel no navegador: Google e Azure ao vivo + execuções gravadas
 ```

@@ -185,3 +185,118 @@ def test_analise_recusa_abrir_execucao_com_o_tipo_errado(tmp_path, monkeypatch):
     execucao = next(simulacoes.iterdir()).name
     with pytest.raises(SystemExit, match="não confere"):
         analisar.main(["--execucao", execucao, "--demonstracao", "--dados", str(dados)])
+
+
+# ------------------------------------------------- aquecimento e máquina
+
+def test_aquecimento_fica_registrado_e_fora_da_latencia(tmp_path):
+    import analisar
+    prov = ProvedorSimulado(respostas={"bom": "positivo"})
+    reg = _registro(tmp_path)
+    executar.aquecer([prov], reg, "e", saida=lambda *a: None)
+    executar.coletar([{"id": "t1", "texto": "bom"}], [prov], CFG, reg, "e", 1,
+                     dormir=lambda s: None, saida=lambda *a: None)
+    reg.fechar()
+    tent = _jsonl(tmp_path / "tentativas.jsonl")
+    assert tent[0]["id"] == "aquecimento" and tent[0]["aquecimento"] is True
+    assert prov.chamadas[0] == executar.FRASE_DE_AQUECIMENTO
+    preds = _jsonl(tmp_path / "predicoes.jsonl")
+    assert [p["id"] for p in preds] == ["t1"]                      # o aquecimento não é predição
+    res = analisar.analisar(preds, tent, {"normalizacao": {"google": {"limiar": 0.25}}},
+                            {"t1": {"rotulo_referencia": "positivo", "texto": "bom"}})
+    m = res["por_provedor"]["simulado"]
+    assert m["tentativas"] == 1 and m["latencia_ms"]["n"] == 1     # só a chamada do texto
+    assert len(m["aquecimento_ms"]) == 1
+
+
+def test_identificador_da_maquina_e_estavel_e_nao_vem_do_nome(tmp_path, monkeypatch):
+    import platform
+    monkeypatch.setattr(executar, "ARQUIVO_MAQUINA", tmp_path / "maquina_id")
+    a, b = executar.identificador_da_maquina(), executar.identificador_da_maquina()
+    assert a == b and len(a) == 12 and int(a, 16) >= 0
+    assert platform.node().lower() not in a
+
+
+# ------------------------------------- juntar execuções de máquinas diferentes
+
+def _execucao(base, nome, prov, respostas, dataset_sha="d" * 64, maquina="m1", limiar=0.25,
+              demonstracao=False):
+    pasta = base / nome
+    pasta.mkdir(parents=True)
+    reg = executar.Registro(pasta, True, [])
+    p = ProvedorSimulado(respostas=respostas)
+    p.nome = prov                      # continua simulado: sem custo nem normalização real
+    executar.coletar([{"id": i, "texto": t} for i, t in [("t1", "bom"), ("t2", "ruim"), ("t3", "abre 9h")]],
+                     [p], CFG, reg, nome, 1, dormir=lambda s: None, saida=lambda *a: None)
+    reg.fechar()
+    # predições "reais" de mentira: o rótulo vem pronto, como se a normalização já tivesse ocorrido
+    (pasta / "config.json").write_text(json.dumps({"simulado": False, "demonstracao": demonstracao,
+        "normalizacao": {"versao": "v1", "google": {"limiar": limiar}}}))
+    (pasta / "ambiente.json").write_text(json.dumps({"dataset": {"arquivo": "x.csv", "sha256": dataset_sha},
+                                                     "maquina": maquina}))
+    return pasta
+
+
+def test_juntar_execucoes_de_maquinas_diferentes(tmp_path):
+    import analisar
+    g = _execucao(tmp_path, "eg", "provA", {"bom": "positivo", "ruim": "negativo", "abre 9h": "neutro"}, maquina="m1")
+    z = _execucao(tmp_path, "ez", "provB", {"bom": "positivo", "ruim": "neutro", "abre 9h": "neutro"}, maquina="m2")
+    preds, tent, cfg, amb, meta = analisar.carregar_execucoes([g, z])
+    assert {p["provedor"] for p in preds} == {"provA", "provB"} and len(preds) == 6
+    assert meta["mesma_maquina"] is False and meta["latencia_comparavel"] is False
+    assert "máquinas diferentes" in meta["nota_latencia"]
+    assert [e["id"] for e in meta["execucoes"]] == ["eg", "ez"]
+
+
+@pytest.mark.parametrize("diferenca,mensagem", [
+    ({"dataset_sha": "e" * 64}, "datasets diferentes"),
+    ({"limiar": 0.3}, "normalização diferentes"),
+    ({"demonstracao": True}, "tipos diferentes"),
+])
+def test_juntar_execucoes_incompativeis_e_recusado(tmp_path, diferenca, mensagem):
+    import analisar
+    a = _execucao(tmp_path, "ea", "provA", {})
+    b = _execucao(tmp_path, "eb", "provB", {}, **diferenca)
+    with pytest.raises(SystemExit, match=mensagem):
+        analisar.carregar_execucoes([a, b])
+
+
+def test_mesmo_provedor_em_duas_execucoes_e_recusado(tmp_path):
+    import analisar
+    a = _execucao(tmp_path, "ea", "provA", {})
+    b = _execucao(tmp_path, "eb", "provA", {})
+    with pytest.raises(SystemExit, match="aparece em duas execuções"):
+        analisar.carregar_execucoes([a, b])
+
+
+def test_execucao_unica_intercalada_tem_latencia_comparavel(tmp_path):
+    import analisar
+    a = _execucao(tmp_path, "ea", "provA", {})
+    *_, meta = analisar.carregar_execucoes([a])
+    assert meta["latencia_comparavel"] is True
+
+
+def test_comparacao_pela_linha_de_comando_grava_em_pasta_propria(tmp_path, monkeypatch):
+    import hashlib
+    import analisar
+    dados = tmp_path / "dados"
+    dados.mkdir()
+    _dataset(dados / "x.csv", [{"id": "t1", "texto": "bom", "rotulo_referencia": "positivo"},
+                               {"id": "t2", "texto": "ruim", "rotulo_referencia": "negativo"},
+                               {"id": "t3", "texto": "abre 9h", "rotulo_referencia": "neutro"}])
+    sha = hashlib.sha256((dados / "x.csv").read_bytes()).hexdigest()
+    base = tmp_path / "demonstracoes"
+    _execucao(base, "eg", "provA", {"bom": "positivo", "ruim": "negativo", "abre 9h": "neutro"},
+              dataset_sha=sha, maquina="m1", demonstracao=True)
+    _execucao(base, "ez", "provB", {"bom": "positivo", "ruim": "neutro", "abre 9h": "neutro"},
+              dataset_sha=sha, maquina="m2", demonstracao=True)
+    monkeypatch.setattr(analisar, "DEMONSTRACOES", base)
+    monkeypatch.setattr(analisar, "DADOS", dados)
+    analisar.main(["--execucao", "ez", "eg", "--demonstracao"])
+    saida = base / "comparacoes" / "comparacao__eg__ez"
+    m = json.loads((saida / "analise" / "metricas.json").read_text(encoding="utf-8"))
+    assert m["intersecao"] == 3 and m["comparacao_pareada"]["provedores"] == ["provA", "provB"]
+    assert m["execucoes"]["latencia_comparavel"] is False
+    assert "não comparável" in (saida / "analise" / "tabela_principal.md").read_text(encoding="utf-8").lower()
+    assert (saida / "graficos" / "latencia.png").exists()
+    assert not (base / "eg" / "analise").exists()                # as originais não são tocadas

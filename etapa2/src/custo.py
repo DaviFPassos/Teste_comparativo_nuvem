@@ -72,7 +72,9 @@ def preco_por_unidade(provedor, arquivo=RAIZ / "custos" / "premissas.csv"):
     return preco / 1000 if "1000" in faixa["unidade_preco"] else preco
 
 
-PASTAS_REAIS = (RAIZ / "etapa2" / "resultados", RAIZ / "etapa2" / "demonstracoes")
+# Toda chamada real gasta a mesma franquia: coleta, demonstrações e o painel ao vivo.
+PASTAS_REAIS = (RAIZ / "etapa2" / "resultados", RAIZ / "etapa2" / "demonstracoes",
+                RAIZ / "etapa2" / "painel" / "sessoes")
 
 
 def consumo_local_no_mes(provedor, resultados=None, agora=None):

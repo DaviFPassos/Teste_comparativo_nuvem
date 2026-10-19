@@ -55,17 +55,22 @@ As demais decisões do protocolo estão **propostas** em [`metodologia.md`](meto
 | Normalização | `etapa2/src/normalizar.py` (regra v1) | Implementado |
 | Trava de orçamento | `etapa2/src/custo.py` | Implementado |
 | Análise | `etapa2/src/analisar.py` | Implementado; executado só com dados simulados |
-| Testes offline | `etapa2/rodar_testes.py` — **66 testes** | Passando |
+| Testes offline | `etapa2/rodar_testes.py` — **92 testes** | Passando |
 | Instruções | `etapa2/COMO_EXECUTAR.md` | Concluído |
+| **Expectativas da Etapa 1** (para o confronto da seção 10) | `etapa2/expectativas_etapa1.md` | **Registradas antes da coleta** (13 itens); evidência de configuração e de demonstração já anotada, marcada como fora do experimento |
+| **Relatório da Etapa 2** | `relatorio/relatorio_etapa2.md` | **Esqueleto**: seções definidas preenchidas; resultados e conclusões marcados PENDENTE |
+| Análise de execuções de máquinas diferentes | `analisar.py --execucao <id1> <id2>` | Implementado e testado; confere dataset, regra e tipo, e marca a latência como não comparável |
+| Aquecimento na coleta | `executar.py`, `"aquecimento": true` | Implementado; excluído da latência e do sucesso, contado no custo |
+| **Painel de apresentação (Google e Azure)** | `etapa2/painel/` — `servidor.py` + `index.html` | Implementado e testado (17 testes). Ativa sozinho o provedor com credencial em cada máquina. **Google verificado contra o serviço real** em 18/10/2026. **Azure verificada só offline** (SDK real, rede substituída): a primeira chamada real será no laptop do Rafael |
 
 ## O que bloqueia a coleta — e a ação exata
 
 | # | Bloqueio | Quem | Ação |
 |---|---|---|---|
 | 1 | Gabarito | **Dois integrantes** | Preencher `planilha_A.csv` e `planilha_B.csv` seguindo o guia; nomes em `anotacao/anotadores.json`; depois `anotacao.py consolidar` → discutir divergências → `montar` |
-| 2 | Protocolo | Grupo | Revisar `metodologia.md`, alterar o que for preciso, registrar a aprovação |
+| 2 | Protocolo | Grupo | Revisar `metodologia.md` (atualizada em 18/10/2026: uma máquina por provedor, aquecimento implementado), alterar o que for preciso e registrar a aprovação na tabela do fim |
 | 3 | ~~Credenciais Azure~~ | Rafael | **Funcionando na máquina do Rafael.** Confirmar no portal que o recurso é **F0** (exigência do orçamento US$ 0) |
-| 3a | **Os dois provedores na mesma máquina** | Grupo | A metodologia intercala Azure e Google no mesmo texto, na mesma máquina. Opções: (a) **recomendada** — o Davi adiciona o Rafael ao projeto Google com o papel *Service Usage Consumer*, e o Rafael roda tudo na máquina dele com a própria conta Google, sem compartilhar chave; (b) o Rafael passa a chave da Azure ao Davi; (c) cada um roda o seu provedor, e a metodologia declara que a latência não é comparável |
+| 3a | **Os dois provedores na mesma máquina** — *na apresentação, cada um mostra o seu no próprio laptop (decidido em 18/10/2026); para a coleta do experimento, ainda a decidir* | Grupo | A metodologia intercala Azure e Google no mesmo texto, na mesma máquina. Opções: (a) **recomendada** — o Davi adiciona o Rafael ao projeto Google com o papel *Service Usage Consumer*, e o Rafael roda tudo na máquina dele com a própria conta Google, sem compartilhar chave; (b) o Rafael passa a chave da Azure ao Davi; (c) cada um roda o seu provedor, e a metodologia declara que a latência não é comparável |
 | 4 | ~~Credenciais Google~~ | — | **Resolvido em 18/10/2026** na máquina do Davi: projeto com faturamento, `language.googleapis.com` ativada, login ADC com projeto de cota, `GOOGLE_CLOUD_PROJECT` no `.env`. Uma chamada de verificação respondeu (1 unidade). Falta só o alerta de orçamento de US$ 1, recomendado |
 
 Os itens 1–2 e 3–4 podem andar em paralelo. O piloto só depende de 3–4 e de `piloto.csv` (item 1).
