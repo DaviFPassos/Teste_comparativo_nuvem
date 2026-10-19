@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.72,
+          "neutral": 0.0,
+          "negative": 0.28
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.72,
+              "neutral": 0.0,
+              "negative": 0.28
+            },
+            "offset": 0,
+            "length": 151,
+            "text": "Fogão bom,  bonito, valeu preço beneficio, o unico problema é que  quando o forno está ligado, o puxador esquenta, ai voce vai abrir e queima a mão !!!"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

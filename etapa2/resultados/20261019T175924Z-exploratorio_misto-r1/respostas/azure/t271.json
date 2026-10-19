@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.64,
+          "neutral": 0.0,
+          "negative": 0.36
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.64,
+              "neutral": 0.0,
+              "negative": 0.36
+            },
+            "offset": 0,
+            "length": 253,
+            "text": "Produto robusto e bacana, mas não deixa possibilidades para ajustes, medidas fixas que não dão possibilidade de ser fixado onde você quiser, um em cima da porta dianteira e outro em cima da porta traseira e só, não possibilita flexibilidade de fixação. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.48,
+              "neutral": 0.51,
+              "negative": 0.0
+            },
+            "offset": 253,
+            "length": 34,
+            "text": "Mas aguenta bem os 45Kg propostos."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

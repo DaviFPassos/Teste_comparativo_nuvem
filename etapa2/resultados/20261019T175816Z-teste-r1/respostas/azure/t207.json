@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.0,
+          "neutral": 0.11,
+          "negative": 0.89
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.11,
+              "negative": 0.89
+            },
+            "offset": 0,
+            "length": 81,
+            "text": "Meu pedido foi cancelado,por vocês..............................................."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

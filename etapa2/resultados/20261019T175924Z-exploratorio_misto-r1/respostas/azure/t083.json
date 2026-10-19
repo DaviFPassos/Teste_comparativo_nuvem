@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.93,
+          "neutral": 0.0,
+          "negative": 0.07
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.93,
+              "neutral": 0.0,
+              "negative": 0.07
+            },
+            "offset": 0,
+            "length": 174,
+            "text": "Boa maquina compacta e toda em metal, passagem de linha frontal simples,  traseira um pouco complicada, manual deixa a desejar ruim de se ler e entender os desenhos e textos."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

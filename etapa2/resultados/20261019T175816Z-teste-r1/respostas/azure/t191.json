@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.01,
+          "neutral": 0.01,
+          "negative": 0.99
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.02,
+              "neutral": 0.01,
+              "negative": 0.97
+            },
+            "offset": 0,
+            "length": 217,
+            "text": "Recebi o forno na data prevista porém o tamanho não era o que esperava, então solicitei a troca do produto um vale p trocar por um maior, mais até presente data não obtive retorno ,são mais de 7 dias corridos e nada. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 217,
+            "length": 13,
+            "text": "Insatisfeita!"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

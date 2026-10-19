@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.0,
+          "neutral": 0.02,
+          "negative": 0.98
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.04,
+              "negative": 0.96
+            },
+            "offset": 0,
+            "length": 54,
+            "text": "O fundo das panelas estão soltando com 8 dias de uso. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 54,
+            "length": 26,
+            "text": "Horrível este produto....."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

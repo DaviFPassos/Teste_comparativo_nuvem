@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.95,
+          "neutral": 0.04,
+          "negative": 0.0
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.92,
+              "neutral": 0.07,
+              "negative": 0.01
+            },
+            "offset": 0,
+            "length": 39,
+            "text": "Produto atende as minhas necessidades. "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.99,
+              "neutral": 0.01,
+              "negative": 0.0
+            },
+            "offset": 39,
+            "length": 63,
+            "text": "Chegou no prazo e esta em uso desde a data sem nenhum problema."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

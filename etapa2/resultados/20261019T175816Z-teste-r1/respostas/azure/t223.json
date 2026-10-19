@@ -1,0 +1,76 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.0,
+          "neutral": 0.01,
+          "negative": 0.99
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 0,
+            "length": 14,
+            "text": "Produto ruim. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.08,
+              "neutral": 0.91,
+              "negative": 0.01
+            },
+            "offset": 14,
+            "length": 27,
+            "text": "Um verdadeiro conta gotas. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.03,
+              "neutral": 0.72,
+              "negative": 0.24
+            },
+            "offset": 41,
+            "length": 43,
+            "text": "Se tiver com muit sede não da pra esperar. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.98,
+              "negative": 0.0
+            },
+            "offset": 84,
+            "length": 36,
+            "text": "10 minutos pra tirar 200ml de água. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.02,
+              "negative": 0.98
+            },
+            "offset": 120,
+            "length": 23,
+            "text": "Não vale apena comprar."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

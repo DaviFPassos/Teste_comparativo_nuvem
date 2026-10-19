@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "neutral",
+        "confidenceScores": {
+          "positive": 0.01,
+          "neutral": 0.95,
+          "negative": 0.04
+        },
+        "sentences": [
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.99,
+              "negative": 0.01
+            },
+            "offset": 0,
+            "length": 58,
+            "text": "Coloquem fotos do produto que realmente estejam vendendo. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.91,
+              "negative": 0.07
+            },
+            "offset": 58,
+            "length": 79,
+            "text": "No anuncio colocaram foto de refletor led SMD e me entregam refletor led comum."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

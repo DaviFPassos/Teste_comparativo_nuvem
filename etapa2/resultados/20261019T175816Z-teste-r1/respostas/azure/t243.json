@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "neutral",
+        "confidenceScores": {
+          "positive": 0.01,
+          "neutral": 0.85,
+          "negative": 0.14
+        },
+        "sentences": [
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.85,
+              "negative": 0.14
+            },
+            "offset": 0,
+            "length": 85,
+            "text": "ele é pequeno e a lampada que tem que usar é de 50w ,ou seja, minha sala ficou escura"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

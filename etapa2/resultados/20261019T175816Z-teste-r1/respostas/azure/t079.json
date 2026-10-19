@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "neutral",
+        "confidenceScores": {
+          "positive": 0.01,
+          "neutral": 0.77,
+          "negative": 0.22
+        },
+        "sentences": [
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.77,
+              "negative": 0.22
+            },
+            "offset": 0,
+            "length": 60,
+            "text": "Comprei o produto cinza e Rosa, porém veio preto e vermelho!"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

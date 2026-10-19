@@ -1,0 +1,87 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "mixed",
+        "confidenceScores": {
+          "positive": 0.46,
+          "neutral": 0.06,
+          "negative": 0.48
+        },
+        "sentences": [
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.19,
+              "neutral": 0.77,
+              "negative": 0.05
+            },
+            "offset": 0,
+            "length": 50,
+            "text": "este produto custa muito mais barato que frente . "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.91,
+              "neutral": 0.08,
+              "negative": 0.01
+            },
+            "offset": 50,
+            "length": 170,
+            "text": "fiz compra com mesmo endereço no msm lugar para  um roteador e custou de frete 8,99 fui comprar o produto esta ate num preço razoável e saiu custa de frete de 18 reais . "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.04,
+              "negative": 0.95
+            },
+            "offset": 220,
+            "length": 22,
+            "text": "saindo mais caro 3x . "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.78,
+              "negative": 0.21
+            },
+            "offset": 242,
+            "length": 58,
+            "text": "e o roteador e bem maior e mais pesado saiu por 8 reais . "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.99,
+              "negative": 0.01
+            },
+            "offset": 300,
+            "length": 17,
+            "text": "explique-me pq ? "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.02,
+              "neutral": 0.51,
+              "negative": 0.47
+            },
+            "offset": 317,
+            "length": 11,
+            "text": "nao entendi"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

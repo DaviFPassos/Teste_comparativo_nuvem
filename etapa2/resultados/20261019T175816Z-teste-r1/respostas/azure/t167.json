@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 1.0,
+          "neutral": 0.0,
+          "negative": 0.0
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 1.0,
+              "neutral": 0.0,
+              "negative": 0.0
+            },
+            "offset": 0,
+            "length": 106,
+            "text": "O produto atende as expectativas, é fácil de montar, de encaixar no vaso e confortável para a criança usar"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.8,
+          "neutral": 0.18,
+          "negative": 0.02
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.8,
+              "neutral": 0.18,
+              "negative": 0.02
+            },
+            "offset": 0,
+            "length": 75,
+            "text": "super indico manual super explicado, podem comprar que não ira se arrenper."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

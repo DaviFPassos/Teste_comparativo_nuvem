@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.0,
+          "neutral": 0.0,
+          "negative": 1.0
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 0,
+            "length": 262,
+            "text": "Dvd Lenoxx é um produto de baixa qualidade, me decepcionei bastante na compra do produto não gostei, nao recomendo esse Produto, já encaminhei uma solicitação a assistência técnica da Lenoxx pra ver se eles trocam o meu partido ou aceitem porque já veio quebrado"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

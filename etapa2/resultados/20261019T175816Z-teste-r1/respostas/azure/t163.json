@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.87,
+          "neutral": 0.0,
+          "negative": 0.13
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.87,
+              "neutral": 0.0,
+              "negative": 0.13
+            },
+            "offset": 0,
+            "length": 68,
+            "text": "o livro aparentemente é bom, é um classico, mas ainda não o li todo."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

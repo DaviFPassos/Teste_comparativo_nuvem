@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.99,
+          "neutral": 0.01,
+          "negative": 0.0
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.99,
+              "neutral": 0.0,
+              "negative": 0.01
+            },
+            "offset": 0,
+            "length": 184,
+            "text": "Funcionalidades incríveis, fluidez, roda bem jogos pesados como asphalt 8, free fire e etc, câmera razoável tanto frontal quando traseira, não é uma das melhores, mais quebra o galho! "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.98,
+              "neutral": 0.02,
+              "negative": 0.0
+            },
+            "offset": 184,
+            "length": 10,
+            "text": "RECOMENDO!"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

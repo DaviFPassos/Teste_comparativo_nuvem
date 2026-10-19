@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "neutral",
+        "confidenceScores": {
+          "positive": 0.01,
+          "neutral": 0.99,
+          "negative": 0.0
+        },
+        "sentences": [
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.99,
+              "negative": 0.0
+            },
+            "offset": 0,
+            "length": 25,
+            "text": "Esse óculos é original ? "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.99,
+              "negative": 0.01
+            },
+            "offset": 25,
+            "length": 57,
+            "text": "Esse tamanho único se aproxima de qual tamanho p, m ou g?"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.0,
+          "neutral": 0.0,
+          "negative": 1.0
+        },
+        "sentences": [
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 1.0,
+              "negative": 0.0
+            },
+            "offset": 0,
+            "length": 26,
+            "text": "Ou é UHS-1 ou é Class 10. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 26,
+            "length": 119,
+            "text": "A maioria dos anúncios de cartão micro SD está confusa e impossível de se saber o que realmente corresponde ao anúncio."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

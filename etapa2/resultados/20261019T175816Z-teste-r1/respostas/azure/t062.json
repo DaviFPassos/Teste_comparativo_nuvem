@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "neutral",
+        "confidenceScores": {
+          "positive": 0.15,
+          "neutral": 0.8,
+          "negative": 0.05
+        },
+        "sentences": [
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.96,
+              "negative": 0.03
+            },
+            "offset": 0,
+            "length": 6,
+            "text": "Mas.  "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.29,
+              "neutral": 0.63,
+              "negative": 0.08
+            },
+            "offset": 6,
+            "length": 44,
+            "text": "ainda não instalei para ter opinião completa"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

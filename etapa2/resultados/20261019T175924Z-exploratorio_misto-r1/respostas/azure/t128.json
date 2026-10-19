@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.0,
+          "neutral": 0.0,
+          "negative": 1.0
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 0,
+            "length": 116,
+            "text": "Produto ok, mas o carregador está com um barulho horrível que já mandei mensagem para Americanas e até agora nada.. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 116,
+            "length": 174,
+            "text": "de resolverem eu quero um carregador novo, este parece que irá explodir com barulho que parece que gás está vazando, ou zunido mas alto se fosse baixo, até vai mas assim não."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

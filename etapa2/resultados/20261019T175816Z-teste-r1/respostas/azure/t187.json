@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.01,
+          "neutral": 0.12,
+          "negative": 0.87
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.02,
+              "neutral": 0.0,
+              "negative": 0.98
+            },
+            "offset": 0,
+            "length": 151,
+            "text": "Apesar de ter uma qualidade e volume de som que me agradaram muito, não recomendo o produto pois a haste é muito frágil, quebrou com 3 semanas de uso. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.23,
+              "negative": 0.76
+            },
+            "offset": 151,
+            "length": 37,
+            "text": "O que impossibilita o uso do aparelho"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

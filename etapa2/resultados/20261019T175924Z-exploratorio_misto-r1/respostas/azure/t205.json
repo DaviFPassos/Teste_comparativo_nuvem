@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "mixed",
+        "confidenceScores": {
+          "positive": 0.5,
+          "neutral": 0.01,
+          "negative": 0.49
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.02,
+              "neutral": 0.01,
+              "negative": 0.97
+            },
+            "offset": 0,
+            "length": 46,
+            "text": "Bem diferente da foto, material bem inferior. "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.98,
+              "neutral": 0.0,
+              "negative": 0.01
+            },
+            "offset": 46,
+            "length": 93,
+            "text": "a vantagem é que é bem completo, mas não é algo que de pra usar pensando na beleza do quarto."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "neutral",
+        "confidenceScores": {
+          "positive": 0.4,
+          "neutral": 0.51,
+          "negative": 0.09
+        },
+        "sentences": [
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.4,
+              "neutral": 0.51,
+              "negative": 0.09
+            },
+            "offset": 0,
+            "length": 93,
+            "text": "Queria saber se esse kit pode colocar no corsa classic 2002 meu carro não é frente de montana"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

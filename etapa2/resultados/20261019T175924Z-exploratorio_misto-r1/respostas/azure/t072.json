@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "mixed",
+        "confidenceScores": {
+          "positive": 0.5,
+          "neutral": 0.0,
+          "negative": 0.5
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.99,
+              "neutral": 0.0,
+              "negative": 0.01
+            },
+            "offset": 0,
+            "length": 76,
+            "text": "O produto é de boa aparência, contudo, o fio é curto aproximadamente 80 cm. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.01,
+              "negative": 0.99
+            },
+            "offset": 76,
+            "length": 118,
+            "text": "Inicialmente ele não funcionou, tentei de várias formas, depois de algumas tentativas começou a funcionar normalmente."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

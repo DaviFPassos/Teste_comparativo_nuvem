@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.82,
+          "neutral": 0.05,
+          "negative": 0.13
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 1.0,
+              "neutral": 0.0,
+              "negative": 0.0
+            },
+            "offset": 0,
+            "length": 13,
+            "text": "Produto bom. "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.64,
+              "neutral": 0.09,
+              "negative": 0.27
+            },
+            "offset": 13,
+            "length": 59,
+            "text": "Limpa conforme esperado, porém não elimina 100% da sujeira."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

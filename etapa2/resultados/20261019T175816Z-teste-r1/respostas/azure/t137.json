@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "mixed",
+        "confidenceScores": {
+          "positive": 0.34,
+          "neutral": 0.2,
+          "negative": 0.46
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.03,
+              "neutral": 0.1,
+              "negative": 0.87
+            },
+            "offset": 0,
+            "length": 49,
+            "text": "Ainda não  deu resultado  vamos ver com o tempo. "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.65,
+              "neutral": 0.3,
+              "negative": 0.05
+            },
+            "offset": 49,
+            "length": 25,
+            "text": "É  a primeira vez que uso"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

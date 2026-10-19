@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "neutral",
+        "confidenceScores": {
+          "positive": 0.0,
+          "neutral": 0.98,
+          "negative": 0.02
+        },
+        "sentences": [
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.96,
+              "negative": 0.04
+            },
+            "offset": 0,
+            "length": 24,
+            "text": "O sofá Veio sem os pés. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 1.0,
+              "negative": 0.0
+            },
+            "offset": 24,
+            "length": 36,
+            "text": "Já olhei embaixo e dentro do forro ."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

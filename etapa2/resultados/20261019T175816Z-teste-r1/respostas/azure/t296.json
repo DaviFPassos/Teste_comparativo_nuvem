@@ -1,0 +1,65 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.0,
+          "neutral": 0.01,
+          "negative": 0.99
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 0,
+            "length": 148,
+            "text": "A entrega foi super rápida, e inicialmente achei o produto muito bom, porém na segunda semana de uso a haste que sustenta todas as lâminas quebrou. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.02,
+              "negative": 0.98
+            },
+            "offset": 148,
+            "length": 106,
+            "text": "Mesmo colocando pouco produto como indicam no manual, o motor trepida e acredito que isso causa a quebra. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 254,
+            "length": 111,
+            "text": "Tive muita dificuldade de conseguir algum local, mesmo indicado pela Philco, que tivesse a peça pra reposição. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.02,
+              "neutral": 0.93,
+              "negative": 0.05
+            },
+            "offset": 365,
+            "length": 64,
+            "text": "Agora terei que aguardar 20 dias úteis pra haste vir de fábrica."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

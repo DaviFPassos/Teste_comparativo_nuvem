@@ -1,0 +1,54 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "mixed",
+        "confidenceScores": {
+          "positive": 0.51,
+          "neutral": 0.0,
+          "negative": 0.49
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 1.0,
+              "neutral": 0.0,
+              "negative": 0.0
+            },
+            "offset": 0,
+            "length": 62,
+            "text": "O produto é de ótima qualidade, tamanho bom, portátil e leve. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.98,
+              "negative": 0.01
+            },
+            "offset": 62,
+            "length": 95,
+            "text": "Foi o unico modelo que coube no meu quarto de casal, que é pequeno porque moro em apartamento. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.0,
+              "negative": 0.99
+            },
+            "offset": 157,
+            "length": 201,
+            "text": "A unica coisa que nao nos agradou muito foi o fundo da altura mais alta, achamos muito duro para deixar um bebe dormindo, precisa ser forrado com algo ou um colchonete (apesar da marca não recomendar)."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

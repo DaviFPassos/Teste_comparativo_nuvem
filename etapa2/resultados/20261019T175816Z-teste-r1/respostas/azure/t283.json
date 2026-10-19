@@ -1,0 +1,54 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.01,
+          "neutral": 0.0,
+          "negative": 0.98
+        },
+        "sentences": [
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.77,
+              "negative": 0.23
+            },
+            "offset": 0,
+            "length": 73,
+            "text": "comprei o guarda roupa dia 01/05 e ate hoje nem a nota fiscal emitiram..."
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.73,
+              "negative": 0.26
+            },
+            "offset": 73,
+            "length": 60,
+            "text": "sera que paguei um produto à vista e nao vao me entregar??? "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.0,
+              "negative": 0.98
+            },
+            "offset": 133,
+            "length": 33,
+            "text": "falta de respeito com o cliente.."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

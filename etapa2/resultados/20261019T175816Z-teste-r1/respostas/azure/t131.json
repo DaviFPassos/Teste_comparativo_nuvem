@@ -1,0 +1,142 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "mixed",
+        "confidenceScores": {
+          "positive": 0.3,
+          "neutral": 0.09,
+          "negative": 0.61
+        },
+        "sentences": [
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.19,
+              "neutral": 0.65,
+              "negative": 0.16
+            },
+            "offset": 0,
+            "length": 68,
+            "text": "A entrega do produto demorou três vezes mais que o prazo prometido. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 68,
+            "length": 41,
+            "text": "Chegou, mas a nota fiscal estava errada. "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.98,
+              "neutral": 0.02,
+              "negative": 0.0
+            },
+            "offset": 109,
+            "length": 37,
+            "text": "É preciso melhor o serviço, e muito! "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 146,
+            "length": 81,
+            "text": "De três pedidos, um veio incompleto (embora já tenha reclamado, nada foi feito). "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 227,
+            "length": 51,
+            "text": "Outro veio fora do prazo e com nota fiscal errada. "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.5,
+              "neutral": 0.0,
+              "negative": 0.5
+            },
+            "offset": 278,
+            "length": 95,
+            "text": "Somente um dos produtos foi entregue correto e no prazo, que alias não é tão pequeno (8 dias). "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.63,
+              "neutral": 0.36,
+              "negative": 0.01
+            },
+            "offset": 373,
+            "length": 50,
+            "text": "Taxa de satisfação no atendimento: abaixo de 30%. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 423,
+            "length": 30,
+            "text": "È para não comprar mais nada. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.01,
+              "negative": 0.99
+            },
+            "offset": 453,
+            "length": 169,
+            "text": "Os produtos encomedados da Amazon chegam dos USA em 7 dias e em 20 anos de uso, somente uma vez recebi um produto com problema, com mais de duzentos produtos comprados. "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.59,
+              "neutral": 0.4,
+              "negative": 0.01
+            },
+            "offset": 622,
+            "length": 27,
+            "text": "Taxa de satisfação: 99.5%. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.27,
+              "neutral": 0.72,
+              "negative": 0.01
+            },
+            "offset": 649,
+            "length": 24,
+            "text": "Aprendam com os gringos!"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

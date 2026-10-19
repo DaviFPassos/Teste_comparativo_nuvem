@@ -1,0 +1,54 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "mixed",
+        "confidenceScores": {
+          "positive": 0.34,
+          "neutral": 0.03,
+          "negative": 0.62
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 1.0,
+              "neutral": 0.0,
+              "negative": 0.0
+            },
+            "offset": 0,
+            "length": 17,
+            "text": "O produto é bom! "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.03,
+              "neutral": 0.09,
+              "negative": 0.88
+            },
+            "offset": 17,
+            "length": 53,
+            "text": "A lamina corta direitinho mas achei pouco eficiente. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.01,
+              "negative": 0.99
+            },
+            "offset": 70,
+            "length": 24,
+            "text": "Muito confuso a costura."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

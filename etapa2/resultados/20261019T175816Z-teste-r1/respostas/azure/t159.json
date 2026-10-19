@@ -1,0 +1,54 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.99,
+          "neutral": 0.01,
+          "negative": 0.0
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 1.0,
+              "neutral": 0.0,
+              "negative": 0.0
+            },
+            "offset": 0,
+            "length": 34,
+            "text": "Entrega rápida, produto em ordem. "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 1.0,
+              "neutral": 0.0,
+              "negative": 0.0
+            },
+            "offset": 34,
+            "length": 90,
+            "text": "Muito boa pra quem mora sozinho ou não toma muito café, pois faz xícaras individualmente. "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.96,
+              "neutral": 0.04,
+              "negative": 0.0
+            },
+            "offset": 124,
+            "length": 10,
+            "text": "Recomendo."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.96,
+          "neutral": 0.0,
+          "negative": 0.04
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.96,
+              "neutral": 0.0,
+              "negative": 0.04
+            },
+            "offset": 0,
+            "length": 49,
+            "text": "Tablet muito bom mas a bateria dura muito pouco. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 1.0,
+              "negative": 0.0
+            },
+            "offset": 49,
+            "length": 17,
+            "text": "No máximo 1 hora."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

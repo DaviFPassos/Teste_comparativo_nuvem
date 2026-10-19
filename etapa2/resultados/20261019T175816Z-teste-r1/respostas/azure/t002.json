@@ -1,0 +1,65 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.96,
+          "neutral": 0.03,
+          "negative": 0.01
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.99,
+              "neutral": 0.01,
+              "negative": 0.0
+            },
+            "offset": 0,
+            "length": 22,
+            "text": "Produto satisfatório. "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.93,
+              "neutral": 0.05,
+              "negative": 0.02
+            },
+            "offset": 22,
+            "length": 17,
+            "text": "Chegou no prazo. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.98,
+              "negative": 0.0
+            },
+            "offset": 39,
+            "length": 9,
+            "text": "Se mais. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.12,
+              "neutral": 0.82,
+              "negative": 0.06
+            },
+            "offset": 48,
+            "length": 31,
+            "text": "Não tenho nada mais a declarar."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

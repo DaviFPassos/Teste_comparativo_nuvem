@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.0,
+          "neutral": 0.0,
+          "negative": 1.0
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 0,
+            "length": 269,
+            "text": "Se forem adquirir o produto compre em outra loja menos na Continental Center, comprei esse modelo de fogão dia 31/12/2017 e até hoje não recebi o produto dia 16/03/2018 e ninguém resolve o meu problema cansada de ser enrolada nem a Americanas consigo fazer a reclamação"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

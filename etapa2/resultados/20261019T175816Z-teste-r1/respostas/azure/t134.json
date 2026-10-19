@@ -1,0 +1,54 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "neutral",
+        "confidenceScores": {
+          "positive": 0.09,
+          "neutral": 0.79,
+          "negative": 0.12
+        },
+        "sentences": [
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.67,
+              "negative": 0.32
+            },
+            "offset": 0,
+            "length": 85,
+            "text": "Foi tão pouco usado que ainda não sabemos o resultado da performance deste aparelho. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.05,
+              "neutral": 0.94,
+              "negative": 0.01
+            },
+            "offset": 85,
+            "length": 104,
+            "text": "No entanto, à primeira vista, o aparelho tem demonstrado que corresponde às expectativas e ao anúncio.  "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.22,
+              "neutral": 0.76,
+              "negative": 0.03
+            },
+            "offset": 189,
+            "length": 9,
+            "text": "Era isso!"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

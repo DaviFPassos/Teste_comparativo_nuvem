@@ -1,0 +1,65 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "mixed",
+        "confidenceScores": {
+          "positive": 0.24,
+          "neutral": 0.09,
+          "negative": 0.66
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.97,
+              "neutral": 0.03,
+              "negative": 0.0
+            },
+            "offset": 0,
+            "length": 44,
+            "text": "Pelos recursos que apresenta, deve ser bom. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 44,
+            "length": 162,
+            "text": "Comprei o produto há pouco tempo, porém estou um pouco triste pelo fato de o produto não vir acompanhado com o cabo USB necessário para a transferência de dados. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.01,
+              "negative": 0.99
+            },
+            "offset": 206,
+            "length": 26,
+            "text": "Esse é um ponto negativo. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.33,
+              "negative": 0.66
+            },
+            "offset": 232,
+            "length": 17,
+            "text": "Não gostei disso."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.0,
+          "neutral": 0.0,
+          "negative": 1.0
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 0,
+            "length": 196,
+            "text": "Infelizmente não houve compromisso no teste do produto antes do envio (creio), pois estou trafegando com meu conjunto de farol de neblina com duas cores, uma é roxa (deve ser 12000k e não 4300k). "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.25,
+              "neutral": 0.74,
+              "negative": 0.01
+            },
+            "offset": 196,
+            "length": 27,
+            "text": "Como podemos resolver isso?"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.16,
+          "neutral": 0.0,
+          "negative": 0.84
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.31,
+              "neutral": 0.0,
+              "negative": 0.68
+            },
+            "offset": 0,
+            "length": 42,
+            "text": "Produto chegou todo quebrado n recomendo. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.0,
+              "negative": 0.99
+            },
+            "offset": 42,
+            "length": 47,
+            "text": "Demorou p chegar e qdo veio chegou com defeito."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

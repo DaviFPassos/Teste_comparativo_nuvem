@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.77,
+          "neutral": 0.02,
+          "negative": 0.21
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.77,
+              "neutral": 0.02,
+              "negative": 0.21
+            },
+            "offset": 0,
+            "length": 162,
+            "text": "Os produtos chegaram sem avarias, mas a potência deles é aquém do esperado, até para fazer uma simples limpeza no carro, demora bastante, devido a potência baixa."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

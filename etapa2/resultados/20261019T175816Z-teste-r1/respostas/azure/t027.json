@@ -1,0 +1,65 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.0,
+          "neutral": 0.01,
+          "negative": 0.98
+        },
+        "sentences": [
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.23,
+              "neutral": 0.77,
+              "negative": 0.01
+            },
+            "offset": 0,
+            "length": 67,
+            "text": "Ao receber o produto, instalei no celular e funcionou normalmente. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.04,
+              "negative": 0.96
+            },
+            "offset": 67,
+            "length": 58,
+            "text": "Pouco mais de 20 dias de uso a bateria parou de carregar. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 125,
+            "length": 113,
+            "text": "Procurei comprar em uma loja de nome e conceituada para fugir das falsificadas mas pelo jeito nem isso adiantou. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 238,
+            "length": 56,
+            "text": "Se não quiser ter dor de cabeça, não compre esse produto"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

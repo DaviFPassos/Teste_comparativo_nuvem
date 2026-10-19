@@ -1,0 +1,54 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.24,
+          "neutral": 0.21,
+          "negative": 0.55
+        },
+        "sentences": [
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.92,
+              "negative": 0.08
+            },
+            "offset": 0,
+            "length": 42,
+            "text": "De qual material é feiro essa ferramenta? "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.02,
+              "neutral": 0.97,
+              "negative": 0.01
+            },
+            "offset": 42,
+            "length": 18,
+            "text": "Platina de Marte? "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.24,
+              "neutral": 0.21,
+              "negative": 0.55
+            },
+            "offset": 60,
+            "length": 6,
+            "text": "Kkkkkk"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

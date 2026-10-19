@@ -1,0 +1,76 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.0,
+          "neutral": 0.02,
+          "negative": 0.98
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.01,
+              "negative": 0.99
+            },
+            "offset": 0,
+            "length": 93,
+            "text": "O produto não cumpre o prometido, 1- o filtro fixo sempre deixa passar pó para o café feito. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.85,
+              "negative": 0.15
+            },
+            "offset": 93,
+            "length": 134,
+            "text": "2- para fazer duas xícaras com as medidas da própria cafeteira sempre transborda, por conta da pressão da água quente do \"dispenser\". "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.04,
+              "negative": 0.96
+            },
+            "offset": 227,
+            "length": 86,
+            "text": "Caso diminuir a medida de pó ou de água, será feito meia xícara ou café muito fraco.  "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 313,
+            "length": 101,
+            "text": "Ela apresenta um erro de designer, espirra  sempre água com pó para todos os lados na parte interna. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.07,
+              "neutral": 0.91,
+              "negative": 0.03
+            },
+            "offset": 414,
+            "length": 97,
+            "text": "Talvez em quantidades minimas ela funcione adequadamente, que seria metade de uma xícara de cafe."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

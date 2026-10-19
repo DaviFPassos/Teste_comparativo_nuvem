@@ -1,0 +1,54 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.0,
+          "neutral": 0.0,
+          "negative": 1.0
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 0,
+            "length": 116,
+            "text": "Para quem não sabe, a maior parte dos monitores hoje no mercado nacional é TN ou IPS, com péssimos níveis de preto. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.4,
+              "neutral": 0.57,
+              "negative": 0.03
+            },
+            "offset": 116,
+            "length": 60,
+            "text": "O painel VA é o único que apresenta nível decente de preto. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 176,
+            "length": 153,
+            "text": "Não vá atrás de marketing, monitor com nível de preto ruim não presta, mesmo com a melhor reprodução de cores do mundo ou baixíssimos tempos de resposta."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

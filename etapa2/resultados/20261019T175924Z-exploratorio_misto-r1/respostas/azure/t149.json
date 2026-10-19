@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.06,
+          "neutral": 0.0,
+          "negative": 0.94
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.06,
+              "neutral": 0.0,
+              "negative": 0.94
+            },
+            "offset": 0,
+            "length": 103,
+            "text": "O produto é bonito, porém achei um pouco fraquinho, com peças difíceis de montar, pelo custo indicaria."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

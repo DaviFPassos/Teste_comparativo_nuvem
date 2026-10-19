@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.0,
+          "neutral": 0.0,
+          "negative": 1.0
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.0,
+              "negative": 0.99
+            },
+            "offset": 0,
+            "length": 158,
+            "text": "Gostei do produto visualmente, porém a peça veio com alguns pontos descascados no lado frontal, nada que me fizesse pedir a troca, mas um tanto desagradável. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 158,
+            "length": 122,
+            "text": "Na foto dá a impressao de haver um acrílico fazendo as vezes de vidro, mas não há nem um nem outro, as janelassão vazadas;"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

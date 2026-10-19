@@ -1,0 +1,54 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.01,
+          "neutral": 0.01,
+          "negative": 0.98
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.03,
+              "negative": 0.95
+            },
+            "offset": 0,
+            "length": 42,
+            "text": "Fixação e Projeção não foi como esperado. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 42,
+            "length": 71,
+            "text": "O frasco encontra-se com alguns defeitos parecendo estar todo \"solto\"! "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 0.99
+            },
+            "offset": 113,
+            "length": 37,
+            "text": "Deixando duvidas sobre originalidade!"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

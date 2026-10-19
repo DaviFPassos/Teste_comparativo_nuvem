@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "mixed",
+        "confidenceScores": {
+          "positive": 0.42,
+          "neutral": 0.16,
+          "negative": 0.42
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.66,
+              "neutral": 0.33,
+              "negative": 0.01
+            },
+            "offset": 0,
+            "length": 19,
+            "text": "O jogo é nota 10!  "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.18,
+              "neutral": 0.0,
+              "negative": 0.82
+            },
+            "offset": 19,
+            "length": 223,
+            "text": "Americanas deveriam proibir comentários de quem não comprou, a idiotice dos fanboys do Xbox chegou ao nivel de virem avaliar o game negativamente, quem tiver na duvida vá ao youtube e procure as criticas, o jogo é incrível."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

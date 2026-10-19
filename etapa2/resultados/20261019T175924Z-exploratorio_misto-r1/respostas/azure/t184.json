@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.04,
+          "neutral": 0.0,
+          "negative": 0.96
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.04,
+              "neutral": 0.0,
+              "negative": 0.96
+            },
+            "offset": 0,
+            "length": 144,
+            "text": "Gostei bastante do produto porém incomoda muito o fato de toda hora pedir para atualizar algo e quando atualiza sempre demora para ligar e mexer"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

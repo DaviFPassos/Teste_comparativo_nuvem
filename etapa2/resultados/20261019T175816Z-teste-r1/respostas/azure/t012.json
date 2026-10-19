@@ -1,0 +1,54 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.99,
+          "neutral": 0.01,
+          "negative": 0.0
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.99,
+              "neutral": 0.01,
+              "negative": 0.0
+            },
+            "offset": 0,
+            "length": 24,
+            "text": "Bem, meu esposo gostou. "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 1.0,
+              "neutral": 0.0,
+              "negative": 0.0
+            },
+            "offset": 24,
+            "length": 15,
+            "text": "Disse q é boa. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.09,
+              "neutral": 0.91,
+              "negative": 0.0
+            },
+            "offset": 39,
+            "length": 29,
+            "text": "Vamos ver qto tempo vai durar"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

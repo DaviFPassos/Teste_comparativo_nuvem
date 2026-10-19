@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.35,
+          "neutral": 0.03,
+          "negative": 0.62
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.35,
+              "neutral": 0.03,
+              "negative": 0.62
+            },
+            "offset": 0,
+            "length": 50,
+            "text": "TAPETE É LINDO,  MACIO, PELUDO, MAS É MUITO FINO. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.99,
+              "negative": 0.0
+            },
+            "offset": 50,
+            "length": 29,
+            "text": "VOCÊ SENTE A  DUREZA DO PISO."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

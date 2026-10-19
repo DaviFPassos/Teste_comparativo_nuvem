@@ -1,0 +1,76 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.91,
+          "neutral": 0.0,
+          "negative": 0.09
+        },
+        "sentences": [
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.02,
+              "neutral": 0.98,
+              "negative": 0.01
+            },
+            "offset": 0,
+            "length": 162,
+            "text": "Comprei esse mouse e durante a compra troquei o endereço, a Americanas mandou para a transportadora com o endereço antigo, sendo que eu atualizei o meu endereço. "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.99,
+              "neutral": 0.0,
+              "negative": 0.0
+            },
+            "offset": 162,
+            "length": 75,
+            "text": "A sorte que eu conheço o entregador e consegui falar com a transportadora. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.98,
+              "negative": 0.01
+            },
+            "offset": 237,
+            "length": 34,
+            "text": "Presta mais atenção Americanas!!! "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.98,
+              "neutral": 0.0,
+              "negative": 0.02
+            },
+            "offset": 271,
+            "length": 92,
+            "text": "O Mouse até o momento parece ser bom, só achei pequeno em comparação a outro que eu tinha.  "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.75,
+              "neutral": 0.0,
+              "negative": 0.25
+            },
+            "offset": 363,
+            "length": 136,
+            "text": "Achei muito estranho não vir lacres em sua caixa, então é fácil a Americanas mandar um refugo, já que não vem nada mostrando que é novo!"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

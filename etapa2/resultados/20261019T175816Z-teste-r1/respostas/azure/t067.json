@@ -1,0 +1,54 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.03,
+          "neutral": 0.0,
+          "negative": 0.97
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.03,
+              "neutral": 0.0,
+              "negative": 0.97
+            },
+            "offset": 0,
+            "length": 62,
+            "text": "Bom dia, infelizmente não será possível eu avaliar o produto. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.85,
+              "negative": 0.14
+            },
+            "offset": 62,
+            "length": 55,
+            "text": "Pois até o exato momento não recebi o produto ainda... "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.34,
+              "neutral": 0.65,
+              "negative": 0.01
+            },
+            "offset": 117,
+            "length": 38,
+            "text": "Gostaria de uma posição da Americanas."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

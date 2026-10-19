@@ -1,0 +1,76 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.01,
+          "neutral": 0.09,
+          "negative": 0.9
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 0,
+            "length": 17,
+            "text": "Péssimo produto. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 17,
+            "length": 15,
+            "text": "Material ruim; "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.03,
+              "neutral": 0.22,
+              "negative": 0.76
+            },
+            "offset": 32,
+            "length": 17,
+            "text": "esquenta demais; "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.16,
+              "negative": 0.84
+            },
+            "offset": 49,
+            "length": 30,
+            "text": "apresenta cheiro de queimado; "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 1.0,
+              "negative": 0.0
+            },
+            "offset": 79,
+            "length": 68,
+            "text": "o tal fio com giro de 360 graus para de funcionar intermitentemente."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

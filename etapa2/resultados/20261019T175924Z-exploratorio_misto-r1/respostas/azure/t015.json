@@ -1,0 +1,65 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "mixed",
+        "confidenceScores": {
+          "positive": 0.47,
+          "neutral": 0.04,
+          "negative": 0.49
+        },
+        "sentences": [
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.15,
+              "neutral": 0.75,
+              "negative": 0.1
+            },
+            "offset": 0,
+            "length": 16,
+            "text": "O produto é ok. "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.93,
+              "neutral": 0.07,
+              "negative": 0.0
+            },
+            "offset": 16,
+            "length": 23,
+            "text": "cumpri seu propósito.  "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.01,
+              "negative": 0.98
+            },
+            "offset": 39,
+            "length": 42,
+            "text": "Ponto negativo: pilha acaba muito rápido. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 1.0,
+              "negative": 0.0
+            },
+            "offset": 81,
+            "length": 36,
+            "text": "Sugiro comprar pilhas recarregáveis."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

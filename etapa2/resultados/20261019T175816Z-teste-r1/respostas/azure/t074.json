@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.64,
+          "neutral": 0.36,
+          "negative": 0.01
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.64,
+              "neutral": 0.36,
+              "negative": 0.01
+            },
+            "offset": 0,
+            "length": 47,
+            "text": "Produto conforme especificações do fabricante. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.1,
+              "neutral": 0.83,
+              "negative": 0.07
+            },
+            "offset": 47,
+            "length": 28,
+            "text": "Nenhum comentário adicional."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

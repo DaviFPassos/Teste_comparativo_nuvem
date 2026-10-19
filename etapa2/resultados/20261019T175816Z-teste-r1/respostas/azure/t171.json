@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.86,
+          "neutral": 0.01,
+          "negative": 0.13
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.86,
+              "neutral": 0.01,
+              "negative": 0.13
+            },
+            "offset": 0,
+            "length": 63,
+            "text": "Como ela encolhe quando esta vazia, ajuda bastante pra guardar."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

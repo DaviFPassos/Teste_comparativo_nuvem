@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.96,
+          "neutral": 0.04,
+          "negative": 0.0
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 1.0,
+              "neutral": 0.0,
+              "negative": 0.0
+            },
+            "offset": 0,
+            "length": 128,
+            "text": "O carrinho é fácil de ser montado e desmontado, não é muito pesado, comparado a muitos outros é até compacto quando desmontado. "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.92,
+              "neutral": 0.08,
+              "negative": 0.0
+            },
+            "offset": 128,
+            "length": 44,
+            "text": "Além disso, ele é muito bonito e resistente."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

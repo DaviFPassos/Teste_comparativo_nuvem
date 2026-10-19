@@ -1,0 +1,65 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.98,
+          "neutral": 0.02,
+          "negative": 0.0
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 1.0,
+              "neutral": 0.0,
+              "negative": 0.0
+            },
+            "offset": 0,
+            "length": 23,
+            "text": "Muito lindo o quadro..."
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 1.0,
+              "neutral": 0.0,
+              "negative": 0.0
+            },
+            "offset": 23,
+            "length": 15,
+            "text": "boa qualidade.."
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 1.0,
+              "neutral": 0.0,
+              "negative": 0.0
+            },
+            "offset": 38,
+            "length": 8,
+            "text": "amei!!! "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.92,
+              "neutral": 0.08,
+              "negative": 0.0
+            },
+            "offset": 46,
+            "length": 12,
+            "text": "Recomendo!!!"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "execucao": "20261019T175924Z-exploratorio_misto-r1",
+  "fim_utc": "2026-10-19T18:01:21.038+00:00",
+  "por_provedor": {
+    "azure": {
+      "ok": 39
+    }
+  }
+}

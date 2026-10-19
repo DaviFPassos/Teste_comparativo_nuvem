@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.62,
+          "neutral": 0.0,
+          "negative": 0.37
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.62,
+              "neutral": 0.0,
+              "negative": 0.37
+            },
+            "offset": 0,
+            "length": 177,
+            "text": "oi boa noite, quero saber se vao devolver o dinheiro, eu mandei o produto ficou faltando a pistola e quero saber se vao me restituir pq ainda estao cobrando no cartao de credito"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

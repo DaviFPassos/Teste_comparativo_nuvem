@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.06,
+          "neutral": 0.16,
+          "negative": 0.78
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.06,
+              "neutral": 0.16,
+              "negative": 0.78
+            },
+            "offset": 0,
+            "length": 57,
+            "text": "Ate o presente momento não recebi, quando será entregue ?"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

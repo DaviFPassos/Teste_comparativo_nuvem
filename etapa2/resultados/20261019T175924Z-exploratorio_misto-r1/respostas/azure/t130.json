@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.11,
+          "neutral": 0.0,
+          "negative": 0.89
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.11,
+              "neutral": 0.0,
+              "negative": 0.89
+            },
+            "offset": 0,
+            "length": 76,
+            "text": "Entrega excelente muito rápida, porém produto chegou quebrado e muito frágil"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

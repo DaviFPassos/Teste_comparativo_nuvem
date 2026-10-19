@@ -1,0 +1,76 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.0,
+          "neutral": 0.11,
+          "negative": 0.88
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 0,
+            "length": 28,
+            "text": "o YouTube não funciona bem. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.22,
+              "negative": 0.77
+            },
+            "offset": 28,
+            "length": 66,
+            "text": "Não encontra os vídeos,  os canais só mudam pra cima e pra baixo. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 1.0,
+              "negative": 0.0
+            },
+            "offset": 94,
+            "length": 21,
+            "text": "se digitar o número. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.82,
+              "negative": 0.18
+            },
+            "offset": 115,
+            "length": 26,
+            "text": "ex: 13 ele nao reconhece. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.09,
+              "neutral": 0.89,
+              "negative": 0.02
+            },
+            "offset": 141,
+            "length": 12,
+            "text": "entre outros"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

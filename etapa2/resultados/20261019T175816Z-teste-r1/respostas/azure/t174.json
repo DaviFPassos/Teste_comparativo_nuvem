@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.64,
+          "neutral": 0.12,
+          "negative": 0.24
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.64,
+              "neutral": 0.12,
+              "negative": 0.24
+            },
+            "offset": 0,
+            "length": 40,
+            "text": "Produto entregue fora da data acordada. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.92,
+              "negative": 0.07
+            },
+            "offset": 40,
+            "length": 38,
+            "text": "Então pra que serve a compra agendada?"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

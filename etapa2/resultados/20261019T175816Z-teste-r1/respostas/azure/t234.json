@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "mixed",
+        "confidenceScores": {
+          "positive": 0.53,
+          "neutral": 0.06,
+          "negative": 0.41
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.87,
+              "neutral": 0.04,
+              "negative": 0.1
+            },
+            "offset": 0,
+            "length": 46,
+            "text": "Não gostei do produto,achei que fosse melhor! "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.2,
+              "neutral": 0.08,
+              "negative": 0.72
+            },
+            "offset": 46,
+            "length": 78,
+            "text": "Não indico para ninguém o produto que comprei,bateria descarrega muito rápido."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

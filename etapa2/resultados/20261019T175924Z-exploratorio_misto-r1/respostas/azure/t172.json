@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.07,
+          "neutral": 0.0,
+          "negative": 0.93
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.07,
+              "neutral": 0.0,
+              "negative": 0.93
+            },
+            "offset": 0,
+            "length": 154,
+            "text": "O aparelho poderia ser um pouco maior para facilitar a digitação e o relógio na tela principal não funciona direito, sempre está com divergência de horas."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

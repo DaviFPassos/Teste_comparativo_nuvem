@@ -1,0 +1,54 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "mixed",
+        "confidenceScores": {
+          "positive": 0.29,
+          "neutral": 0.13,
+          "negative": 0.58
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.58,
+              "neutral": 0.13,
+              "negative": 0.3
+            },
+            "offset": 0,
+            "length": 79,
+            "text": "Hoje fazem 7 dias que o prazo de entrega  venceu, e nada de chegar minha cama. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.13,
+              "negative": 0.87
+            },
+            "offset": 79,
+            "length": 31,
+            "text": "Americanas.com = serviço lixo. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.02,
+              "neutral": 0.98,
+              "negative": 0.0
+            },
+            "offset": 110,
+            "length": 42,
+            "text": "Primeira e última vez que compro de vocês."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.0,
+          "neutral": 0.01,
+          "negative": 0.99
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.01,
+              "negative": 0.99
+            },
+            "offset": 0,
+            "length": 30,
+            "text": "Não vale o preço que se paga. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.02,
+              "negative": 0.98
+            },
+            "offset": 30,
+            "length": 33,
+            "text": "A petisqueira é muito fraquinha. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.97,
+              "negative": 0.03
+            },
+            "offset": 63,
+            "length": 160,
+            "text": "Também me entregaram outro produto, solicitei a troca e este fornecedor Dual Click simplesmente me responderam que o que me enviaram era lançamento da brahma . "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.99,
+              "negative": 0.01
+            },
+            "offset": 223,
+            "length": 39,
+            "text": "Mas o que pedi ainda continua no site. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 262,
+            "length": 19,
+            "text": "Muito insatisfeita."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

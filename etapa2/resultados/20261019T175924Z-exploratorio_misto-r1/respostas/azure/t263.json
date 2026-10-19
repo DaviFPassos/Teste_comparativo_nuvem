@@ -1,0 +1,65 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "mixed",
+        "confidenceScores": {
+          "positive": 0.51,
+          "neutral": 0.01,
+          "negative": 0.48
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.52,
+              "neutral": 0.0,
+              "negative": 0.47
+            },
+            "offset": 0,
+            "length": 109,
+            "text": "Ainda bem que o produto funcionou, mas não tem fabricante, nem marca, nem página com informações adicionais. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.03,
+              "neutral": 0.01,
+              "negative": 0.96
+            },
+            "offset": 109,
+            "length": 58,
+            "text": "O mini folheto que veio na caixa não ajuda na instalação. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.71,
+              "negative": 0.29
+            },
+            "offset": 167,
+            "length": 26,
+            "text": "E não veio a nota fiscal. "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.98,
+              "neutral": 0.0,
+              "negative": 0.02
+            },
+            "offset": 193,
+            "length": 43,
+            "text": "Espero não ter problema nos próximos meses."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.06,
+          "neutral": 0.0,
+          "negative": 0.94
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.0,
+              "negative": 0.99
+            },
+            "offset": 0,
+            "length": 56,
+            "text": "O produto chegou mas veio faltando uma peça, o arco I.  "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.03,
+              "neutral": 0.86,
+              "negative": 0.11
+            },
+            "offset": 56,
+            "length": 41,
+            "text": "Não dá pra usar o produto sem essa peça. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.1,
+              "neutral": 0.0,
+              "negative": 0.9
+            },
+            "offset": 97,
+            "length": 77,
+            "text": "Espero q mandem a peça q veio faltando ou irei fazer uma reclamação no Procon"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

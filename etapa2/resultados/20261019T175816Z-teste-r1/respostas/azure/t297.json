@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.02,
+          "neutral": 0.0,
+          "negative": 0.98
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.02,
+              "neutral": 0.0,
+              "negative": 0.98
+            },
+            "offset": 0,
+            "length": 164,
+            "text": "Purificador da Eletrolux pe11x não sai agua ,e fiz todos os procedimentos que o SAC da Eletrolux recomendou e não continua não saindo água só de enfeite não comprem"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

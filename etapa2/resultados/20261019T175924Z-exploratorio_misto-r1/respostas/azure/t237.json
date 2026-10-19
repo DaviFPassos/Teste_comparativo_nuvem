@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.69,
+          "neutral": 0.0,
+          "negative": 0.31
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.69,
+              "neutral": 0.0,
+              "negative": 0.31
+            },
+            "offset": 0,
+            "length": 124,
+            "text": "o cabide é bonito, bem slim, segura bastante a roupa, porem solta muito pelo, provavelmente a vida útil dele vai ser pequena"
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

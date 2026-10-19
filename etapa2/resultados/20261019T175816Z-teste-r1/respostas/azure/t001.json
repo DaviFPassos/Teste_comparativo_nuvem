@@ -1,0 +1,65 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "mixed",
+        "confidenceScores": {
+          "positive": 0.5,
+          "neutral": 0.01,
+          "negative": 0.49
+        },
+        "sentences": [
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.11,
+              "neutral": 0.89,
+              "negative": 0.0
+            },
+            "offset": 0,
+            "length": 42,
+            "text": "O aparelho é simples e cumpre sua função. "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 1.0,
+              "neutral": 0.0,
+              "negative": 0.0
+            },
+            "offset": 42,
+            "length": 38,
+            "text": "Volumes de toque e audição são bons.  "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.99,
+              "negative": 0.0
+            },
+            "offset": 80,
+            "length": 64,
+            "text": "Iluminação do teclado é um diferencial para ambientes escuros.  "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.01,
+              "negative": 0.99
+            },
+            "offset": 144,
+            "length": 185,
+            "text": "A base é uma peça plástica apartada do telefone, e o espaço para esconder o fio em seu interior pode ser insuficiente caso a aplicação seja numa parede com a tomada de telefone próxima."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}
