@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.32,
+          "neutral": 0.06,
+          "negative": 0.62
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.32,
+              "neutral": 0.06,
+              "negative": 0.62
+            },
+            "offset": 0,
+            "length": 53,
+            "text": "A cor é bonita, mas parou de funcionar em uma semana."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

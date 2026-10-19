@@ -1,0 +1,9 @@
+id,rotulo_referencia,na_intersecao,azure_status,azure_previsto,azure_acertou,texto
+d01,positivo,1,ok,positivo,1,"Produto excelente, chegou antes do prazo. Recomendo."
+d02,positivo,1,ok,positivo,1,"Bom, mas a tampa é meio frágil."
+d03,negativo,1,ok,negativo,1,"A cor é bonita, mas parou de funcionar em uma semana."
+d04,misto,0,ok,positivo,,"Produto ótimo, porém a entrega atrasou 20 dias e ninguém respondeu."
+d05,neutro,1,ok,positivo,0,Comprei para dar de presente para minha mãe.
+d06,neutro,1,ok,neutro,1,"O fone tem cabo de 1,2 m e vem com três tamanhos de borracha."
+d07,negativo,1,ok,positivo,0,"Ótimo, veio faltando peça."
+d08,invalido,0,ok,neutro,,asdkjh qwe poiu

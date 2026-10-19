@@ -1,0 +1,2 @@
+provedor,programados,respostas_validas,intersecao,acuracia,macro_f1,acertos_sobre_programados,previsoes_misto,latencia_mediana_ms,latencia_p95_ms,latencia_n,sucesso_por_tentativa,sucesso_por_texto,unidades_estimadas,custo_estimado_com_franquia_usd,custo_estimado_sem_franquia_usd
+azure,6,6,6,0.6666666666666666,0.6666666666666666,0.6666666666666666,0,224.4065,262.399,8,1.0,1.0,9,0.0,0.009
