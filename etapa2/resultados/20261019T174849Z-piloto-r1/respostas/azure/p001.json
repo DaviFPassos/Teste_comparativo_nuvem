@@ -1,0 +1,54 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "mixed",
+        "confidenceScores": {
+          "positive": 0.47,
+          "neutral": 0.0,
+          "negative": 0.53
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.93,
+              "neutral": 0.0,
+              "negative": 0.07
+            },
+            "offset": 0,
+            "length": 92,
+            "text": "Produtos bons, mas suporte tecnico da ELGIN não conseguiu configurar a impressora ELGIN I9. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 92,
+            "length": 76,
+            "text": "Péssimos, informaram que o aplicativo comercial é que comanda a impressora. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.99,
+              "negative": 0.0
+            },
+            "offset": 168,
+            "length": 63,
+            "text": "Precisam de treinamento, descobri no DR. GOOGLE a configuração."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

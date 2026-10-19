@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.97,
+          "neutral": 0.03,
+          "negative": 0.0
+        },
+        "sentences": [
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.92,
+              "negative": 0.07
+            },
+            "offset": 0,
+            "length": 77,
+            "text": "Não posso avaliar o produto do jeito que tem que ser por que não usei ainda. "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.97,
+              "neutral": 0.03,
+              "negative": 0.0
+            },
+            "offset": 77,
+            "length": 19,
+            "text": "Mas parece ser bom."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

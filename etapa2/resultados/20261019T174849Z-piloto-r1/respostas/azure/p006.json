@@ -1,0 +1,76 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.0,
+          "neutral": 0.01,
+          "negative": 0.99
+        },
+        "sentences": [
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.03,
+              "neutral": 0.97,
+              "negative": 0.0
+            },
+            "offset": 0,
+            "length": 62,
+            "text": "Comprei um para testar e dar aos meus pais ( terceira idade). "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.01,
+              "negative": 0.99
+            },
+            "offset": 62,
+            "length": 15,
+            "text": "Não recomendo. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 77,
+            "length": 42,
+            "text": "Som com muito ruído e toques com chiado . "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 0.99
+            },
+            "offset": 119,
+            "length": 30,
+            "text": "Tela de difícil visualização. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.03,
+              "neutral": 0.66,
+              "negative": 0.31
+            },
+            "offset": 149,
+            "length": 64,
+            "text": "Apesar do baixo preço ao meu ver não compensa o custo benefício."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

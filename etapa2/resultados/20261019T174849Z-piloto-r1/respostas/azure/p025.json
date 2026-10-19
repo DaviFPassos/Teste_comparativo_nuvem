@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.69,
+          "neutral": 0.26,
+          "negative": 0.05
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.69,
+              "neutral": 0.26,
+              "negative": 0.05
+            },
+            "offset": 0,
+            "length": 21,
+            "text": "queria uma solução . "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.02,
+              "neutral": 0.85,
+              "negative": 0.14
+            },
+            "offset": 21,
+            "length": 51,
+            "text": "preciso das panelas mas não me dão nenhum previsão."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

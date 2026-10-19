@@ -1,0 +1,76 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "mixed",
+        "confidenceScores": {
+          "positive": 0.28,
+          "neutral": 0.0,
+          "negative": 0.72
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 1.0,
+              "neutral": 0.0,
+              "negative": 0.0
+            },
+            "offset": 0,
+            "length": 98,
+            "text": "O produto chegou antes do prazo e funcionou muito bem nas cinco/seis vezes que foram utilizadas.  "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 98,
+            "length": 110,
+            "text": "Porém após isso a cola dos eletros ficam desgastadas, não colam mais e o aparelho para de dar o choquinho.... "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.96,
+              "negative": 0.04
+            },
+            "offset": 208,
+            "length": 76,
+            "text": "Procurei para comprar estes eletrodos, porém não encontrei em lugar algum.  "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.1,
+              "neutral": 0.01,
+              "negative": 0.89
+            },
+            "offset": 284,
+            "length": 122,
+            "text": "Além disso, a sensação que dá é que pela tomada o aparelho para de funcionar (ou é bem fraco) e pilha gasta muito rápido. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.01,
+              "neutral": 0.0,
+              "negative": 0.98
+            },
+            "offset": 406,
+            "length": 140,
+            "text": "Enfim, se funcionasse seria muito bom, porém com todos esses pequenos problemas acaba não se tornando algo muito vantajoso para se adquirir."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "mixed",
+        "confidenceScores": {
+          "positive": 0.61,
+          "neutral": 0.26,
+          "negative": 0.13
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.63,
+              "neutral": 0.36,
+              "negative": 0.0
+            },
+            "offset": 0,
+            "length": 23,
+            "text": "Ele eh bastante forte. "
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.24,
+              "neutral": 0.37,
+              "negative": 0.39
+            },
+            "offset": 23,
+            "length": 166,
+            "text": "Quando não deixo no mínimo, sai tanto vapor que chega a molhar em volta do aparelho, então deixo uma toalha embaixo dele e ligo no mínimo, que jah eh bastante forte. "
+          },
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.95,
+              "neutral": 0.05,
+              "negative": 0.0
+            },
+            "offset": 189,
+            "length": 26,
+            "text": "Gosto da luz azul do led. "
+          },
+          {
+            "sentiment": "neutral",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.99,
+              "negative": 0.0
+            },
+            "offset": 215,
+            "length": 83,
+            "text": "Além disso, ele eh maior do que eu imaginei e água costuma durar 3 noites inteiras."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

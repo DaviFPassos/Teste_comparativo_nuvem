@@ -1,0 +1,164 @@
+{
+  "provedores": [
+    "azure"
+  ],
+  "textos_no_dataset": 30,
+  "programados_3_classes": 23,
+  "fora_da_avaliacao_principal": {
+    "misto": 7
+  },
+  "intersecao": 23,
+  "excluidos_da_intersecao": 0,
+  "por_provedor": {
+    "azure": {
+      "respostas_validas": 23,
+      "falhas_por_codigo": {},
+      "tentativas": 30,
+      "sucesso_por_tentativa": 1.0,
+      "sucesso_por_texto": 1.0,
+      "qualidade_na_intersecao": {
+        "n": 23,
+        "acertos": 20,
+        "acuracia": 0.8695652173913043,
+        "macro_f1": 0.6091228070175438,
+        "por_classe": {
+          "positivo": {
+            "suporte": 12,
+            "tp": 11,
+            "fp": 2,
+            "fn": 1,
+            "precisao": 0.8461538461538461,
+            "revocacao": 0.9166666666666666,
+            "f1": 0.8799999999999999
+          },
+          "negativo": {
+            "suporte": 10,
+            "tp": 9,
+            "fp": 0,
+            "fn": 1,
+            "precisao": 1.0,
+            "revocacao": 0.9,
+            "f1": 0.9473684210526316
+          },
+          "neutro": {
+            "suporte": 1,
+            "tp": 0,
+            "fp": 0,
+            "fn": 1,
+            "precisao": 0.0,
+            "revocacao": 0.0,
+            "f1": 0.0
+          }
+        },
+        "indefinidos": [
+          "precisão de 'neutro': classe nunca prevista"
+        ]
+      },
+      "previsoes_misto_na_intersecao": 1,
+      "acertos_sobre_programados": 20,
+      "fracao_acertos_sobre_programados": 0.8695652173913043,
+      "latencia_ms": {
+        "n": 30,
+        "metodo_percentil": "posto mais próximo",
+        "mediana": 258.408,
+        "p95": 272.897,
+        "minimo": 186.102,
+        "maximo": 319.3
+      },
+      "timeouts": {
+        "n": 0,
+        "duracoes_ms": []
+      },
+      "aquecimento_ms": [
+        1360.474
+      ],
+      "matriz_confusao": {
+        "positivo": {
+          "positivo": 11,
+          "negativo": 0,
+          "neutro": 0,
+          "misto": 1
+        },
+        "negativo": {
+          "positivo": 1,
+          "negativo": 9,
+          "neutro": 0,
+          "misto": 0
+        },
+        "neutro": {
+          "positivo": 1,
+          "negativo": 0,
+          "neutro": 0,
+          "misto": 0
+        }
+      },
+      "custo": {
+        "unidades_estimadas_todas_tentativas": 31,
+        "estimado_sem_franquia_usd": 0.031,
+        "estimado_com_franquia_usd": 0.0,
+        "franquia_mensal_unidades": 5000,
+        "observado_usd": null,
+        "nota": "Estimativa pela tabela de custos/premissas.csv. O valor observado no painel do provedor é registrado à parte."
+      }
+    }
+  },
+  "sem_neutro": {
+    "classes": [
+      "positivo",
+      "negativo"
+    ],
+    "n": 22,
+    "por_provedor": {
+      "azure": {
+        "n": 22,
+        "acertos": 20,
+        "acuracia": 0.9090909090909091,
+        "macro_f1": 0.9320175438596492,
+        "por_classe": {
+          "positivo": {
+            "suporte": 12,
+            "tp": 11,
+            "fp": 1,
+            "fn": 1,
+            "precisao": 0.9166666666666666,
+            "revocacao": 0.9166666666666666,
+            "f1": 0.9166666666666666
+          },
+          "negativo": {
+            "suporte": 10,
+            "tp": 9,
+            "fp": 0,
+            "fn": 1,
+            "precisao": 1.0,
+            "revocacao": 0.9,
+            "f1": 0.9473684210526316
+          }
+        },
+        "indefinidos": []
+      }
+    },
+    "nota": "Textos de gabarito positivo ou negativo da interseção; previsão neutro ou misto conta como erro."
+  },
+  "exploratorio": {
+    "misto": {
+      "azure": {
+        "misto": 4,
+        "positivo": 3
+      }
+    }
+  },
+  "execucoes": {
+    "execucoes": [
+      {
+        "id": "20261019T174849Z-piloto-r1",
+        "provedores": [
+          "azure"
+        ],
+        "maquina": "128a441dc6b9"
+      }
+    ],
+    "mesma_maquina": true,
+    "latencia_comparavel": true,
+    "nota_latencia": "um provedor só"
+  }
+}

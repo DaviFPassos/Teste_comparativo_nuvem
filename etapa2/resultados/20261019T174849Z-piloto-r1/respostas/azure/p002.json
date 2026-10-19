@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.69,
+          "neutral": 0.02,
+          "negative": 0.29
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.69,
+              "neutral": 0.02,
+              "negative": 0.29
+            },
+            "offset": 0,
+            "length": 87,
+            "text": "Produto leve, compacto, atendeu à necessidade mas notei que o  ar não sai muito quente."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

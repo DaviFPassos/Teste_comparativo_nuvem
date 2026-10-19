@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.07,
+          "neutral": 0.19,
+          "negative": 0.73
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.07,
+              "neutral": 0.19,
+              "negative": 0.73
+            },
+            "offset": 0,
+            "length": 78,
+            "text": "não tem medida, pensei que fosse grande , mas parece um armarinho de boneca..."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

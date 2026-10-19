@@ -1,0 +1,43 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "negative",
+        "confidenceScores": {
+          "positive": 0.04,
+          "neutral": 0.01,
+          "negative": 0.95
+        },
+        "sentences": [
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.08,
+              "neutral": 0.02,
+              "negative": 0.9
+            },
+            "offset": 0,
+            "length": 39,
+            "text": "O óculos  é bonito, mas muito inferior."
+          },
+          {
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.0,
+              "negative": 1.0
+            },
+            "offset": 39,
+            "length": 42,
+            "text": "Me decepcionei com a qualidade do produto."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}

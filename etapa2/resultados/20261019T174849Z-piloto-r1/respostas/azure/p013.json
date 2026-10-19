@@ -1,0 +1,32 @@
+{
+  "kind": "SentimentAnalysisResults",
+  "results": {
+    "documents": [
+      {
+        "id": "0",
+        "sentiment": "positive",
+        "confidenceScores": {
+          "positive": 0.92,
+          "neutral": 0.01,
+          "negative": 0.07
+        },
+        "sentences": [
+          {
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.92,
+              "neutral": 0.01,
+              "negative": 0.07
+            },
+            "offset": 0,
+            "length": 91,
+            "text": "Bom, porem um pouco pequenas e em 3 meses de uso as frigideiras já estão grudando um pouco."
+          }
+        ],
+        "warnings": []
+      }
+    ],
+    "errors": [],
+    "modelVersion": "2025-01-01"
+  }
+}
