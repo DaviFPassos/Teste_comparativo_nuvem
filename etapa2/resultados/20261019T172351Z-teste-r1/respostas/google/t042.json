@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.9,
+    "score": 0.9
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Produto muito bom.Muito Obrigado por tudo novamente tambem a dell e as americanas.com e tambem a transportadora directlog por toda dedicacao e boa vontade de voces tambem."
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    }
+  ]
+}

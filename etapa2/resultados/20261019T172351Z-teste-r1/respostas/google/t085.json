@@ -1,0 +1,25 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.6,
+    "score": -0.3
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Ou é UHS-1 ou é Class 10."
+      },
+      "sentiment": {}
+    },
+    {
+      "text": {
+        "content": "A maioria dos anúncios de cartão micro SD está confusa e impossível de se saber o que realmente corresponde ao anúncio.",
+        "beginOffset": 28
+      },
+      "sentiment": {
+        "magnitude": 0.5,
+        "score": -0.5
+      }
+    }
+  ]
+}

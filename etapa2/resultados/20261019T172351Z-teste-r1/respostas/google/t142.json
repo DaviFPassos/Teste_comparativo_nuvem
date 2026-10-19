@@ -1,0 +1,48 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.1,
+    "score": -0.2
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "O produto não cumpre o prometido, 1- o filtro fixo sempre deixa passar pó para o café feito. 2- para fazer duas xícaras com as medidas da própria cafeteira sempre transborda, por conta da pressão da água quente do \"dispenser\"."
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": -0.6
+      }
+    },
+    {
+      "text": {
+        "content": "Caso diminuir a medida de pó ou de água, será feito meia xícara ou café muito fraco.",
+        "beginOffset": 234
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": -0.1
+      }
+    },
+    {
+      "text": {
+        "content": "Ela apresenta um erro de designer, espirra  sempre água com pó para todos os lados na parte interna.",
+        "beginOffset": 325
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": -0.1
+      }
+    },
+    {
+      "text": {
+        "content": "Talvez em quantidades minimas ela funcione adequadamente, que seria metade de uma xícara de cafe.",
+        "beginOffset": 428
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": 0.1
+      }
+    }
+  ]
+}

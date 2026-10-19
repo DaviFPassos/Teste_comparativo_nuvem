@@ -1,0 +1,23 @@
+{
+  "anotador_A": "Davi Fonseca Passos",
+  "anotador_B": "Rafael Fonseca Pessoa",
+  "textos": 330,
+  "concordancia_bruta": 0.8697,
+  "kappa_de_cohen": 0.7909,
+  "divergencias": 43,
+  "pendentes": 0,
+  "rotulos_A": {
+    "positivo": 166,
+    "negativo": 130,
+    "misto": 22,
+    "invalido": 2,
+    "neutro": 10
+  },
+  "rotulos_B": {
+    "positivo": 147,
+    "negativo": 119,
+    "misto": 46,
+    "invalido": 2,
+    "neutro": 16
+  }
+}

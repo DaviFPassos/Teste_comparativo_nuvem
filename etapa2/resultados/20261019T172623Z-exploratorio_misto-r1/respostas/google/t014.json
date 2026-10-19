@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.6,
+    "score": 0.6
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "a minha veio com um led queimado um pontinho branco mais não vou trocar porque não atrapalha para assistir e de resto esta ok , a entrega foi muito rapida parabens a americanas."
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": 0.6
+      }
+    }
+  ]
+}

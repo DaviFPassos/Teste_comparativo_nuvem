@@ -1,0 +1,45 @@
+{
+  "documentSentiment": {
+    "magnitude": 2.8,
+    "score": 0.6
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "O aparelho é simples e cumpre sua função."
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Volumes de toque e audição são bons.",
+        "beginOffset": 45
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Iluminação do teclado é um diferencial para ambientes escuros.",
+        "beginOffset": 86
+      },
+      "sentiment": {
+        "magnitude": 0.8,
+        "score": 0.8
+      }
+    },
+    {
+      "text": {
+        "content": "A base é uma peça plástica apartada do telefone, e o espaço para esconder o fio em seu interior pode ser insuficiente caso a aplicação seja numa parede com a tomada de telefone próxima.",
+        "beginOffset": 153
+      },
+      "sentiment": {}
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.7,
+    "score": -0.7
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Infelizmente a pelicula não é correta para o zenfone 3, visto que é uma tela curvada"
+      },
+      "sentiment": {
+        "magnitude": 0.7,
+        "score": -0.7
+      }
+    }
+  ]
+}

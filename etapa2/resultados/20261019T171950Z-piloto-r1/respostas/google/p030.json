@@ -1,0 +1,38 @@
+{
+  "documentSentiment": {
+    "magnitude": 2.9,
+    "score": 0.9
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Adorei o produto."
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Para quem gosta de um bom café.",
+        "beginOffset": 18
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Chegou no tempo certo e estou satisfeita.",
+        "beginOffset": 51
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    }
+  ]
+}

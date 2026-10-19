@@ -1,0 +1,38 @@
+{
+  "documentSentiment": {
+    "magnitude": 2.9,
+    "score": 0.9
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "As peças Chegaram  antes do esperado,esta de parabéns a Americanas!"
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "O produto veio bem embalado,sem defeitos!",
+        "beginOffset": 70
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Amei!!",
+        "beginOffset": 112
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    }
+  ]
+}

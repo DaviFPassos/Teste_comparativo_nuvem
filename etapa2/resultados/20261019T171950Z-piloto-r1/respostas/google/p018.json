@@ -1,0 +1,27 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.8
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Não posso avaliar o produto do jeito que tem que ser por que não usei ainda."
+      },
+      "sentiment": {
+        "magnitude": 0.3,
+        "score": -0.3
+      }
+    },
+    {
+      "text": {
+        "content": "Mas parece ser bom.",
+        "beginOffset": 79
+      },
+      "sentiment": {
+        "magnitude": 0.5,
+        "score": 0.5
+      }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.3,
+    "score": 0.6
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Chegou bem antes do prazo e recomendo a todos."
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Xxxxxxxxxx Xxxxxxxxx Xxxxxx",
+        "beginOffset": 47
+      },
+      "sentiment": {
+        "magnitude": 0.3,
+        "score": 0.3
+      }
+    }
+  ]
+}

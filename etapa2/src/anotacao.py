@@ -257,6 +257,15 @@ def cmd_montar(a):
     pendentes = [i for i, l in anot.items() if l["decisao"] == "pendente"]
     if pendentes:
         raise SystemExit(f"{len(pendentes)} divergências sem decisão. Resolva antes de montar.")
+    # textos retirados por decisão registrada (ex.: dado pessoal que o filtro não pegou)
+    exclusoes = {}
+    if (a.dados / "exclusoes.csv").exists():
+        for l in ler_csv(a.dados / "exclusoes.csv"):
+            if l["id"] not in textos:
+                raise SystemExit(f"exclusoes.csv: id {l['id']!r} não é um candidato.")
+            if not l.get("motivo", "").strip():
+                raise SystemExit(f"exclusoes.csv: {l['id']} sem motivo.")
+            exclusoes[l["id"]] = l["motivo"].strip()
     for nome in ("piloto.csv", "teste.csv", "exploratorio_misto.csv"):
         if (a.dados / nome).exists() and not a.refazer:
             raise SystemExit(f"{nome} já existe: o conjunto foi congelado. Use --refazer só "
@@ -273,11 +282,11 @@ def cmd_montar(a):
                 "caracteres": c["caracteres"], "bytes_utf8": c["bytes_utf8"]}
 
     piloto = [linha(i, "piloto") for i in sorted(textos)
-              if i.startswith("p") and anot[i]["rotulo_final"] != "invalido"]
+              if i.startswith("p") and anot[i]["rotulo_final"] != "invalido" and i not in exclusoes]
 
     rng = random.Random(SEMENTE_MONTAGEM)
     teste, disponiveis = [], {}
-    ids_teste = sorted(i for i in textos if i.startswith("t"))
+    ids_teste = sorted(i for i in textos if i.startswith("t") and i not in exclusoes)
     for classe in CLASSES_PRINCIPAIS:
         grupo = [i for i in ids_teste if anot[i]["rotulo_final"] == classe]
         disponiveis[classe] = len(grupo)
@@ -298,6 +307,7 @@ def cmd_montar(a):
         "disponiveis_no_conjunto_de_candidatos": disponiveis,
         "no_teste": dict(no_teste),
         "invalidos_excluidos": sum(1 for l in anot.values() if l["rotulo_final"] == "invalido"),
+        "excluidos_por_decisao": [{"id": i, "motivo": m} for i, m in sorted(exclusoes.items())],
         "concordancia": json.loads(((a.dados / "anotacao") / "concordancia.json").read_text(encoding="utf-8")),
         "arquivos": {n: sha256(a.dados / n)
                      for n in ("piloto.csv", "teste.csv", "exploratorio_misto.csv")},

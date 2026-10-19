@@ -1,0 +1,28 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.4,
+    "score": 0.7
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "O produto está dentro da qualidade que eu esperava, e veio em perfeito estado."
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Só tive problemas com a entrega, mas no mais tudo certo.",
+        "beginOffset": 80
+      },
+      "sentiment": {
+        "magnitude": 0.4,
+        "score": 0.4
+      }
+    }
+  ]
+}

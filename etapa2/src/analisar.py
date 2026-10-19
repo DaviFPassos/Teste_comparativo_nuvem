@@ -53,6 +53,9 @@ GRAFICOS = RAIZ / "etapa2" / "graficos"
 DADOS = RAIZ / "etapa2" / "dados"
 
 CLASSES = ("positivo", "negativo", "neutro")
+# avaliação complementar, pré-registrada em 19/10/2026: a classe neutra das
+# avaliações de produto é pequena, e o F1 dela oscila muito com poucos textos
+CLASSES_SEM_NEUTRO = ("positivo", "negativo")
 PREVISOES = CLASSES + ("misto",)
 
 
@@ -331,6 +334,22 @@ def analisar(predicoes, tentativas, config, gabarito):
             "kappa_entre_provedores": kappa_de_cohen(previsoes_inter[a], previsoes_inter[b]),
             "nota": "b = só o primeiro acertou; c = só o segundo acertou."}
 
+    # sem a classe neutra: só os textos de gabarito positivo/negativo da interseção.
+    # Uma previsão neutro ou misto continua contando como erro
+    pos = [k for k, r in enumerate(ref_inter) if r in CLASSES_SEM_NEUTRO]
+    ref_sn = [ref_inter[k] for k in pos]
+    prev_sn = {prov: [previsoes_inter[prov][k] for k in pos] for prov in provedores}
+    resultado["sem_neutro"] = {
+        "classes": list(CLASSES_SEM_NEUTRO), "n": len(pos),
+        "por_provedor": {prov: metricas_de_classificacao(ref_sn, prev_sn[prov], CLASSES_SEM_NEUTRO)
+                         for prov in provedores},
+        "nota": "Textos de gabarito positivo ou negativo da interseção; previsão "
+                "neutro ou misto conta como erro."}
+    if len(provedores) == 2 and pos:
+        a, b = provedores
+        resultado["sem_neutro"]["mcnemar_exato"] = mcnemar_exato(
+            [p == r for p, r in zip(prev_sn[a], ref_sn)], [p == r for p, r in zip(prev_sn[b], ref_sn)])
+
     # análise exploratória: textos com gabarito fora das três classes (ex.: misto)
     explor = defaultdict(lambda: defaultdict(Counter))
     for i, g in gabarito.items():
@@ -401,6 +420,16 @@ def gravar_tabelas(res, gabarito, predicoes, destino, execucao):
         md += ["", f"Comparação pareada ({c['n']} textos): McNemar exato b={c['mcnemar_exato']['b']}, "
                    f"c={c['mcnemar_exato']['c']}, p={c['mcnemar_exato']['p_valor']:.3f}; "
                    f"kappa entre provedores = {'indefinido' if k is None else f'{k:.3f}'}."]
+    sn = res.get("sem_neutro")
+    if sn and sn["n"]:
+        md += ["", f"Sem a classe neutra (positivo × negativo, {sn['n']} textos da interseção; "
+                   "previsão neutro ou misto conta como erro):", "",
+               "| Provedor | Acurácia | Macro-F1 |", "|---|---|---|"]
+        md += [f"| {prov} | {_pct(q['acuracia'])} | {_pct(q['macro_f1'])} |"
+               for prov, q in sn["por_provedor"].items()]
+        if "mcnemar_exato" in sn:
+            m = sn["mcnemar_exato"]
+            md += ["", f"McNemar exato sem a classe neutra: b={m['b']}, c={m['c']}, p={m['p_valor']:.3f}."]
     (destino / "tabela_principal.md").write_text("\n".join(md) + "\n", encoding="utf-8")
 
     for prov, m in res["por_provedor"].items():

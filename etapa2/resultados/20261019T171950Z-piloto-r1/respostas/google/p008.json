@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.9,
+    "score": 0.9
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Olha comprei por boleto bancário, mas a aprovação foi no mesmo dia, a entrega superou minhas expectativas...foi entregue muito antes do prometido...super recomendo..."
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    }
+  ]
+}

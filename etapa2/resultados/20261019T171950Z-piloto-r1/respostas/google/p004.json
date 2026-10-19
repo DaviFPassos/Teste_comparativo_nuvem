@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.9,
+    "score": 0.9
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Estamos satisfeito com o produto e também na agilidade da entrega, entregue antes do prazo previsto, muito bom."
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    }
+  ]
+}

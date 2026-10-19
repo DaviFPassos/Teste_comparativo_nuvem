@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.9,
+    "score": 0.9
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Muito bom facilita muito p mexer na tv box Já indiquei p varias pessoas q estavam passando pelo mesmo problema p facilita o acesso na tv"
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    }
+  ]
+}

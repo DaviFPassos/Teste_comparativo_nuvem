@@ -1,0 +1,48 @@
+{
+  "documentSentiment": {
+    "magnitude": 2.3,
+    "score": -0.1
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Ao receber o produto, instalei no celular e funcionou normalmente."
+      },
+      "sentiment": {
+        "magnitude": 0.8,
+        "score": 0.8
+      }
+    },
+    {
+      "text": {
+        "content": "Pouco mais de 20 dias de uso a bateria parou de carregar.",
+        "beginOffset": 67
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": -0.6
+      }
+    },
+    {
+      "text": {
+        "content": "Procurei comprar em uma loja de nome e conceituada para fugir das falsificadas mas pelo jeito nem isso adiantou.",
+        "beginOffset": 125
+      },
+      "sentiment": {
+        "magnitude": 0.3,
+        "score": -0.3
+      }
+    },
+    {
+      "text": {
+        "content": "Se não quiser ter dor de cabeça, não compre esse produto",
+        "beginOffset": 238
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": -0.6
+      }
+    }
+  ]
+}

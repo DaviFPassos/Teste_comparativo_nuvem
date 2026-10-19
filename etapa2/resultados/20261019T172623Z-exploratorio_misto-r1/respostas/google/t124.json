@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.7,
+    "score": 0.7
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Entrega foi feita bem antes do prazo, os tapetes são bonitos , as calotas poderiam ter as travas  e o material poderia ser melhor, enfim, pelo preço os produtos são bons!"
+      },
+      "sentiment": {
+        "magnitude": 0.7,
+        "score": 0.7
+      }
+    }
+  ]
+}

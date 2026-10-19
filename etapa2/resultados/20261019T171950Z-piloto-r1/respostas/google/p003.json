@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.4,
+    "score": -0.4
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "não tem medida, pensei que fosse grande , mas parece um armarinho de boneca..."
+      },
+      "sentiment": {
+        "magnitude": 0.4,
+        "score": -0.4
+      }
+    }
+  ]
+}

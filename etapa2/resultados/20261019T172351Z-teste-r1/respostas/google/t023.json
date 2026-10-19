@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.9,
+    "score": 0.9
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Recomendo para quem quer um bom desempenho, e espaço para aplicativos"
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    }
+  ]
+}

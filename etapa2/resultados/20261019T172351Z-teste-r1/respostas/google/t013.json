@@ -1,0 +1,32 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.4,
+    "score": -0.1
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "O produto chegou mas veio faltando uma peça, o arco I."
+      },
+      "sentiment": {
+        "magnitude": 0.3,
+        "score": -0.3
+      }
+    },
+    {
+      "text": {
+        "content": "Não dá pra usar o produto sem essa peça.",
+        "beginOffset": 57
+      },
+      "sentiment": {}
+    },
+    {
+      "text": {
+        "content": "Espero q mandem a peça q veio faltando ou irei fazer uma reclamação no Procon",
+        "beginOffset": 101
+      },
+      "sentiment": {}
+    }
+  ]
+}

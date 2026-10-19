@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.6,
+    "score": -0.6
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Produto ok, mas o carregador está com um barulho horrível que já mandei mensagem para Americanas e até agora nada.. de resolverem eu quero um carregador novo, este parece que irá explodir com barulho que parece que gás está vazando, ou zunido mas alto se fosse baixo, até vai mas assim não."
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": -0.6
+      }
+    }
+  ]
+}

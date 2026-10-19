@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.1,
+    "score": 0.1
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "o cabide é bonito, bem slim, segura bastante a roupa, porem solta muito pelo, provavelmente a vida útil dele vai ser pequena"
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": 0.1
+      }
+    }
+  ]
+}

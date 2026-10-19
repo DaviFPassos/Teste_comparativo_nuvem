@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.6,
+    "score": 0.6
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Ainda é cedo para opinar, mais as primeiras impressões foram boas"
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": 0.6
+      }
+    }
+  ]
+}

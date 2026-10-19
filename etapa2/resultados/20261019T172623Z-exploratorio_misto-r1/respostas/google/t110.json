@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.2,
+    "score": 0.2
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Muito boa mas faltou o cabo de energia para ligar na luz teria melhor custo beneficio se fosse ligada a luz."
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": 0.2
+      }
+    }
+  ]
+}

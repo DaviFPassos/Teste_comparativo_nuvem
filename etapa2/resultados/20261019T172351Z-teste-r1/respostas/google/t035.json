@@ -1,0 +1,38 @@
+{
+  "documentSentiment": {
+    "magnitude": 2.1,
+    "score": -0.7
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Hoje fazem 7 dias que o prazo de entrega  venceu, e nada de chegar minha cama."
+      },
+      "sentiment": {
+        "magnitude": 0.5,
+        "score": -0.5
+      }
+    },
+    {
+      "text": {
+        "content": "Americanas.com = serviço lixo.",
+        "beginOffset": 79
+      },
+      "sentiment": {
+        "magnitude": 0.7,
+        "score": -0.7
+      }
+    },
+    {
+      "text": {
+        "content": "Primeira e última vez que compro de vocês.",
+        "beginOffset": 111
+      },
+      "sentiment": {
+        "magnitude": 0.8,
+        "score": -0.8
+      }
+    }
+  ]
+}

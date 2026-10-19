@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.1,
+    "score": -0.1
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "As elices não são de alumínio, como descrito no site ,são de plástico bem fraquinho"
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": -0.1
+      }
+    }
+  ]
+}

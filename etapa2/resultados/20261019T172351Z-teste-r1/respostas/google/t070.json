@@ -1,0 +1,28 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.3,
+    "score": 0.1
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Coloquem fotos do produto que realmente estejam vendendo."
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": 0.1
+      }
+    },
+    {
+      "text": {
+        "content": "No anuncio colocaram foto de refletor led SMD e me entregam refletor led comum.",
+        "beginOffset": 58
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": 0.2
+      }
+    }
+  ]
+}

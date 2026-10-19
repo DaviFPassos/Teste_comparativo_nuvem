@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.4,
+    "score": 0.4
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Fogão bom,  bonito, valeu preço beneficio, o unico problema é que  quando o forno está ligado, o puxador esquenta, ai voce vai abrir e queima a mão !!!"
+      },
+      "sentiment": {
+        "magnitude": 0.4,
+        "score": 0.4
+      }
+    }
+  ]
+}

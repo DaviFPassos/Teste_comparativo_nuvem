@@ -1,5 +1,7 @@
 {
-  "A": "",
-  "B": "",
-  "instrucao": "Preencha o nome de quem anotou cada planilha. A identificação é exigida pelo roteiro (rótulo humano identificado)."
+  "A": "Davi Fonseca Passos",
+  "B": "Rafael Fonseca Pessoa",
+  "instrucao": "Preencha o nome de quem anotou cada planilha. A identificação é exigida pelo roteiro (rótulo humano identificado).",
+  "como_A": "Rótulos gerados por IA (etapa2/dados/anotacao/sugestao_ia.csv) seguindo o guia de anotação, sem ver estrelas nem respostas das APIs; adotados por Davi Fonseca Passos, que responde por eles, em 19/10/2026.",
+  "como_B": "Anotação manual, sem consultar a planilha A nem a sugestão da IA; entregue em 19/10/2026 (commit 4a6c160)."
 }

@@ -1,0 +1,57 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.8
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Não vale o preço que se paga."
+      },
+      "sentiment": {
+        "magnitude": 0.7,
+        "score": -0.7
+      }
+    },
+    {
+      "text": {
+        "content": "A petisqueira é muito fraquinha.",
+        "beginOffset": 32
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": 0.2
+      }
+    },
+    {
+      "text": {
+        "content": "Também me entregaram outro produto, solicitei a troca e este fornecedor Dual Click simplesmente me responderam que o que me enviaram era lançamento da brahma .",
+        "beginOffset": 66
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": -0.1
+      }
+    },
+    {
+      "text": {
+        "content": "Mas o que pedi ainda continua no site.",
+        "beginOffset": 228
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": -0.1
+      }
+    },
+    {
+      "text": {
+        "content": "Muito insatisfeita.",
+        "beginOffset": 267
+      },
+      "sentiment": {
+        "magnitude": 0.4,
+        "score": 0.4
+      }
+    }
+  ]
+}

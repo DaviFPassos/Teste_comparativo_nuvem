@@ -1,0 +1,38 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.3,
+    "score": 0.3
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "O produto é de ótima qualidade, tamanho bom, portátil e leve."
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Foi o unico modelo que coube no meu quarto de casal, que é pequeno porque moro em apartamento.",
+        "beginOffset": 65
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": 0.2
+      }
+    },
+    {
+      "text": {
+        "content": "A unica coisa que nao nos agradou muito foi o fundo da altura mais alta, achamos muito duro para deixar um bebe dormindo, precisa ser forrado com algo ou um colchonete (apesar da marca não recomendar).",
+        "beginOffset": 161
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": -0.1
+      }
+    }
+  ]
+}

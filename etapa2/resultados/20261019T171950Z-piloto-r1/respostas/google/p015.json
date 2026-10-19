@@ -1,0 +1,28 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.8,
+    "score": -0.4
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Tive um problema com o produto com uma semana de uso."
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": -0.6
+      }
+    },
+    {
+      "text": {
+        "content": "Vou procurar a assistência  e espero q resolva.",
+        "beginOffset": 54
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": -0.1
+      }
+    }
+  ]
+}

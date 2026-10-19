@@ -1,0 +1,38 @@
+{
+  "documentSentiment": {
+    "magnitude": 2.8,
+    "score": 0.9
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Entrega rápida, produto em ordem."
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Muito boa pra quem mora sozinho ou não toma muito café, pois faz xícaras individualmente.",
+        "beginOffset": 35
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Recomendo.",
+        "beginOffset": 128
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.1,
+    "score": 0.1
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Em apenas uma lavagem já saiu toda a cor do cabelo."
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": 0.1
+      }
+    }
+  ]
+}

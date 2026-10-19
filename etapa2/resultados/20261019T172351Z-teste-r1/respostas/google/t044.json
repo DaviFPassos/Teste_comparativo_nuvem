@@ -1,0 +1,28 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.4,
+    "score": 0.2
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "O valor está correto?"
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": 0.2
+      }
+    },
+    {
+      "text": {
+        "content": "Por este valor eu compro o kit em outros sites.",
+        "beginOffset": 23
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": 0.1
+      }
+    }
+  ]
+}

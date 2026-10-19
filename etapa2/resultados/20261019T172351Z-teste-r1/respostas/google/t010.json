@@ -1,0 +1,28 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.0,
+    "score": -0.5
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "O fundo das panelas estão soltando com 8 dias de uso."
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": -0.2
+      }
+    },
+    {
+      "text": {
+        "content": "Horrível este produto.....",
+        "beginOffset": 55
+      },
+      "sentiment": {
+        "magnitude": 0.7,
+        "score": -0.7
+      }
+    }
+  ]
+}

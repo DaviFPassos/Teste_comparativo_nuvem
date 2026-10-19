@@ -1,0 +1,45 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.2,
+    "score": -0.2
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Um kit 3x1, o cartão de memória é bom mas, os adaptadores são bem inferiores."
+      },
+      "sentiment": {}
+    },
+    {
+      "text": {
+        "content": "Na foto mostra um produto com acabamento bom, mas os adaptadores que chegou são frágeis muito abaixo.",
+        "beginOffset": 82
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": -0.2
+      }
+    },
+    {
+      "text": {
+        "content": "Eu comprei visando também os adaptadores não veio como imaginei.",
+        "beginOffset": 186
+      },
+      "sentiment": {
+        "magnitude": 0.5,
+        "score": -0.5
+      }
+    },
+    {
+      "text": {
+        "content": "Pelo o preço deveria ser melhor.",
+        "beginOffset": 253
+      },
+      "sentiment": {
+        "magnitude": 0.3,
+        "score": -0.3
+      }
+    }
+  ]
+}

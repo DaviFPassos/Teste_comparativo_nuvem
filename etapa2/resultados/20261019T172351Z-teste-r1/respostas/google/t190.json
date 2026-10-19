@@ -1,0 +1,28 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.5,
+    "score": -0.7
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Péssimo produto."
+      },
+      "sentiment": {
+        "magnitude": 0.8,
+        "score": -0.8
+      }
+    },
+    {
+      "text": {
+        "content": "Material ruim; esquenta demais; apresenta cheiro de queimado; o tal fio com giro de 360 graus para de funcionar intermitentemente.",
+        "beginOffset": 18
+      },
+      "sentiment": {
+        "magnitude": 0.7,
+        "score": -0.7
+      }
+    }
+  ]
+}

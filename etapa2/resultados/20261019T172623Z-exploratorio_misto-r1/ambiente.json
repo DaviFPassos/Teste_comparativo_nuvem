@@ -1,0 +1,20 @@
+{
+  "python": "3.12.12",
+  "sistema": "Linux 6.6.87.2-microsoft-standard-WSL2",
+  "pacotes": {
+    "azure-ai-textanalytics": "5.4.0",
+    "azure-core": "1.41.0",
+    "google-cloud-language": "2.21.0",
+    "google-api-core": "2.42.0",
+    "google-auth": "2.62.0",
+    "protobuf": "7.36.2"
+  },
+  "git_commit": "50c3a948a324fe4da48bcff1f0886abe8581d858",
+  "git_alteracoes_nao_commitadas": false,
+  "dataset": {
+    "arquivo": "exploratorio_misto.csv",
+    "sha256": "75c44741bd75b48b50f89af536cf1d6e9b469ffbbdf83b0b0496c4ebeeb09d5b"
+  },
+  "codigo_sha256": "985172608b333c7b9a7906a3d5303195c0720d89ba2e8b4e73791fd310a6d808",
+  "maquina": "b3460323a121"
+}

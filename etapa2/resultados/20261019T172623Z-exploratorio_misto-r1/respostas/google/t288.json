@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.1,
+    "score": 0.1
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "O produto é bom, porem  a água poderia sair um pouco mais quente, uso o filtro de papel  nº 100 o café fica melhor filtrado e mais saboroso."
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": 0.1
+      }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.1,
+    "score": 0.5
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "GOSTEI DE COMPRAR NO SITE DA AMERICANAS, ENTREGA FEITA ANTES DO PRAZO PREVISO!"
+      },
+      "sentiment": {
+        "magnitude": 0.8,
+        "score": 0.8
+      }
+    },
+    {
+      "text": {
+        "content": "MUITO BOM.",
+        "beginOffset": 79
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": 0.2
+      }
+    }
+  ]
+}

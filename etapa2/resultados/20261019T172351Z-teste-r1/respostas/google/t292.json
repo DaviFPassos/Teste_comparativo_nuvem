@@ -1,0 +1,28 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.3,
+    "score": -0.6
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "o YouTube não funciona bem."
+      },
+      "sentiment": {
+        "magnitude": 0.7,
+        "score": -0.7
+      }
+    },
+    {
+      "text": {
+        "content": "Não encontra os vídeos,  os canais só mudam pra cima e pra baixo. se digitar o número. ex: 13 ele nao reconhece. entre outros",
+        "beginOffset": 29
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": -0.6
+      }
+    }
+  ]
+}

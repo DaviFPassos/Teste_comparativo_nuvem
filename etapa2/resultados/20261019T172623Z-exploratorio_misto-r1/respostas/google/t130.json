@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.1,
+    "score": 0.1
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Entrega excelente muito rápida, porém produto chegou quebrado e muito frágil"
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": 0.1
+      }
+    }
+  ]
+}

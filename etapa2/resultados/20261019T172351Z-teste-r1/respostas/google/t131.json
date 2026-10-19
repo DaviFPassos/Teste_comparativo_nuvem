@@ -1,0 +1,112 @@
+{
+  "documentSentiment": {
+    "magnitude": 4.1,
+    "score": -0.1
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "A entrega do produto demorou três vezes mais que o prazo prometido."
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": -0.2
+      }
+    },
+    {
+      "text": {
+        "content": "Chegou, mas a nota fiscal estava errada.",
+        "beginOffset": 69
+      },
+      "sentiment": {
+        "magnitude": 0.3,
+        "score": -0.3
+      }
+    },
+    {
+      "text": {
+        "content": "É preciso melhor o serviço, e muito!",
+        "beginOffset": 110
+      },
+      "sentiment": {}
+    },
+    {
+      "text": {
+        "content": "De três pedidos, um veio incompleto (embora já tenha reclamado, nada foi feito).",
+        "beginOffset": 149
+      },
+      "sentiment": {
+        "magnitude": 0.4,
+        "score": -0.4
+      }
+    },
+    {
+      "text": {
+        "content": "Outro veio fora do prazo e com nota fiscal errada.",
+        "beginOffset": 232
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": -0.6
+      }
+    },
+    {
+      "text": {
+        "content": "Somente um dos produtos foi entregue correto e no prazo, que alias não é tão pequeno (8 dias).",
+        "beginOffset": 283
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": 0.1
+      }
+    },
+    {
+      "text": {
+        "content": "Taxa de satisfação no atendimento: abaixo de 30%.",
+        "beginOffset": 381
+      },
+      "sentiment": {
+        "magnitude": 0.4,
+        "score": 0.4
+      }
+    },
+    {
+      "text": {
+        "content": "È para não comprar mais nada.",
+        "beginOffset": 433
+      },
+      "sentiment": {
+        "magnitude": 0.4,
+        "score": -0.4
+      }
+    },
+    {
+      "text": {
+        "content": "Os produtos encomedados da Amazon chegam dos USA em 7 dias e em 20 anos de uso, somente uma vez recebi um produto com problema, com mais de duzentos produtos comprados.",
+        "beginOffset": 465
+      },
+      "sentiment": {
+        "magnitude": 0.4,
+        "score": -0.4
+      }
+    },
+    {
+      "text": {
+        "content": "Taxa de satisfação: 99.5%.",
+        "beginOffset": 634
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": 0.6
+      }
+    },
+    {
+      "text": {
+        "content": "Aprendam com os gringos!",
+        "beginOffset": 663
+      },
+      "sentiment": {}
+    }
+  ]
+}

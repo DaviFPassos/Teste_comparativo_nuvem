@@ -1,0 +1,38 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.2,
+    "score": -0.1
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Bom dia, infelizmente não será possível eu avaliar o produto."
+      },
+      "sentiment": {
+        "magnitude": 0.4,
+        "score": -0.4
+      }
+    },
+    {
+      "text": {
+        "content": "Pois até o exato momento não recebi o produto ainda...",
+        "beginOffset": 65
+      },
+      "sentiment": {
+        "magnitude": 0.4,
+        "score": -0.4
+      }
+    },
+    {
+      "text": {
+        "content": "Gostaria de uma posição da Americanas.",
+        "beginOffset": 122
+      },
+      "sentiment": {
+        "magnitude": 0.4,
+        "score": 0.4
+      }
+    }
+  ]
+}

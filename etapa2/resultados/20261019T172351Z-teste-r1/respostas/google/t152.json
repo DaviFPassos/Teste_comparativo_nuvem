@@ -1,0 +1,38 @@
+{
+  "documentSentiment": {
+    "magnitude": 2.7,
+    "score": 0.9
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Feliz com a compra.Super recomendo. ótimo produto e veio como anunciado, chegou no tempo previsto."
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Parabéns para a Lojas Americanas.",
+        "beginOffset": 100
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Comprarei sempre com vcs.",
+        "beginOffset": 135
+      },
+      "sentiment": {
+        "magnitude": 0.8,
+        "score": 0.8
+      }
+    }
+  ]
+}

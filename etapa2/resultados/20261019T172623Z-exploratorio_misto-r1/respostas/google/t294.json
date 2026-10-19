@@ -1,0 +1,28 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.3,
+    "score": 0.2
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Amei é lindo!"
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Único problema é que com uma semana de uso a entrada do sim 1 parou de funcionar, só funciona o 2 :(",
+        "beginOffset": 15
+      },
+      "sentiment": {
+        "magnitude": 0.3,
+        "score": -0.3
+      }
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "documentSentiment": {
+    "magnitude": 2.0,
+    "score": 0.5
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Produto satisfatório."
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Chegou no prazo.",
+        "beginOffset": 23
+      },
+      "sentiment": {
+        "magnitude": 0.7,
+        "score": 0.7
+      }
+    },
+    {
+      "text": {
+        "content": "Se mais.",
+        "beginOffset": 40
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": 0.1
+      }
+    },
+    {
+      "text": {
+        "content": "Não tenho nada mais a declarar.",
+        "beginOffset": 49
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": 0.2
+      }
+    }
+  ]
+}

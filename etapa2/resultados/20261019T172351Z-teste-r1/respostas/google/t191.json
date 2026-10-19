@@ -1,0 +1,27 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.1
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Recebi o forno na data prevista porém o tamanho não era o que esperava, então solicitei a troca do produto um vale p trocar por um maior, mais até presente data não obtive retorno ,são mais de 7 dias corridos e nada."
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": -0.6
+      }
+    },
+    {
+      "text": {
+        "content": "Insatisfeita!",
+        "beginOffset": 223
+      },
+      "sentiment": {
+        "magnitude": 0.5,
+        "score": 0.5
+      }
+    }
+  ]
+}

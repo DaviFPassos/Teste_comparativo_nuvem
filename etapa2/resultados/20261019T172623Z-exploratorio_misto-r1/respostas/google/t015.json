@@ -1,0 +1,37 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.8
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "O produto é ok. cumpri seu propósito."
+      },
+      "sentiment": {
+        "magnitude": 0.7,
+        "score": 0.7
+      }
+    },
+    {
+      "text": {
+        "content": "Ponto negativo: pilha acaba muito rápido.",
+        "beginOffset": 41
+      },
+      "sentiment": {
+        "magnitude": 0.7,
+        "score": -0.7
+      }
+    },
+    {
+      "text": {
+        "content": "Sugiro comprar pilhas recarregáveis.",
+        "beginOffset": 84
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": 0.2
+      }
+    }
+  ]
+}

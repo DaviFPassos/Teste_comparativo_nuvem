@@ -1,0 +1,27 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.4
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Gostei do produto visualmente, porém a peça veio com alguns pontos descascados no lado frontal, nada que me fizesse pedir a troca, mas um tanto desagradável."
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": -0.2
+      }
+    },
+    {
+      "text": {
+        "content": "Na foto dá a impressao de haver um acrílico fazendo as vezes de vidro, mas não há nem um nem outro, as janelassão vazadas;",
+        "beginOffset": 161
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": 0.1
+      }
+    }
+  ]
+}

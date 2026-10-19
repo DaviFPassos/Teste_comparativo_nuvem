@@ -1,0 +1,28 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.6,
+    "score": 0.3
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "O sofá Veio sem os pés."
+      },
+      "sentiment": {
+        "magnitude": 0.5,
+        "score": 0.5
+      }
+    },
+    {
+      "text": {
+        "content": "Já olhei embaixo e dentro do forro .",
+        "beginOffset": 26
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": 0.1
+      }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.1,
+    "score": -0.5
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Produto chegou todo quebrado n recomendo."
+      },
+      "sentiment": {
+        "magnitude": 0.5,
+        "score": -0.5
+      }
+    },
+    {
+      "text": {
+        "content": "Demorou p chegar e qdo veio chegou com defeito.",
+        "beginOffset": 42
+      },
+      "sentiment": {
+        "magnitude": 0.5,
+        "score": -0.5
+      }
+    }
+  ]
+}

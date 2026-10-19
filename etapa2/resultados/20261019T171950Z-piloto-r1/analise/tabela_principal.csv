@@ -1,0 +1,2 @@
+provedor,programados,respostas_validas,intersecao,acuracia,macro_f1,acertos_sobre_programados,previsoes_misto,latencia_mediana_ms,latencia_p95_ms,latencia_n,sucesso_por_tentativa,sucesso_por_texto,unidades_estimadas,custo_estimado_com_franquia_usd,custo_estimado_sem_franquia_usd
+google,23,23,23,0.8695652173913043,0.7484702093397746,0.8695652173913043,0,1120.5014999999999,1303.432,30,1.0,1.0,31,0.0,0.031

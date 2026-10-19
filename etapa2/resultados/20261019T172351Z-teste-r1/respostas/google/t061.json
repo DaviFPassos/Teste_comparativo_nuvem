@@ -1,0 +1,28 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.9,
+    "score": 0.9
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Produto atende as minhas necessidades."
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Chegou no prazo e esta em uso desde a data sem nenhum problema.",
+        "beginOffset": 39
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    }
+  ]
+}

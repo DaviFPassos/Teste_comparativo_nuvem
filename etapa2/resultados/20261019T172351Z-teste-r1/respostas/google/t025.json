@@ -1,0 +1,28 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.3,
+    "score": 0.6
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Funcionalidades incríveis, fluidez, roda bem jogos pesados como asphalt 8, free fire e etc, câmera razoável tanto frontal quando traseira, não é uma das melhores, mais quebra o galho!"
+      },
+      "sentiment": {
+        "magnitude": 0.3,
+        "score": 0.3
+      }
+    },
+    {
+      "text": {
+        "content": "RECOMENDO!",
+        "beginOffset": 189
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.7
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "O produto é bom!"
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "A lamina corta direitinho mas achei pouco eficiente.",
+        "beginOffset": 18
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": -0.1
+      }
+    },
+    {
+      "text": {
+        "content": "Muito confuso a costura.",
+        "beginOffset": 71
+      },
+      "sentiment": {
+        "magnitude": 0.5,
+        "score": -0.5
+      }
+    }
+  ]
+}

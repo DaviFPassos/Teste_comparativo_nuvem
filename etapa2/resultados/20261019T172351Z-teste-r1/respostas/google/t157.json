@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.2,
+    "score": 0.2
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Na primeira vez que usei a parte interna da mangueira rasgou."
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": 0.2
+      }
+    }
+  ]
+}

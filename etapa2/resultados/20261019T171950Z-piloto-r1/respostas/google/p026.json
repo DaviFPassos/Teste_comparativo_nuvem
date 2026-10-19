@@ -1,0 +1,38 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.9,
+    "score": -0.6
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Extremamente fragil, de Force nao tem nada."
+      },
+      "sentiment": {
+        "magnitude": 0.5,
+        "score": -0.5
+      }
+    },
+    {
+      "text": {
+        "content": "Nao é a prova de respingos como informa no manual, ele estragou com a umidade do vapor do banheiro.",
+        "beginOffset": 44
+      },
+      "sentiment": {
+        "magnitude": 0.7,
+        "score": -0.7
+      }
+    },
+    {
+      "text": {
+        "content": "E tem 2 dias que estou tentando contato com a assitencia sem sucesso.",
+        "beginOffset": 145
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": -0.6
+      }
+    }
+  ]
+}

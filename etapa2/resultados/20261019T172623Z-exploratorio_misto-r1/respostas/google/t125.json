@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.4,
+    "score": 0.4
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "É um bom aparelho, espera mais da câmara frontal com flash"
+      },
+      "sentiment": {
+        "magnitude": 0.4,
+        "score": 0.4
+      }
+    }
+  ]
+}

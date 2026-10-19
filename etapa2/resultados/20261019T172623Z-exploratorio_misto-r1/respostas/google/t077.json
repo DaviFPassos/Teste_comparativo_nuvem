@@ -1,0 +1,28 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.4,
+    "score": 0.2
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Tablet muito bom mas a bateria dura muito pouco."
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": 0.1
+      }
+    },
+    {
+      "text": {
+        "content": "No máximo 1 hora.",
+        "beginOffset": 49
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": 0.2
+      }
+    }
+  ]
+}

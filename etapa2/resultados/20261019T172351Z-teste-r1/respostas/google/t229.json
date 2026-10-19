@@ -1,0 +1,25 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.2,
+    "score": 0.1
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Esse óculos é original ?"
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": 0.1
+      }
+    },
+    {
+      "text": {
+        "content": "Esse tamanho único se aproxima de qual tamanho p, m ou g?",
+        "beginOffset": 27
+      },
+      "sentiment": {}
+    }
+  ]
+}

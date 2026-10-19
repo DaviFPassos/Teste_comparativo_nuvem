@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.6,
+    "score": -0.6
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Produto veio com defeito não está lendo no vídeo game"
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": -0.6
+      }
+    }
+  ]
+}

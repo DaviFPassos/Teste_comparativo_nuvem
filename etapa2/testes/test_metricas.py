@@ -135,3 +135,21 @@ def test_intersecao_exclui_texto_que_falhou_em_um_provedor():
     assert go["timeouts"]["n"] == 1 and go["latencia_ms"]["maximo"] == 50.0  # timeout fora da latência
     assert r["exploratorio"]["misto"] == {"azure": {"misto": 1}, "google": {"neutro": 1}}
     assert r["comparacao_pareada"]["mcnemar_exato"] == {"b": 0, "c": 1, "p_valor": 1.0}
+
+
+def test_avaliacao_sem_neutro_usa_so_positivo_e_negativo():
+    from analisar import analisar
+    gab = dict(GABARITO, t5={"rotulo_referencia": "positivo", "texto": "e"})
+    preds = [_pred("t1", "azure", "positivo", "positive"), _pred("t1", "google", "positivo", score=0.9),
+             _pred("t2", "azure", "misto", "mixed"),       _pred("t2", "google", "negativo", score=-0.9),
+             _pred("t3", "azure", "neutro", "neutral"),    _pred("t3", "google", "neutro", score=0.0),
+             _pred("t4", "azure", "misto", "mixed"),       _pred("t4", "google", "neutro", score=0.1),
+             _pred("t5", "azure", "positivo", "positive"), _pred("t5", "google", "neutro", score=0.2)]
+    r = analisar(preds, [], CONFIG, gab)
+    sn = r["sem_neutro"]
+    assert sn["n"] == 3                                    # t1, t2, t5: sem o neutro (t3) e o misto (t4)
+    az, go = sn["por_provedor"]["azure"], sn["por_provedor"]["google"]
+    assert az["acertos"] == 2 and go["acertos"] == 2       # misto e neutro previstos contam como erro
+    # positivo: Azure TP=2 FN=0 FP=0 → F1 1; negativo: TP=0 FN=1 → F1 0; macro 0,5
+    assert az["macro_f1"] == pytest.approx(0.5)
+    assert sn["mcnemar_exato"] == {"b": 1, "c": 1, "p_valor": 1.0}

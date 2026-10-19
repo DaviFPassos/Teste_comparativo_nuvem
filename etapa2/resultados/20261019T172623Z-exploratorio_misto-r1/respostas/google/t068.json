@@ -1,0 +1,28 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.7,
+    "score": 0.3
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "TAPETE É LINDO,  MACIO, PELUDO, MAS É MUITO FINO."
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": 0.6
+      }
+    },
+    {
+      "text": {
+        "content": "VOCÊ SENTE A  DUREZA DO PISO.",
+        "beginOffset": 52
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": 0.1
+      }
+    }
+  ]
+}

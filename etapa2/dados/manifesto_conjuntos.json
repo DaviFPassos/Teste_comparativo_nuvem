@@ -1,0 +1,57 @@
+{
+  "max_por_classe": 50,
+  "semente": 20261018,
+  "disponiveis_no_conjunto_de_candidatos": {
+    "positivo": 134,
+    "negativo": 107,
+    "neutro": 15
+  },
+  "no_teste": {
+    "neutro": 15,
+    "positivo": 50,
+    "negativo": 50
+  },
+  "invalidos_excluidos": 2,
+  "excluidos_por_decisao": [
+    {
+      "id": "t196",
+      "motivo": "dado pessoal: o texto traz o nome do autor, que o filtro automático não detecta"
+    },
+    {
+      "id": "t219",
+      "motivo": "dado pessoal: o texto traz o nome da autora, que o filtro automático não detecta"
+    },
+    {
+      "id": "t300",
+      "motivo": "dado pessoal: o texto traz o nome da autora, que o filtro automático não detecta"
+    }
+  ],
+  "concordancia": {
+    "anotador_A": "Davi Fonseca Passos",
+    "anotador_B": "Rafael Fonseca Pessoa",
+    "textos": 330,
+    "concordancia_bruta": 0.8697,
+    "kappa_de_cohen": 0.7909,
+    "divergencias": 43,
+    "pendentes": 0,
+    "rotulos_A": {
+      "positivo": 166,
+      "negativo": 130,
+      "misto": 22,
+      "invalido": 2,
+      "neutro": 10
+    },
+    "rotulos_B": {
+      "positivo": 147,
+      "negativo": 119,
+      "misto": 46,
+      "invalido": 2,
+      "neutro": 16
+    }
+  },
+  "arquivos": {
+    "piloto.csv": "a3b73b029319f287e84939a01cd8c362394307165867dd4d4d42271dae980ee5",
+    "teste.csv": "7591d278b6d88373228477247adf3f98722b69183641242181c1629530f24f9e",
+    "exploratorio_misto.csv": "75c44741bd75b48b50f89af536cf1d6e9b469ffbbdf83b0b0496c4ebeeb09d5b"
+  }
+}
