@@ -1,0 +1,58 @@
+{
+  "documentSentiment": {
+    "magnitude": 3.0,
+    "score": -0.2
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Comprei um para testar e dar aos meus pais ( terceira idade)."
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": 0.2
+      }
+    },
+    {
+      "text": {
+        "content": "Não recomendo.",
+        "beginOffset": 62
+      },
+      "sentiment": {
+        "magnitude": 0.8,
+        "score": -0.8
+      }
+    },
+    {
+      "text": {
+        "content": "Som com muito ruído e toques com chiado .",
+        "beginOffset": 78
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": 0.6
+      }
+    },
+    {
+      "text": {
+        "content": "Tela de difícil visualização.",
+        "beginOffset": 121
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": -0.6
+      }
+    },
+    {
+      "text": {
+        "content": "Apesar do baixo preço ao meu ver não compensa o custo benefício.",
+        "beginOffset": 154
+      },
+      "sentiment": {
+        "magnitude": 0.7,
+        "score": -0.7
+      }
+    }
+  ]
+}

@@ -11,7 +11,7 @@
 | 1 — Conferir a Etapa 1 e a viabilidade | **Concluída** | — |
 | 2 — Preparar dados e protocolo | **Concluída** (19/10/2026) | — Gabarito: kappa 0,791; teste com 115 textos (50/50/15); metodologia aprovada |
 | 3 — Implementar e fazer o piloto | **Implementado** · credenciais **funcionando** (Google no Davi, Azure no Rafael) · piloto **não executado** | `piloto.csv` (depende da montagem) |
-| 4 — Avaliação final | Planejado | Depende das fases 2 e 3 |
+| 4 — Avaliação final | **Google concluído** (19/10/2026) · Azure pendente | Rafael: piloto, teste e exploratório da Azure |
 | 5 — Processar e interpretar | **Implementado localmente** (`analisar.py`) | Depende da coleta |
 | 6 — Confrontar com a Etapa 1 | Planejado | Depende da coleta |
 | 7 — Consolidar e entregar | Planejado | — |
@@ -82,7 +82,11 @@ Os itens 1–2 e 3–4 podem andar em paralelo. O piloto só depende de 3–4 e 
 | `20261018T151637-azure-rafael` | `dados/fumaca_azure.csv` — 5 frases (3 do roteiro, 2 do autor) | Azure | **Verificação real** pelo Rafael, com o pipeline do ramo `feat/azure-nlp-sentimento`; em `etapa2/demonstracoes/` | 5/5 respostas; 1ª chamada 1.580 ms, demais ~843 ms. **Não é resultado do experimento** |
 | `20261018T191648Z-demonstracao-r1` | `dados/demonstracao.csv` — 8 frases **do guia de anotação**, fora do experimento | Google | **Demonstração real** (`--demonstracao`), em `etapa2/demonstracoes/` | 8/8 respostas, mediana 1.074 ms. **Não é resultado do experimento**: rótulos ilustrativos, n = 8, frases difíceis de propósito |
 | `20261019T132214Z-demonstracao-r1` | `dados/demonstracao.csv` — as mesmas 8 frases | Azure | **Demonstração real** pelo Rafael, no laptop dele, com o programa do `main` (`f83feff`); relato em `etapa2/RELATORIO_AZURE_RAFAEL.md` | 8/8 respostas, 4 de 6 válidas certas, mediana 224 ms (p95 262 ms), nenhuma previsão `misto`. **Não é resultado do experimento** |
-| — | — | — | — | Nenhuma execução do experimento. Também em 18/10/2026: uma chamada de verificação de credencial (não gravada) e o teste real do exemplo da Etapa 1 (`testes/evidencias/nlp_google.json`) |
+| `20261019T171950Z-piloto-r1` | `dados/piloto.csv` — 30 textos | Google | **Piloto** (fora das métricas principais) | 30/30; acurácia 87,0% (23 textos de 3 classes); limiar ±0,25 mantido |
+| `20261019T172351Z-teste-r1` | `dados/teste.csv` — 115 textos | Google | **Teste do experimento** | 115/115; acurácia 78,3%, macro-F1 71,2%; sem a classe neutra 81,0%; mediana 1.092 ms; 116 unidades, US$ 0 |
+| `20261019T172623Z-exploratorio_misto-r1` | `dados/exploratorio_misto.csv` — 39 textos | Google | **Conjunto exploratório** | 39/39; 24 → neutro, 11 → positivo, 4 → negativo |
+| — | — | Azure | Piloto, teste e exploratório **pendentes** (laptop do Rafael) | — |
+| — | — | — | — | Antes do experimento: Também em 18/10/2026: uma chamada de verificação de credencial (não gravada) e o teste real do exemplo da Etapa 1 (`testes/evidencias/nlp_google.json`) |
 
 ## Observações registradas
 

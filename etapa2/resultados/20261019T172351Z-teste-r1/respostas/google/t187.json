@@ -1,0 +1,25 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.8,
+    "score": -0.3
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Apesar de ter uma qualidade e volume de som que me agradaram muito, não recomendo o produto pois a haste é muito frágil, quebrou com 3 semanas de uso."
+      },
+      "sentiment": {
+        "magnitude": 0.7,
+        "score": -0.7
+      }
+    },
+    {
+      "text": {
+        "content": "O que impossibilita o uso do aparelho",
+        "beginOffset": 154
+      },
+      "sentiment": {}
+    }
+  ]
+}

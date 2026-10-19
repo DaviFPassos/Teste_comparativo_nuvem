@@ -1,0 +1,28 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.5,
+    "score": -0.2
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Produto entregue fora da data acordada."
+      },
+      "sentiment": {
+        "magnitude": 0.4,
+        "score": -0.4
+      }
+    },
+    {
+      "text": {
+        "content": "Então pra que serve a compra agendada?",
+        "beginOffset": 40
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": -0.1
+      }
+    }
+  ]
+}

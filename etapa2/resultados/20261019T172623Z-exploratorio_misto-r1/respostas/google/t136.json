@@ -1,0 +1,28 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.3,
+    "score": 0.6
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Além de bonita, é um produto de razoável durabilidade já que o material me parece resistente, o preço foi condizente com o mercado."
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Atentar ao fato do manual não ser tão explicativo quanto a montagem, mas quem tiver alguma experiência vai motar sem problemas.",
+        "beginOffset": 137
+      },
+      "sentiment": {
+        "magnitude": 0.3,
+        "score": 0.3
+      }
+    }
+  ]
+}

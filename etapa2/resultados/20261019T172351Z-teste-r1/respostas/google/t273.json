@@ -1,0 +1,38 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.2,
+    "score": -0.3
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Fixação e Projeção não foi como esperado."
+      },
+      "sentiment": {
+        "magnitude": 0.7,
+        "score": -0.7
+      }
+    },
+    {
+      "text": {
+        "content": "O frasco encontra-se com alguns defeitos parecendo estar todo \"solto\"!",
+        "beginOffset": 47
+      },
+      "sentiment": {
+        "magnitude": 0.3,
+        "score": -0.3
+      }
+    },
+    {
+      "text": {
+        "content": "Deixando duvidas sobre originalidade!",
+        "beginOffset": 118
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": 0.1
+      }
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "documentSentiment": {
+    "magnitude": 3.7,
+    "score": 0.9
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Bike tem excelente qualidade e acabamento."
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Pintura fosca e peças de excelente qualdiade.",
+        "beginOffset": 43
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Entrega antes do prazo pela transportadora.",
+        "beginOffset": 90
+      },
+      "sentiment": {
+        "magnitude": 0.8,
+        "score": 0.8
+      }
+    },
+    {
+      "text": {
+        "content": "Melhor compra que fiz pela internet até hoje!",
+        "beginOffset": 134
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    }
+  ]
+}

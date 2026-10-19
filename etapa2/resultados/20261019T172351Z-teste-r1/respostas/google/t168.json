@@ -1,0 +1,28 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.0,
+    "score": -0.5
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Não foi possível montar a cama inteira, a cabeceira não encaixa no local indicado pois é maior do que deveria ser, os buracos que deixaram para colocar os parafusos são menores que eles."
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": -0.6
+      }
+    },
+    {
+      "text": {
+        "content": "Tivemos que usar uma furadeira para conseguir parafusar até o final.",
+        "beginOffset": 192
+      },
+      "sentiment": {
+        "magnitude": 0.3,
+        "score": -0.3
+      }
+    }
+  ]
+}

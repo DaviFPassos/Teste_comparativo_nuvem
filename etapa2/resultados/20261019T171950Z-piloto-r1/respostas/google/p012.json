@@ -1,0 +1,28 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.0,
+    "score": -0.5
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Não apresenta boa qualidade na resolução do som!"
+      },
+      "sentiment": {
+        "magnitude": 0.8,
+        "score": -0.8
+      }
+    },
+    {
+      "text": {
+        "content": "Dificuldade em perceber a diferença na presença e ausência do equipamento, ou seja, praticamente irrelevante.",
+        "beginOffset": 52
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": -0.2
+      }
+    }
+  ]
+}

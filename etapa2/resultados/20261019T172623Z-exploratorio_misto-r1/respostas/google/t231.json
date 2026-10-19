@@ -1,0 +1,58 @@
+{
+  "documentSentiment": {
+    "magnitude": 2.1,
+    "score": -0.1
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Comprei esse mouse e durante a compra troquei o endereço, a Americanas mandou para a transportadora com o endereço antigo, sendo que eu atualizei o meu endereço."
+      },
+      "sentiment": {
+        "magnitude": 0.4,
+        "score": -0.4
+      }
+    },
+    {
+      "text": {
+        "content": "A sorte que eu conheço o entregador e consegui falar com a transportadora.",
+        "beginOffset": 165
+      },
+      "sentiment": {
+        "magnitude": 0.5,
+        "score": 0.5
+      }
+    },
+    {
+      "text": {
+        "content": "Presta mais atenção Americanas!!!",
+        "beginOffset": 241
+      },
+      "sentiment": {
+        "magnitude": 0.3,
+        "score": -0.3
+      }
+    },
+    {
+      "text": {
+        "content": "O Mouse até o momento parece ser bom, só achei pequeno em comparação a outro que eu tinha.",
+        "beginOffset": 277
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": 0.1
+      }
+    },
+    {
+      "text": {
+        "content": "Achei muito estranho não vir lacres em sua caixa, então é fácil a Americanas mandar um refugo, já que não vem nada mostrando que é novo!",
+        "beginOffset": 373
+      },
+      "sentiment": {
+        "magnitude": 0.5,
+        "score": -0.5
+      }
+    }
+  ]
+}

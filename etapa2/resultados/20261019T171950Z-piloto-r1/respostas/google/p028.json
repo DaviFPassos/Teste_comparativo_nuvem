@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.6,
+    "score": -0.6
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "alem de nao receber o produto ,ainda nao tenho a resposta se irão fazer o estorno do valor lançado em meu cartão muita insatisfação  ,a primeira vez que compro na loja e nao consigo nem conversar com um atendente"
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": -0.6
+      }
+    }
+  ]
+}

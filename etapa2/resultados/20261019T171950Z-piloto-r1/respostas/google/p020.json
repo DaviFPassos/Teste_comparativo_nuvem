@@ -1,0 +1,58 @@
+{
+  "documentSentiment": {
+    "magnitude": 2.9,
+    "score": -0.1
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "O produto chegou antes do prazo e funcionou muito bem nas cinco/seis vezes que foram utilizadas."
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Porém após isso a cola dos eletros ficam desgastadas, não colam mais e o aparelho para de dar o choquinho....",
+        "beginOffset": 98
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": -0.6
+      }
+    },
+    {
+      "text": {
+        "content": "Procurei para comprar estes eletrodos, porém não encontrei em lugar algum.",
+        "beginOffset": 211
+      },
+      "sentiment": {
+        "magnitude": 0.3,
+        "score": -0.3
+      }
+    },
+    {
+      "text": {
+        "content": "Além disso, a sensação que dá é que pela tomada o aparelho para de funcionar (ou é bem fraco) e pilha gasta muito rápido.",
+        "beginOffset": 289
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": -0.6
+      }
+    },
+    {
+      "text": {
+        "content": "Enfim, se funcionasse seria muito bom, porém com todos esses pequenos problemas acaba não se tornando algo muito vantajoso para se adquirir.",
+        "beginOffset": 418
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": -0.2
+      }
+    }
+  ]
+}

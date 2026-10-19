@@ -1,0 +1,28 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.1,
+    "score": 0.5
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Perfume maravilhoso!!"
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Você fica com cheirinho de banho e sensualidade o dia todo!",
+        "beginOffset": 22
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": 0.1
+      }
+    }
+  ]
+}

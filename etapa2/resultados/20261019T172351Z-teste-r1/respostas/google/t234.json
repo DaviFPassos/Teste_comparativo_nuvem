@@ -1,0 +1,28 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.4,
+    "score": -0.7
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Não gostei do produto,achei que fosse melhor!"
+      },
+      "sentiment": {
+        "magnitude": 0.8,
+        "score": -0.8
+      }
+    },
+    {
+      "text": {
+        "content": "Não indico para ninguém o produto que comprei,bateria descarrega muito rápido.",
+        "beginOffset": 47
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": -0.6
+      }
+    }
+  ]
+}

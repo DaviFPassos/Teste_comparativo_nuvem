@@ -1,0 +1,45 @@
+{
+  "documentSentiment": {
+    "magnitude": 2.1,
+    "score": 0.5
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Ele eh bastante forte."
+      },
+      "sentiment": {
+        "magnitude": 0.4,
+        "score": 0.4
+      }
+    },
+    {
+      "text": {
+        "content": "Quando não deixo no mínimo, sai tanto vapor que chega a molhar em volta do aparelho, então deixo uma toalha embaixo dele e ligo no mínimo, que jah eh bastante forte.",
+        "beginOffset": 23
+      },
+      "sentiment": {}
+    },
+    {
+      "text": {
+        "content": "Gosto da luz azul do led.",
+        "beginOffset": 193
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Além disso, ele eh maior do que eu imaginei e água costuma durar 3 noites inteiras.",
+        "beginOffset": 219
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": 0.6
+      }
+    }
+  ]
+}

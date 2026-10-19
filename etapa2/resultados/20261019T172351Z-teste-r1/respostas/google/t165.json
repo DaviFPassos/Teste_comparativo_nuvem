@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.4,
+    "score": -0.4
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Boa noite... gostaria de avaliar este produto.....mas não recebi o produto ainda ..... estou no aguardo....."
+      },
+      "sentiment": {
+        "magnitude": 0.4,
+        "score": -0.4
+      }
+    }
+  ]
+}

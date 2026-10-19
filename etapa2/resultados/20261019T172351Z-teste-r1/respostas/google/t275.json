@@ -1,0 +1,28 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.7,
+    "score": -0.3
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Infelizmente não houve compromisso no teste do produto antes do envio (creio), pois estou trafegando com meu conjunto de farol de neblina com duas cores, uma é roxa (deve ser 12000k e não 4300k)."
+      },
+      "sentiment": {
+        "magnitude": 0.4,
+        "score": -0.4
+      }
+    },
+    {
+      "text": {
+        "content": "Como podemos resolver isso?",
+        "beginOffset": 199
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": -0.2
+      }
+    }
+  ]
+}

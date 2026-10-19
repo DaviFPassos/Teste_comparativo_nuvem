@@ -1,0 +1,24 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.2
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Eu gostei,estou tentando avaliar mas está aparecendo que o texto é curto."
+      },
+      "sentiment": {}
+    },
+    {
+      "text": {
+        "content": "Porém não tenho muito que falar,chegou antes do prazo e é isso.",
+        "beginOffset": 76
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": 0.1
+      }
+    }
+  ]
+}

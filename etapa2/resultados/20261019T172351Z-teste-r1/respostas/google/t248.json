@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.4,
+    "score": 0.4
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "bom  carregador não funciona para qualquer celular , mas como tenho um s6 funcionou perfeitamente, carrega sem ao menos por qualquer dispositivo para adaptação, e carrega muito rápido,., carga dura horas também. recomendo para todos essa tecnologia caso celular da mesma a aceite. e o site é ótimo para compras do gênero."
+      },
+      "sentiment": {
+        "magnitude": 0.4,
+        "score": 0.4
+      }
+    }
+  ]
+}

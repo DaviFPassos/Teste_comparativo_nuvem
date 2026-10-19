@@ -1,0 +1,42 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.5,
+    "score": -0.1
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Produtos bons, mas suporte tecnico da ELGIN não conseguiu configurar a impressora ELGIN I9."
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": -0.1
+      }
+    },
+    {
+      "text": {
+        "content": "Péssimos, informaram que o aplicativo comercial é que comanda a impressora.",
+        "beginOffset": 93
+      },
+      "sentiment": {}
+    },
+    {
+      "text": {
+        "content": "Precisam de treinamento, descobri no DR.",
+        "beginOffset": 171
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": -0.2
+      }
+    },
+    {
+      "text": {
+        "content": "GOOGLE a configuração.",
+        "beginOffset": 212
+      },
+      "sentiment": {}
+    }
+  ]
+}

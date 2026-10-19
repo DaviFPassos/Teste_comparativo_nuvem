@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.4,
+    "score": -0.4
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "oi boa noite, quero saber se vao devolver o dinheiro, eu mandei o produto ficou faltando a pistola e quero saber se vao me restituir pq ainda estao cobrando no cartao de credito"
+      },
+      "sentiment": {
+        "magnitude": 0.4,
+        "score": -0.4
+      }
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.2,
+    "score": -0.3
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Ainda bem que o produto funcionou, mas não tem fabricante, nem marca, nem página com informações adicionais."
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": -0.2
+      }
+    },
+    {
+      "text": {
+        "content": "O mini folheto que veio na caixa não ajuda na instalação.",
+        "beginOffset": 113
+      },
+      "sentiment": {
+        "magnitude": 0.4,
+        "score": -0.4
+      }
+    },
+    {
+      "text": {
+        "content": "E não veio a nota fiscal.",
+        "beginOffset": 174
+      },
+      "sentiment": {
+        "magnitude": 0.4,
+        "score": -0.4
+      }
+    },
+    {
+      "text": {
+        "content": "Espero não ter problema nos próximos meses.",
+        "beginOffset": 201
+      },
+      "sentiment": {}
+    }
+  ]
+}

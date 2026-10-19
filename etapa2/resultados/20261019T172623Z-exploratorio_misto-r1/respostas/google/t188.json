@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.2,
+    "score": -0.2
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Os produtos chegaram sem avarias, mas a potência deles é aquém do esperado, até para fazer uma simples limpeza no carro, demora bastante, devido a potência baixa."
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": -0.2
+      }
+    }
+  ]
+}

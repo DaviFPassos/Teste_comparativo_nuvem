@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.2,
+    "score": 0.2
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Bem diferente da foto, material bem inferior. a vantagem é que é bem completo, mas não é algo que de pra usar pensando na beleza do quarto."
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": 0.2
+      }
+    }
+  ]
+}

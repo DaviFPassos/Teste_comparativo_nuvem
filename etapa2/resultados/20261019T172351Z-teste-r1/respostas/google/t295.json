@@ -1,0 +1,38 @@
+{
+  "documentSentiment": {
+    "magnitude": 2.9,
+    "score": 0.9
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Comprei a caneta lancetadora da G-tech , ótimo custo benefício, chegou muito antes do previsto."
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Cumpre perfeitamente com minhas necessidades.",
+        "beginOffset": 99
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Recomendo! !",
+        "beginOffset": 146
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    }
+  ]
+}

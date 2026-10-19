@@ -1,0 +1,25 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.7,
+    "score": 0.2
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Produto conforme especificações do fabricante."
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": 0.6
+      }
+    },
+    {
+      "text": {
+        "content": "Nenhum comentário adicional.",
+        "beginOffset": 49
+      },
+      "sentiment": {}
+    }
+  ]
+}

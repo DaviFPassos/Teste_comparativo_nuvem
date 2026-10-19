@@ -1,0 +1,45 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.7,
+    "score": -0.4
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Produto ruim."
+      },
+      "sentiment": {
+        "magnitude": 0.7,
+        "score": -0.7
+      }
+    },
+    {
+      "text": {
+        "content": "Um verdadeiro conta gotas.",
+        "beginOffset": 14
+      },
+      "sentiment": {}
+    },
+    {
+      "text": {
+        "content": "Se tiver com muit sede não da pra esperar. 10 minutos pra tirar 200ml de água.",
+        "beginOffset": 41
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": -0.2
+      }
+    },
+    {
+      "text": {
+        "content": "Não vale apena comprar.",
+        "beginOffset": 122
+      },
+      "sentiment": {
+        "magnitude": 0.6,
+        "score": -0.6
+      }
+    }
+  ]
+}

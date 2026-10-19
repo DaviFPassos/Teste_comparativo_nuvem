@@ -1,0 +1,48 @@
+{
+  "documentSentiment": {
+    "magnitude": 1.8,
+    "score": -0.2
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Comprei o produto como novo e o mesmo não foi compatível com minha impressora OKI B730."
+      },
+      "sentiment": {
+        "magnitude": 0.7,
+        "score": -0.7
+      }
+    },
+    {
+      "text": {
+        "content": "Até tentei usar mas, começou a travar a impressora e ter de recarregar o cartucho várias vezes ao dia.",
+        "beginOffset": 90
+      },
+      "sentiment": {
+        "magnitude": 0.7,
+        "score": -0.7
+      }
+    },
+    {
+      "text": {
+        "content": "O processo de devolução ficou num jogo de empurra entre as Americanas (da qual sou cliente) e a Olist, que forneceu o produto.",
+        "beginOffset": 196
+      },
+      "sentiment": {
+        "magnitude": 0.1,
+        "score": 0.1
+      }
+    },
+    {
+      "text": {
+        "content": "Recomendo a quem for comprar, verificar a compatibilidade de sua impressora com cartuchos não originais.",
+        "beginOffset": 325
+      },
+      "sentiment": {
+        "magnitude": 0.2,
+        "score": 0.2
+      }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.9,
+    "score": 0.4
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Produto bom."
+      },
+      "sentiment": {
+        "magnitude": 0.9,
+        "score": 0.9
+      }
+    },
+    {
+      "text": {
+        "content": "Limpa conforme esperado, porém não elimina 100% da sujeira.",
+        "beginOffset": 13
+      },
+      "sentiment": {}
+    }
+  ]
+}

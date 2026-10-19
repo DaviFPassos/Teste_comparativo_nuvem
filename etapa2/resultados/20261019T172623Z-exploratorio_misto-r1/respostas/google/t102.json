@@ -1,0 +1,18 @@
+{
+  "documentSentiment": {
+    "magnitude": 0.8,
+    "score": 0.8
+  },
+  "language": "pt",
+  "sentences": [
+    {
+      "text": {
+        "content": "Gostei muito do produto, só poderia ter alça para ficar perfeita !"
+      },
+      "sentiment": {
+        "magnitude": 0.8,
+        "score": 0.8
+      }
+    }
+  ]
+}
