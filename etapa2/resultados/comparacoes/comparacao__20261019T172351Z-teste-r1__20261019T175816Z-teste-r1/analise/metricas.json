@@ -1,0 +1,296 @@
+{
+  "provedores": [
+    "azure",
+    "google"
+  ],
+  "textos_no_dataset": 115,
+  "programados_3_classes": 115,
+  "fora_da_avaliacao_principal": {},
+  "intersecao": 115,
+  "excluidos_da_intersecao": 0,
+  "por_provedor": {
+    "azure": {
+      "respostas_validas": 115,
+      "falhas_por_codigo": {},
+      "tentativas": 115,
+      "sucesso_por_tentativa": 1.0,
+      "sucesso_por_texto": 1.0,
+      "qualidade_na_intersecao": {
+        "n": 115,
+        "acertos": 86,
+        "acuracia": 0.7478260869565218,
+        "macro_f1": 0.6593504151556585,
+        "por_classe": {
+          "positivo": {
+            "suporte": 50,
+            "tp": 47,
+            "fp": 8,
+            "fn": 3,
+            "precisao": 0.8545454545454545,
+            "revocacao": 0.94,
+            "f1": 0.8952380952380952
+          },
+          "negativo": {
+            "suporte": 50,
+            "tp": 35,
+            "fp": 4,
+            "fn": 15,
+            "precisao": 0.8974358974358975,
+            "revocacao": 0.7,
+            "f1": 0.7865168539325842
+          },
+          "neutro": {
+            "suporte": 15,
+            "tp": 4,
+            "fp": 8,
+            "fn": 11,
+            "precisao": 0.3333333333333333,
+            "revocacao": 0.26666666666666666,
+            "f1": 0.2962962962962963
+          }
+        },
+        "indefinidos": []
+      },
+      "previsoes_misto_na_intersecao": 9,
+      "acertos_sobre_programados": 86,
+      "fracao_acertos_sobre_programados": 0.7478260869565218,
+      "latencia_ms": {
+        "n": 115,
+        "metodo_percentil": "posto mais próximo",
+        "mediana": 252.776,
+        "p95": 487.257,
+        "minimo": 190.146,
+        "maximo": 5015.378
+      },
+      "timeouts": {
+        "n": 0,
+        "duracoes_ms": []
+      },
+      "aquecimento_ms": [
+        864.805
+      ],
+      "matriz_confusao": {
+        "positivo": {
+          "positivo": 47,
+          "negativo": 0,
+          "neutro": 1,
+          "misto": 2
+        },
+        "negativo": {
+          "positivo": 3,
+          "negativo": 35,
+          "neutro": 7,
+          "misto": 5
+        },
+        "neutro": {
+          "positivo": 5,
+          "negativo": 4,
+          "neutro": 4,
+          "misto": 2
+        }
+      },
+      "custo": {
+        "unidades_estimadas_todas_tentativas": 116,
+        "estimado_sem_franquia_usd": 0.116,
+        "estimado_com_franquia_usd": 0.0,
+        "franquia_mensal_unidades": 5000,
+        "observado_usd": null,
+        "nota": "Estimativa pela tabela de custos/premissas.csv. O valor observado no painel do provedor é registrado à parte."
+      }
+    },
+    "google": {
+      "respostas_validas": 115,
+      "falhas_por_codigo": {},
+      "tentativas": 115,
+      "sucesso_por_tentativa": 1.0,
+      "sucesso_por_texto": 1.0,
+      "qualidade_na_intersecao": {
+        "n": 115,
+        "acertos": 90,
+        "acuracia": 0.782608695652174,
+        "macro_f1": 0.7123602839193931,
+        "por_classe": {
+          "positivo": {
+            "suporte": 50,
+            "tp": 48,
+            "fp": 5,
+            "fn": 2,
+            "precisao": 0.9056603773584906,
+            "revocacao": 0.96,
+            "f1": 0.9320388349514563
+          },
+          "negativo": {
+            "suporte": 50,
+            "tp": 33,
+            "fp": 2,
+            "fn": 17,
+            "precisao": 0.9428571428571428,
+            "revocacao": 0.66,
+            "f1": 0.7764705882352942
+          },
+          "neutro": {
+            "suporte": 15,
+            "tp": 9,
+            "fp": 18,
+            "fn": 6,
+            "precisao": 0.3333333333333333,
+            "revocacao": 0.6,
+            "f1": 0.42857142857142855
+          }
+        },
+        "indefinidos": []
+      },
+      "previsoes_misto_na_intersecao": 0,
+      "acertos_sobre_programados": 90,
+      "fracao_acertos_sobre_programados": 0.782608695652174,
+      "latencia_ms": {
+        "n": 115,
+        "metodo_percentil": "posto mais próximo",
+        "mediana": 1091.546,
+        "p95": 1282.186,
+        "minimo": 300.645,
+        "maximo": 3465.384
+      },
+      "timeouts": {
+        "n": 0,
+        "duracoes_ms": []
+      },
+      "aquecimento_ms": [
+        1645.722
+      ],
+      "matriz_confusao": {
+        "positivo": {
+          "positivo": 48,
+          "negativo": 0,
+          "neutro": 2,
+          "misto": 0
+        },
+        "negativo": {
+          "positivo": 1,
+          "negativo": 33,
+          "neutro": 16,
+          "misto": 0
+        },
+        "neutro": {
+          "positivo": 4,
+          "negativo": 2,
+          "neutro": 9,
+          "misto": 0
+        }
+      },
+      "custo": {
+        "unidades_estimadas_todas_tentativas": 116,
+        "estimado_sem_franquia_usd": 0.116,
+        "estimado_com_franquia_usd": 0.0,
+        "franquia_mensal_unidades": 5000,
+        "observado_usd": null,
+        "nota": "Estimativa pela tabela de custos/premissas.csv. O valor observado no painel do provedor é registrado à parte."
+      }
+    }
+  },
+  "comparacao_pareada": {
+    "provedores": [
+      "azure",
+      "google"
+    ],
+    "n": 115,
+    "mcnemar_exato": {
+      "b": 10,
+      "c": 14,
+      "p_valor": 0.5412561893463135
+    },
+    "kappa_entre_provedores": 0.6131539264586475,
+    "nota": "b = só o primeiro acertou; c = só o segundo acertou."
+  },
+  "sem_neutro": {
+    "classes": [
+      "positivo",
+      "negativo"
+    ],
+    "n": 100,
+    "por_provedor": {
+      "azure": {
+        "n": 100,
+        "acertos": 82,
+        "acuracia": 0.82,
+        "macro_f1": 0.8817647058823529,
+        "por_classe": {
+          "positivo": {
+            "suporte": 50,
+            "tp": 47,
+            "fp": 3,
+            "fn": 3,
+            "precisao": 0.94,
+            "revocacao": 0.94,
+            "f1": 0.94
+          },
+          "negativo": {
+            "suporte": 50,
+            "tp": 35,
+            "fp": 0,
+            "fn": 15,
+            "precisao": 1.0,
+            "revocacao": 0.7,
+            "f1": 0.8235294117647058
+          }
+        },
+        "indefinidos": []
+      },
+      "google": {
+        "n": 100,
+        "acertos": 81,
+        "acuracia": 0.81,
+        "macro_f1": 0.882438846294268,
+        "por_classe": {
+          "positivo": {
+            "suporte": 50,
+            "tp": 48,
+            "fp": 1,
+            "fn": 2,
+            "precisao": 0.9795918367346939,
+            "revocacao": 0.96,
+            "f1": 0.9696969696969697
+          },
+          "negativo": {
+            "suporte": 50,
+            "tp": 33,
+            "fp": 0,
+            "fn": 17,
+            "precisao": 1.0,
+            "revocacao": 0.66,
+            "f1": 0.7951807228915663
+          }
+        },
+        "indefinidos": []
+      }
+    },
+    "nota": "Textos de gabarito positivo ou negativo da interseção; previsão neutro ou misto conta como erro.",
+    "mcnemar_exato": {
+      "b": 10,
+      "c": 9,
+      "p_valor": 1.0
+    }
+  },
+  "exploratorio": {},
+  "execucoes": {
+    "execucoes": [
+      {
+        "id": "20261019T172351Z-teste-r1",
+        "provedores": [
+          "google"
+        ],
+        "maquina": "b3460323a121"
+      },
+      {
+        "id": "20261019T175816Z-teste-r1",
+        "provedores": [
+          "azure"
+        ],
+        "maquina": "128a441dc6b9"
+      }
+    ],
+    "mesma_maquina": false,
+    "latencia_comparavel": false,
+    "nota_latencia": "execuções separadas em máquinas diferentes: a latência de cada provedor é válida, mas a comparação entre eles não é"
+  }
+}

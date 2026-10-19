@@ -11,6 +11,7 @@ geral e limitações) ficam em relatorio/partes/.
 
     uv run relatorio/montar_relatorio.py          # gera o .md
     uv run relatorio/montar_relatorio.py --html   # gera também o .html
+    uv run relatorio/montar_relatorio.py --etapa2 # HTML da Etapa 2, a partir de relatorio_etapa2.md
 
 O HTML existe para ser exportado em PDF pelo navegador (Ctrl+P → Salvar como
 PDF), evitando instalar LaTeX. Ele embute as imagens dos gráficos em base64,
@@ -494,7 +495,40 @@ def verificar_links_do_pdf(md):
             f"{BLOB}/...):\n  " + "\n  ".join(sorted(set(problemas))))
 
 
+def pagina_html(md, titulo):
+    return f"""<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{titulo}</title>
+<style>{CSS}</style>
+</head>
+<body>
+{md_para_html(md)}
+</body>
+</html>"""
+
+
+def html_da_etapa2():
+    """
+    A Etapa 2 não é montada de capítulos: relatorio_etapa2.md já é o texto
+    final, e as tabelas dele são copiadas da análise. Aqui ele só vira HTML,
+    com os gráficos embutidos, para o PDF.
+    """
+    origem = RAIZ / "relatorio" / "relatorio_etapa2.md"
+    destino = RAIZ / "relatorio" / "relatorio_etapa2.html"
+    md = origem.read_text(encoding="utf-8")
+    verificar_links_do_pdf(md)
+    html = pagina_html(md, "Etapa 2 — Avaliação Prática de Serviços de IA em Nuvem")
+    destino.write_text(html, encoding="utf-8")
+    print(f"gerado: {destino.relative_to(RAIZ)}  ({len(html) / 1024:.0f} KB, com gráficos embutidos)")
+
+
 def main():
+    if "--etapa2" in sys.argv:
+        html_da_etapa2()
+        return
     md = montar()
     verificar_links_do_pdf(md)
     SAIDA_MD.write_text(md, encoding="utf-8")

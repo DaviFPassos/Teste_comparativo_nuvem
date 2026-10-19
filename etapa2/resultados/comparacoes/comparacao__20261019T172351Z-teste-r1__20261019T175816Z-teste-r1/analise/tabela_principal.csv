@@ -1,0 +1,3 @@
+provedor,programados,respostas_validas,intersecao,acuracia,macro_f1,acertos_sobre_programados,previsoes_misto,latencia_mediana_ms,latencia_p95_ms,latencia_n,sucesso_por_tentativa,sucesso_por_texto,unidades_estimadas,custo_estimado_com_franquia_usd,custo_estimado_sem_franquia_usd
+azure,115,115,115,0.7478260869565218,0.6593504151556585,0.7478260869565218,9,252.776,487.257,115,1.0,1.0,116,0.0,0.116
+google,115,115,115,0.782608695652174,0.7123602839193931,0.782608695652174,0,1091.546,1282.186,115,1.0,1.0,116,0.0,0.116

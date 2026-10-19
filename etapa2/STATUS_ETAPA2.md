@@ -2,7 +2,7 @@
 
 **Última atualização:** 19/10/2026
 
-> **Nenhuma chamada real a serviço de IA foi feita na Etapa 2.** Não há resultado experimental neste repositório ainda. Tudo o que existe foi verificado offline, e os dados simulados usados nas verificações ficam em `etapa2/simulacoes/`, fora do git.
+> **Coleta concluída em 19/10/2026 nos dois provedores.** Resultados, análise conjunta e conclusões em [`relatorio/relatorio_etapa2.md`](../relatorio/relatorio_etapa2.md). Falta só conferir o **custo observado** nos consoles. Os dados simulados das verificações offline ficam em `etapa2/simulacoes/`, fora do git.
 
 ## Onde estamos
 
@@ -10,11 +10,11 @@
 |---|---|---|
 | 1 — Conferir a Etapa 1 e a viabilidade | **Concluída** | — |
 | 2 — Preparar dados e protocolo | **Concluída** (19/10/2026) | — Gabarito: kappa 0,791; teste com 115 textos (50/50/15); metodologia aprovada |
-| 3 — Implementar e fazer o piloto | **Implementado** · credenciais **funcionando** (Google no Davi, Azure no Rafael) · piloto **não executado** | `piloto.csv` (depende da montagem) |
-| 4 — Avaliação final | **Google concluído** (19/10/2026) · Azure pendente | Rafael: piloto, teste e exploratório da Azure |
-| 5 — Processar e interpretar | **Implementado localmente** (`analisar.py`) | Depende da coleta |
-| 6 — Confrontar com a Etapa 1 | Planejado | Depende da coleta |
-| 7 — Consolidar e entregar | Planejado | — |
+| 3 — Implementar e fazer o piloto | **Concluída** (19/10/2026) | — Pilotos 30/30 nos dois; limiar mantido |
+| 4 — Avaliação final | **Concluída** (19/10/2026) | — Teste 115/115 e exploratório 39/39 nos dois |
+| 5 — Processar e interpretar | **Concluída** | — Análise conjunta em `resultados/comparacoes/` |
+| 6 — Confrontar com a Etapa 1 | **Concluída** | — E1–E13 com conclusão em `expectativas_etapa1.md` |
+| 7 — Consolidar e entregar | **Concluída**, salvo o custo observado | Conferir o custo nos consoles do Google e da Azure |
 
 ## Decisões tomadas pelo grupo (18/10/2026)
 
@@ -63,7 +63,7 @@ As demais decisões do protocolo foram **aprovadas em 19/10/2026** em [`metodolo
 | Aquecimento na coleta | `executar.py`, `"aquecimento": true` | Implementado; excluído da latência e do sucesso, contado no custo |
 | **Painel de apresentação (Google e Azure)** | `etapa2/painel/` — `servidor.py` + `index.html` | Implementado e testado (17 testes). Ativa sozinho o provedor com credencial em cada máquina. **Google verificado contra o serviço real** em 18/10/2026. **Azure verificada só offline** (SDK real, rede substituída): a primeira chamada real será no laptop do Rafael |
 
-## O que bloqueia a coleta — e a ação exata
+## O que bloqueava a coleta (tudo resolvido)
 
 | # | Bloqueio | Quem | Ação |
 |---|---|---|---|
@@ -85,7 +85,10 @@ Os itens 1–2 e 3–4 podem andar em paralelo. O piloto só depende de 3–4 e 
 | `20261019T171950Z-piloto-r1` | `dados/piloto.csv` — 30 textos | Google | **Piloto** (fora das métricas principais) | 30/30; acurácia 87,0% (23 textos de 3 classes); limiar ±0,25 mantido |
 | `20261019T172351Z-teste-r1` | `dados/teste.csv` — 115 textos | Google | **Teste do experimento** | 115/115; acurácia 78,3%, macro-F1 71,2%; sem a classe neutra 81,0%; mediana 1.092 ms; 116 unidades, US$ 0 |
 | `20261019T172623Z-exploratorio_misto-r1` | `dados/exploratorio_misto.csv` — 39 textos | Google | **Conjunto exploratório** | 39/39; 24 → neutro, 11 → positivo, 4 → negativo |
-| — | — | Azure | Piloto, teste e exploratório **pendentes** (laptop do Rafael) | — |
+| `20261019T174849Z-piloto-r1` | `dados/piloto.csv` — 30 textos | Azure | **Piloto**, no laptop do Rafael | 30/30; acurácia 87,0% (23 textos); mediana 258 ms |
+| `20261019T175816Z-teste-r1` | `dados/teste.csv` — 115 textos | Azure | **Teste do experimento**, no laptop do Rafael | 115/115; acurácia 74,8%, macro-F1 65,9%; sem a classe neutra 82,0%; 9 previsões `misto`; mediana 253 ms; 116 unidades, US$ 0 |
+| `20261019T175924Z-exploratorio_misto-r1` | `dados/exploratorio_misto.csv` — 39 textos | Azure | **Conjunto exploratório**, no laptop do Rafael | 39/39; 10 → misto, 21 → positivo, 8 → negativo |
+| `comparacao__20261019T172351Z-teste-r1__20261019T175816Z-teste-r1` | — | Os dois | **Análise conjunta** (`resultados/comparacoes/`) | McNemar p = 0,541 (3 classes) e 1,000 (sem neutro): **sem diferença significativa** |
 | — | — | — | — | Antes do experimento: Também em 18/10/2026: uma chamada de verificação de credencial (não gravada) e o teste real do exemplo da Etapa 1 (`testes/evidencias/nlp_google.json`) |
 
 ## Observações registradas
@@ -102,20 +105,20 @@ Os itens 1–2 e 3–4 podem andar em paralelo. O piloto só depende de 3–4 e 
 ## Lista final de conferência (roteiro, seção 11)
 
 - [x] O recorte de sentimento foi justificado a partir da Etapa 1.
-- [ ] Pelo menos dois provedores foram realmente testados. — *credenciais e demonstrações reais nos dois; falta a coleta*
+- [x] Pelo menos dois provedores foram realmente testados. — *Azure e Google, 115/115 cada*
 - [x] Dados, origem, limitações e gabarito foram documentados. — *kappa 0,791; manifesto em `dados/manifesto_conjuntos.json`*
 - [x] Piloto e teste final estão separados. — *`piloto.csv` (30) e `teste.csv` (115), congelados em 19/10/2026*
 - [x] Metodologia, limiares, classes e política de falhas foram definidos antes da avaliação final. — *aprovada em 19/10/2026*
-- [ ] Os mesmos textos foram usados nas comparações, com exclusões explicadas. — *garantido pelo executor; falta a coleta*
-- [ ] Respostas brutas, tentativas, configurações e versões foram preservadas sem segredos. — *implementado e testado; falta a coleta*
+- [x] Os mesmos textos foram usados nas comparações, com exclusões explicadas. — *mesmo SHA-256 conferido pela análise; 115/115 na interseção*
+- [x] Respostas brutas, tentativas, configurações e versões foram preservadas sem segredos. — *em `etapa2/resultados/`, sanitizadas*
 - [x] Métricas e gráficos são calculados por código a partir dos registros.
 - [x] Qualidade, cobertura e falhas são apresentadas com denominadores claros.
 - [x] Estimativas de custo estão distinguidas dos valores observados.
-- [ ] Resultados foram confrontados com as conclusões da Etapa 1.
-- [ ] Limitações impedem generalizações indevidas para outras tarefas ou populações. — *limitações dos dados redigidas; falta o relatório*
-- [ ] Relatório, código, dados/instruções, metodologia, registros e gráficos estão no mesmo repositório público.
+- [x] Resultados foram confrontados com as conclusões da Etapa 1. — *relatório, seção 7*
+- [x] Limitações impedem generalizações indevidas para outras tarefas ou populações. — *relatório, seção 8*
+- [x] Relatório, código, dados/instruções, metodologia, registros e gráficos estão no mesmo repositório público.
 - [x] README explica como reproduzir análises e como realizar nova coleta, sem expor credenciais. — *em `COMO_EXECUTAR.md`*
 
 ## Próxima ação
 
-Enviar os conjuntos congelados ao GitHub → rodar o **piloto** nos dois laptops (Google no Davi, Azure no Rafael) → **teste** → análise conjunta.
+Conferir o **custo observado** nos consoles (Google: *Faturamento → Relatórios*; Azure: recurso Language → *Métricas* e *Gerenciamento de Custos*) e registrar na seção 6.3 do relatório.

@@ -1,6 +1,6 @@
 # STATUS do projeto
 
-**Última atualização:** 18/10/2026 (Etapa 2 iniciada: dados sorteados, programa implementado e testado offline; coleta real pendente). Etapa 1 publicada e revisada em 26/09/2026.
+**Última atualização:** 19/10/2026 (Etapa 2 concluída: coleta nos dois provedores, análise e relatório; falta conferir o custo observado). Etapa 1 publicada e revisada em 26/09/2026.
 
 ## Objetivo atual
 
@@ -99,16 +99,17 @@ Uma revisão externa apontou erros técnicos e de interpretação. Todos foram c
 
 ## Próxima ação concreta
 
-**Etapa 2:** anotar o gabarito (dois integrantes) e criar as contas Azure (Language F0) e Google, em paralelo. Detalhes e responsáveis em [`etapa2/STATUS_ETAPA2.md`](etapa2/STATUS_ETAPA2.md).
+**Etapa 2:** conferir o custo observado nos consoles do Google e da Azure e registrar no relatório. Detalhes em [`etapa2/STATUS_ETAPA2.md`](etapa2/STATUS_ETAPA2.md).
 
 ## Etapa 2
 
-**Iniciada em 18/10/2026.** Roteiro em `etapas/ROTEIRO_ETAPA2.md`; progresso em [`etapa2/STATUS_ETAPA2.md`](etapa2/STATUS_ETAPA2.md).
+**Iniciada em 18/10/2026; coleta e relatório concluídos em 19/10/2026.** Roteiro em `etapas/ROTEIRO_ETAPA2.md`; progresso em [`etapa2/STATUS_ETAPA2.md`](etapa2/STATUS_ETAPA2.md).
 
 | Item | Situação |
 |---|---|
-| Decisões do grupo | Azure + Google · dataset público B2W-Reviews01 · gabarito por dois integrantes · orçamento US$ 0 |
+| Decisões do grupo | Azure + Google · dataset público B2W-Reviews01 · gabarito de dois anotadores (A com rótulos gerados por IA; B humano) · orçamento US$ 0 |
 | Fase 1 — viabilidade | Concluída |
-| Fase 2 — dados e protocolo | 330 candidatos sorteados; planilhas de anotação geradas; metodologia em **rascunho** |
-| Fase 3 — programa | Implementado e testado offline (93 testes); **piloto real não executado** |
-| Coleta real | **Nenhuma.** Bloqueada por gabarito e credenciais |
+| Fase 2 — dados e protocolo | Gabarito com kappa 0,791; teste com 115 textos; metodologia **aprovada** |
+| Fase 3 — programa e piloto | 93 testes offline; pilotos 30/30 nos dois provedores |
+| Coleta e análise | Teste 115/115 e exploratório 39/39 nos dois; sem diferença significativa de qualidade (McNemar p = 0,541); US$ 0 estimado |
+| Relatório | [`relatorio/relatorio_etapa2.md`](relatorio/relatorio_etapa2.md) e [`pdfs/relatorio_etapa2.pdf`](pdfs/relatorio_etapa2.pdf) |

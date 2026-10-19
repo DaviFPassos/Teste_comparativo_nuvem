@@ -5,7 +5,8 @@
 """
 Converte o relatório HTML da Etapa 1 em PDF, gravando em pdfs/.
 
-    uv run relatorio/gerar_pdf.py
+    uv run relatorio/gerar_pdf.py            # Etapa 1
+    uv run relatorio/gerar_pdf.py --etapa2   # Etapa 2
 
 Usa o Chromium do Playwright — o mesmo motor de renderização de um navegador —
 então o CSS de impressão embutido no HTML (que evita quebra de página no meio
@@ -31,8 +32,9 @@ import sys
 from pathlib import Path
 
 RAIZ = Path(__file__).parent.parent
-HTML = RAIZ / "relatorio" / "relatorio_etapa1.html"
-SAIDA = RAIZ / "pdfs" / "relatorio_etapa1.pdf"
+ETAPA = "etapa2" if "--etapa2" in sys.argv else "etapa1"
+HTML = RAIZ / "relatorio" / f"relatorio_{ETAPA}.html"
+SAIDA = RAIZ / "pdfs" / f"relatorio_{ETAPA}.pdf"
 DIR_LIBS = Path.home() / ".local" / "lib" / "chromium-deps"
 
 FORMATO = "A4"
@@ -49,7 +51,8 @@ def preparar_ambiente():
 def regerar_html():
     """Remonta o HTML a partir dos capítulos, para o PDF não sair defasado."""
     print("Regerando o HTML a partir dos capítulos...")
-    r = subprocess.run(["uv", "run", str(RAIZ / "relatorio" / "montar_relatorio.py"), "--html"],
+    opcao = "--etapa2" if ETAPA == "etapa2" else "--html"
+    r = subprocess.run(["uv", "run", str(RAIZ / "relatorio" / "montar_relatorio.py"), opcao],
                        cwd=RAIZ, capture_output=True, text=True)
     saida = (r.stdout if r.returncode == 0 else (r.stderr or r.stdout)).strip()
     prefixo = "  " if r.returncode == 0 else "  [falhou, seguindo com o HTML existente] "

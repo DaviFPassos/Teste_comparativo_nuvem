@@ -236,11 +236,11 @@ Isso baixa e extrai a biblioteca em `~/.local/lib/chromium-deps`, sem `sudo` e s
 
 Alternativa sem instalar nada: abrir `relatorio/relatorio_etapa1.html` no navegador e usar **Ctrl+P → Salvar como PDF**.
 
-## Etapa 2 — avaliação prática (em andamento)
+## Etapa 2 — avaliação prática
 
-Análise de sentimento em português com execução real na **Microsoft Azure** e no **Google Cloud**, sobre os mesmos textos: avaliações de produtos do corpus público [B2W-Reviews01](https://github.com/americanas-tech/b2w-reviews01) (CC BY-NC-SA 4.0), com gabarito anotado por dois integrantes.
+Análise de sentimento em português com execução real na **Microsoft Azure** e no **Google Cloud**, sobre os mesmos textos: avaliações de produtos do corpus público [B2W-Reviews01](https://github.com/americanas-tech/b2w-reviews01) (CC BY-NC-SA 4.0), com gabarito de dois anotadores (kappa 0,791).
 
-> **Ainda não há resultado experimental.** O programa está implementado e testado offline; a coleta real depende do gabarito e das credenciais. Estado e próximos passos em [etapa2/STATUS_ETAPA2.md](etapa2/STATUS_ETAPA2.md).
+> **Coleta concluída em 19/10/2026:** 115 textos de teste nos dois provedores, 100% de sucesso, US$ 0. Acurácia de 74,8% (Azure) e 78,3% (Google), **sem diferença estatisticamente significativa** (McNemar p = 0,541). Resultados e conclusões em [relatorio/relatorio_etapa2.md](relatorio/relatorio_etapa2.md) ([PDF](pdfs/relatorio_etapa2.pdf)).
 
 | Caminho | Conteúdo |
 |---|---|
@@ -249,7 +249,9 @@ Análise de sentimento em português com execução real na **Microsoft Azure** 
 | [etapa2/src/](etapa2/src/) | Amostragem, anotação, adaptadores, executor, normalização, trava de orçamento e análise |
 | [etapa2/COMO_EXECUTAR.md](etapa2/COMO_EXECUTAR.md) | Credenciais, piloto, teste em dois laptops, análise conjunta, retomada e o que vai ou não para o repositório |
 | [etapa2/expectativas_etapa1.md](etapa2/expectativas_etapa1.md) | O que a Etapa 1 levou a esperar — registrado **antes** da coleta, para o confronto exigido pela seção 10 |
-| [relatorio/relatorio_etapa2.md](relatorio/relatorio_etapa2.md) | Relatório da Etapa 2 — **esqueleto**: resultados e conclusões pendentes da coleta |
+| [relatorio/relatorio_etapa2.md](relatorio/relatorio_etapa2.md) · [PDF](pdfs/relatorio_etapa2.pdf) | **Relatório da Etapa 2**: resultados, confronto com a Etapa 1 e conclusões |
+| [etapa2/resultados/](etapa2/resultados/) · [etapa2/graficos/](etapa2/graficos/) | Dados coletados (respostas sanitizadas, tentativas, ambiente), métricas, análise conjunta e gráficos |
+| [etapa2/painel/](etapa2/painel/) | Painel de apresentação: Google e Azure ao vivo e execuções gravadas |
 
 ```bash
 uv run etapa2/rodar_testes.py                          # 93 testes offline: sem rede, credencial ou custo

@@ -1,0 +1,316 @@
+{
+  "provedores": [
+    "azure",
+    "google"
+  ],
+  "textos_no_dataset": 39,
+  "programados_3_classes": 0,
+  "fora_da_avaliacao_principal": {
+    "misto": 39
+  },
+  "intersecao": 0,
+  "excluidos_da_intersecao": 0,
+  "por_provedor": {
+    "azure": {
+      "respostas_validas": 0,
+      "falhas_por_codigo": {},
+      "tentativas": 39,
+      "sucesso_por_tentativa": 1.0,
+      "sucesso_por_texto": null,
+      "qualidade_na_intersecao": {
+        "n": 0,
+        "acertos": 0,
+        "acuracia": null,
+        "macro_f1": null,
+        "por_classe": {
+          "positivo": {
+            "suporte": 0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precisao": 0.0,
+            "revocacao": 0.0,
+            "f1": 0.0
+          },
+          "negativo": {
+            "suporte": 0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precisao": 0.0,
+            "revocacao": 0.0,
+            "f1": 0.0
+          },
+          "neutro": {
+            "suporte": 0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precisao": 0.0,
+            "revocacao": 0.0,
+            "f1": 0.0
+          }
+        },
+        "indefinidos": [
+          "precisão de 'positivo': classe nunca prevista",
+          "revocação de 'positivo': sem exemplos no gabarito",
+          "precisão de 'negativo': classe nunca prevista",
+          "revocação de 'negativo': sem exemplos no gabarito",
+          "precisão de 'neutro': classe nunca prevista",
+          "revocação de 'neutro': sem exemplos no gabarito"
+        ]
+      },
+      "previsoes_misto_na_intersecao": 0,
+      "acertos_sobre_programados": 0,
+      "fracao_acertos_sobre_programados": null,
+      "latencia_ms": {
+        "n": 39,
+        "metodo_percentil": "posto mais próximo",
+        "mediana": 260.622,
+        "p95": 325.598,
+        "minimo": 197.65,
+        "maximo": 396.555
+      },
+      "timeouts": {
+        "n": 0,
+        "duracoes_ms": []
+      },
+      "aquecimento_ms": [
+        4835.411
+      ],
+      "matriz_confusao": {
+        "positivo": {
+          "positivo": 0,
+          "negativo": 0,
+          "neutro": 0,
+          "misto": 0
+        },
+        "negativo": {
+          "positivo": 0,
+          "negativo": 0,
+          "neutro": 0,
+          "misto": 0
+        },
+        "neutro": {
+          "positivo": 0,
+          "negativo": 0,
+          "neutro": 0,
+          "misto": 0
+        }
+      },
+      "custo": {
+        "unidades_estimadas_todas_tentativas": 40,
+        "estimado_sem_franquia_usd": 0.04,
+        "estimado_com_franquia_usd": 0.0,
+        "franquia_mensal_unidades": 5000,
+        "observado_usd": null,
+        "nota": "Estimativa pela tabela de custos/premissas.csv. O valor observado no painel do provedor é registrado à parte."
+      }
+    },
+    "google": {
+      "respostas_validas": 0,
+      "falhas_por_codigo": {},
+      "tentativas": 39,
+      "sucesso_por_tentativa": 1.0,
+      "sucesso_por_texto": null,
+      "qualidade_na_intersecao": {
+        "n": 0,
+        "acertos": 0,
+        "acuracia": null,
+        "macro_f1": null,
+        "por_classe": {
+          "positivo": {
+            "suporte": 0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precisao": 0.0,
+            "revocacao": 0.0,
+            "f1": 0.0
+          },
+          "negativo": {
+            "suporte": 0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precisao": 0.0,
+            "revocacao": 0.0,
+            "f1": 0.0
+          },
+          "neutro": {
+            "suporte": 0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precisao": 0.0,
+            "revocacao": 0.0,
+            "f1": 0.0
+          }
+        },
+        "indefinidos": [
+          "precisão de 'positivo': classe nunca prevista",
+          "revocação de 'positivo': sem exemplos no gabarito",
+          "precisão de 'negativo': classe nunca prevista",
+          "revocação de 'negativo': sem exemplos no gabarito",
+          "precisão de 'neutro': classe nunca prevista",
+          "revocação de 'neutro': sem exemplos no gabarito"
+        ]
+      },
+      "previsoes_misto_na_intersecao": 0,
+      "acertos_sobre_programados": 0,
+      "fracao_acertos_sobre_programados": null,
+      "latencia_ms": {
+        "n": 39,
+        "metodo_percentil": "posto mais próximo",
+        "mediana": 1098.753,
+        "p95": 1239.098,
+        "minimo": 325.122,
+        "maximo": 1282.887
+      },
+      "timeouts": {
+        "n": 0,
+        "duracoes_ms": []
+      },
+      "aquecimento_ms": [
+        1845.739
+      ],
+      "matriz_confusao": {
+        "positivo": {
+          "positivo": 0,
+          "negativo": 0,
+          "neutro": 0,
+          "misto": 0
+        },
+        "negativo": {
+          "positivo": 0,
+          "negativo": 0,
+          "neutro": 0,
+          "misto": 0
+        },
+        "neutro": {
+          "positivo": 0,
+          "negativo": 0,
+          "neutro": 0,
+          "misto": 0
+        }
+      },
+      "custo": {
+        "unidades_estimadas_todas_tentativas": 40,
+        "estimado_sem_franquia_usd": 0.04,
+        "estimado_com_franquia_usd": 0.0,
+        "franquia_mensal_unidades": 5000,
+        "observado_usd": null,
+        "nota": "Estimativa pela tabela de custos/premissas.csv. O valor observado no painel do provedor é registrado à parte."
+      }
+    }
+  },
+  "sem_neutro": {
+    "classes": [
+      "positivo",
+      "negativo"
+    ],
+    "n": 0,
+    "por_provedor": {
+      "azure": {
+        "n": 0,
+        "acertos": 0,
+        "acuracia": null,
+        "macro_f1": null,
+        "por_classe": {
+          "positivo": {
+            "suporte": 0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precisao": 0.0,
+            "revocacao": 0.0,
+            "f1": 0.0
+          },
+          "negativo": {
+            "suporte": 0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precisao": 0.0,
+            "revocacao": 0.0,
+            "f1": 0.0
+          }
+        },
+        "indefinidos": [
+          "precisão de 'positivo': classe nunca prevista",
+          "revocação de 'positivo': sem exemplos no gabarito",
+          "precisão de 'negativo': classe nunca prevista",
+          "revocação de 'negativo': sem exemplos no gabarito"
+        ]
+      },
+      "google": {
+        "n": 0,
+        "acertos": 0,
+        "acuracia": null,
+        "macro_f1": null,
+        "por_classe": {
+          "positivo": {
+            "suporte": 0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precisao": 0.0,
+            "revocacao": 0.0,
+            "f1": 0.0
+          },
+          "negativo": {
+            "suporte": 0,
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precisao": 0.0,
+            "revocacao": 0.0,
+            "f1": 0.0
+          }
+        },
+        "indefinidos": [
+          "precisão de 'positivo': classe nunca prevista",
+          "revocação de 'positivo': sem exemplos no gabarito",
+          "precisão de 'negativo': classe nunca prevista",
+          "revocação de 'negativo': sem exemplos no gabarito"
+        ]
+      }
+    },
+    "nota": "Textos de gabarito positivo ou negativo da interseção; previsão neutro ou misto conta como erro."
+  },
+  "exploratorio": {
+    "misto": {
+      "azure": {
+        "misto": 10,
+        "positivo": 21,
+        "negativo": 8
+      },
+      "google": {
+        "neutro": 24,
+        "positivo": 11,
+        "negativo": 4
+      }
+    }
+  },
+  "execucoes": {
+    "execucoes": [
+      {
+        "id": "20261019T172623Z-exploratorio_misto-r1",
+        "provedores": [
+          "google"
+        ],
+        "maquina": "b3460323a121"
+      },
+      {
+        "id": "20261019T175924Z-exploratorio_misto-r1",
+        "provedores": [
+          "azure"
+        ],
+        "maquina": "128a441dc6b9"
+      }
+    ],
+    "mesma_maquina": false,
+    "latencia_comparavel": false,
+    "nota_latencia": "execuções separadas em máquinas diferentes: a latência de cada provedor é válida, mas a comparação entre eles não é"
+  }
+}

@@ -474,8 +474,11 @@ SUPERFICIE, TINTA, TINTA_FRACA, GRADE = "#fcfcfb", "#0b0b0b", "#52514e", "#e5e4e
 
 def _eixo(ax, titulo, subtitulo):
     ax.set_facecolor(SUPERFICIE)
-    ax.set_title(titulo, fontsize=12, fontweight="bold", color=TINTA, pad=20, loc="left")
-    ax.text(0, 1.02, subtitulo, transform=ax.transAxes, fontsize=8.5, color=TINTA_FRACA, va="bottom")
+    linhas = subtitulo.count("\n") + 1
+    ax.set_title(titulo, fontsize=12, fontweight="bold", color=TINTA, pad=8 + 12 * linhas, loc="left")
+    # fora do tight_layout: um subtítulo comprido espremia o eixo para caber nele
+    ax.text(0, 1.02, subtitulo, transform=ax.transAxes, fontsize=8.5, color=TINTA_FRACA,
+            va="bottom", linespacing=1.4).set_in_layout(False)
     for lado in ("top", "right", "left"):
         ax.spines[lado].set_visible(False)
     ax.spines["bottom"].set_color(GRADE)
@@ -580,7 +583,8 @@ def gerar_graficos(res, tentativas, destino, execucao, modo="real"):
     ax.grid(axis="x", color=GRADE, linewidth=0.8)
     ax.set_axisbelow(True)
     ex = res.get("execucoes")
-    aviso_lat = "" if not ex or ex["latencia_comparavel"] else " · NÃO COMPARÁVEL entre provedores (execuções separadas)"
+    aviso_lat = ("" if not ex or ex["latencia_comparavel"]
+                 else "\nNÃO COMPARÁVEL entre provedores: execuções separadas, em máquinas diferentes")
     _eixo(ax, "Latência das chamadas", rodape + aviso_lat)
     fig.tight_layout()
     fig.savefig(destino / "latencia.png", dpi=170, facecolor=SUPERFICIE)
