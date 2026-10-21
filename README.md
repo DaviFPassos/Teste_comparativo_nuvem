@@ -212,7 +212,7 @@ Preços de nuvem mudam. Para uma data diferente, reverifique `custos/premissas.c
 
 ## Gerar o PDF do relatório
 
-**→ [pdfs/relatorio_etapa1.pdf](pdfs/relatorio_etapa1.pdf)** — 43 páginas, A4, texto pesquisável.
+**→ [pdfs/relatorio_tecnico_etapa1.pdf](pdfs/relatorio_tecnico_etapa1.pdf)** — 45 páginas, A4, texto pesquisável. Slides da apresentação: [Etapa 1](pdfs/apresentacao_etapa1.pdf) · [Etapa 2](pdfs/apresentacao_etapa2.pdf).
 
 O PDF é feito para ser lido **fora do repositório**: traz, por categoria, os serviços comparados, entradas e saídas, formas de acesso e autenticação, limites e cotas, avisos oficiais de encerramento, o trecho essencial de cada exemplo de código, o cenário de custo com gráfico e a síntese. Todos os links apontam para as URLs públicas deste repositório no GitHub — o gerador recusa montar o relatório se algum link só funcionar localmente.
 
@@ -240,7 +240,7 @@ Alternativa sem instalar nada: abrir `relatorio/relatorio_etapa1.html` no navega
 
 Análise de sentimento em português com execução real na **Microsoft Azure** e no **Google Cloud**, sobre os mesmos textos: avaliações de produtos do corpus público [B2W-Reviews01](https://github.com/americanas-tech/b2w-reviews01) (CC BY-NC-SA 4.0), com gabarito de dois anotadores (kappa 0,791).
 
-> **Coleta concluída em 19/10/2026:** 115 textos de teste nos dois provedores, 100% de sucesso, US$ 0. Acurácia de 74,8% (Azure) e 78,3% (Google), **sem diferença estatisticamente significativa** (McNemar p = 0,541). Resultados e conclusões em [relatorio/relatorio_etapa2.md](relatorio/relatorio_etapa2.md) ([PDF](pdfs/relatorio_etapa2.pdf)).
+> **Coleta concluída em 19/10/2026:** 115 textos de teste nos dois provedores, 100% de sucesso, US$ 0. Acurácia de 74,8% (Azure) e 78,3% (Google), **sem diferença estatisticamente significativa** (McNemar p = 0,541). Resultados e conclusões em [relatorio/relatorio_etapa2.md](relatorio/relatorio_etapa2.md) ([PDF](pdfs/relatorio_tecnico_etapa2.pdf)).
 
 | Caminho | Conteúdo |
 |---|---|
@@ -249,7 +249,7 @@ Análise de sentimento em português com execução real na **Microsoft Azure** 
 | [etapa2/src/](etapa2/src/) | Amostragem, anotação, adaptadores, executor, normalização, trava de orçamento e análise |
 | [etapa2/COMO_EXECUTAR.md](etapa2/COMO_EXECUTAR.md) | Credenciais, piloto, teste em dois laptops, análise conjunta, retomada e o que vai ou não para o repositório |
 | [etapa2/expectativas_etapa1.md](etapa2/expectativas_etapa1.md) | O que a Etapa 1 levou a esperar — registrado **antes** da coleta, para o confronto exigido pela seção 10 |
-| [relatorio/relatorio_etapa2.md](relatorio/relatorio_etapa2.md) · [PDF](pdfs/relatorio_etapa2.pdf) | **Relatório da Etapa 2**: resultados, confronto com a Etapa 1 e conclusões |
+| [relatorio/relatorio_etapa2.md](relatorio/relatorio_etapa2.md) · [PDF](pdfs/relatorio_tecnico_etapa2.pdf) | **Relatório da Etapa 2**: resultados, confronto com a Etapa 1 e conclusões |
 | [etapa2/resultados/](etapa2/resultados/) · [etapa2/graficos/](etapa2/graficos/) | Dados coletados (respostas sanitizadas, tentativas, ambiente), métricas, análise conjunta e gráficos |
 | [etapa2/painel/](etapa2/painel/) | Painel de apresentação: Google e Azure ao vivo e execuções gravadas |
 

@@ -34,7 +34,7 @@ from pathlib import Path
 RAIZ = Path(__file__).parent.parent
 ETAPA = "etapa2" if "--etapa2" in sys.argv else "etapa1"
 HTML = RAIZ / "relatorio" / f"relatorio_{ETAPA}.html"
-SAIDA = RAIZ / "pdfs" / f"relatorio_{ETAPA}.pdf"
+SAIDA = RAIZ / "pdfs" / f"relatorio_tecnico_{ETAPA}.pdf"
 DIR_LIBS = Path.home() / ".local" / "lib" / "chromium-deps"
 
 FORMATO = "A4"

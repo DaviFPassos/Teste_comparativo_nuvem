@@ -39,7 +39,7 @@ O repositório está **público** em https://github.com/DaviFPassos/Teste_compar
 | Gráficos | `custos/graficos/` — 3 PNG | Gerados por código a partir do CSV |
 | Fontes | `referencias/fontes.md` | 52 fontes com URL, data e afirmação sustentada, incluindo a seção da Etapa 2 (ET2-*, 18/10/2026) |
 | Relatório | `relatorio/relatorio_etapa1.md` + `.html` | Montado por script a partir dos capítulos |
-| PDF do relatório | `pdfs/relatorio_etapa1.pdf` | **43 páginas**, A4, gerado por `relatorio/gerar_pdf.py`. Passou de 28 para 43 na revisão de 26/09: a comparação técnica inteira e os trechos de código entraram no relatório, para que ele seja legível fora do repositório. Todos os links são URLs do GitHub |
+| PDF do relatório | `pdfs/relatorio_tecnico_etapa1.pdf` | **45 páginas**, A4, gerado por `relatorio/gerar_pdf.py`. Passou de 28 para 43 na revisão de 26/09: a comparação técnica inteira e os trechos de código entraram no relatório, para que ele seja legível fora do repositório. Todos os links são URLs do GitHub |
 | README | `README.md` | Com integrantes, achados, links e reprodução |
 
 ## Decisões tomadas
@@ -112,4 +112,4 @@ Uma revisão externa apontou erros técnicos e de interpretação. Todos foram c
 | Fase 2 — dados e protocolo | Gabarito com kappa 0,791; teste com 115 textos; metodologia **aprovada** |
 | Fase 3 — programa e piloto | 93 testes offline; pilotos 30/30 nos dois provedores |
 | Coleta e análise | Teste 115/115 e exploratório 39/39 nos dois; sem diferença significativa de qualidade (McNemar p = 0,541); US$ 0 estimado |
-| Relatório | [`relatorio/relatorio_etapa2.md`](relatorio/relatorio_etapa2.md) e [`pdfs/relatorio_etapa2.pdf`](pdfs/relatorio_etapa2.pdf) |
+| Relatório | [`relatorio/relatorio_etapa2.md`](relatorio/relatorio_etapa2.md) e [`pdfs/relatorio_tecnico_etapa2.pdf`](pdfs/relatorio_tecnico_etapa2.pdf) |
